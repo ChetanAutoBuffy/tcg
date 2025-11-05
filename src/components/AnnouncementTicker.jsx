@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { createPortal } from "react-dom";
+import { Link } from "react-router-dom";
 
 export default function AnnouncementTicker({ onContactClick }) {
-  const [showDetails, setShowDetails] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const messages = [
@@ -51,12 +51,12 @@ export default function AnnouncementTicker({ onContactClick }) {
 
           {/* Action Buttons */}
           <div className="flex items-center gap-2 flex-shrink-0">
-            <button
-              onClick={() => setShowDetails(true)}
+            <Link
+              to="/press/westar-launches-complete-kits-program"
               className="px-3 py-1 bg-white/10 backdrop-blur-sm border border-white/20 text-white rounded-lg text-[10px] sm:text-xs font-semibold hover:bg-white/20 transition whitespace-nowrap"
             >
               Read Release
-            </button>
+            </Link>
             
             <button
               onClick={onContactClick}
@@ -67,12 +67,6 @@ export default function AnnouncementTicker({ onContactClick }) {
           </div>
         </div>
       </div>
-
-      {/* Press Release Modal */}
-      {showDetails && createPortal(
-        <PressReleaseModal onClose={() => setShowDetails(false)} onContactClick={onContactClick} />,
-        document.body
-      )}
     </>
   );
 }
