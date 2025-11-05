@@ -132,6 +132,11 @@ export default function PressReleasePage() {
 
             {/* Content */}
             <div className="prose prose-invert prose-lg max-w-none">
+              {/* Logo */}
+              {release.image && (
+                <img src={release.image} alt={`${release.title} logo`} className="h-16 sm:h-20 w-auto mb-8" />
+              )}
+              
               <ReactMarkdown
                 components={{
                   h1: ({ children }) => <h1 className="text-3xl sm:text-4xl font-bold mt-8 mb-4">{children}</h1>,

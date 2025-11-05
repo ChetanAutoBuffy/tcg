@@ -1,6 +1,4 @@
-![Westar Logo](../src/assets/brands/Westar-Logo.svg)
 
----
 
 ## **FOR IMMEDIATE RELEASE**  
 **November 5, 2025**
