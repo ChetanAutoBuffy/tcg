@@ -1,10 +1,12 @@
+import bgImage from "../assets/bg.jpg";
+
 export default function Hero() {
   return (
     <section className="relative flex flex-col items-center justify-center min-h-[92vh] overflow-hidden bg-black text-white">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <img
-          src="/src/assets/bg.jpg"
+          src={bgImage}
           alt="Background"
           className="w-full h-full object-cover opacity-50 brightness-125"
         />
