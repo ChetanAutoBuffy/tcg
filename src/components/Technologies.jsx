@@ -68,7 +68,7 @@ console.log(product.fitment);
       name: "Buffy360",
       logo: buffy360Logo,
       description:
-        "Unified control tower for inventory, pricing, catalog, and omnichannel feeds. Built in-house for scale and speed.",
+        "Run your entire product catalog from one system. Sync inventory, manage pricing rules, and publish to every channel — marketplaces, storefronts, wholesalers. Eliminates chaos and speeds up launches.",
       status: "Live",
       colorClass: "hover:brightness-100 hover:saturate-100",
       hoverColor: "hover:drop-shadow-[0_0_15px_rgba(59,130,246,0.6)]",
@@ -96,7 +96,7 @@ console.log(product.fitment);
       name: "ab7",
       logo: ab7Logo,
       description:
-        "Marketing orchestration and data-mining layer that ensures perfect deliverables and SEO-ready automotive content.",
+        "Automate marketing content that actually converts. Generate SEO-optimized descriptions, validate feeds before launch, and eliminate manual content work. Your team focuses on strategy, not data entry.",
       status: "Live",
       colorClass: "hover:brightness-100 hover:saturate-100",
       hoverColor: "hover:drop-shadow-[0_0_15px_rgba(20,184,166,0.6)]",
@@ -118,8 +118,7 @@ console.log(product.fitment);
       name: "Image IQ",
       logo: imageIqLogo,
       description:
-        "Kit-aware imaging pipeline: normalizes backgrounds, angles, and zoom; tags components; and enforces brand consistency.",
-      status: "Live",
+        "Transform product photos into professional, consistent images at scale. Auto-normalize backgrounds, enforce angle coverage, and tag components — so your catalog looks premium without the manual work.",
       colorClass: "hover:brightness-100 hover:saturate-100",
       hoverColor: "hover:drop-shadow-[0_0_15px_rgba(249,115,22,0.6)]",
       details: (
@@ -140,7 +139,7 @@ console.log(product.fitment);
       name: "Parts IQ",
       logo: partsIqLogo,
       description:
-        "ACES/PIES processing and fitment intelligence to cut returns and guarantee the right product the first time.",
+        "Verify fitment instantly and eliminate costly returns. Process ACES/PIES data, resolve conflicts, and guarantee customers get the right part — every single time.",
       status: "Live",
       colorClass: "hover:brightness-100 hover:saturate-100",
       hoverColor: "hover:drop-shadow-[0_0_15px_rgba(168,85,247,0.6)]",
@@ -165,10 +164,10 @@ console.log(product.fitment);
       <div className="container-bleed relative z-10">
         <div className="max-w-5xl mx-auto text-center mb-10">
           <h2 className="text-3xl sm:text-5xl font-extrabold mb-4">
-            Technology Stack
+            Ready-to-Use Technology
           </h2>
           <p className="text-gray-400 text-sm sm:text-base max-w-2xl mx-auto">
-            Proprietary platforms built in-house.
+            License the same platforms that power our brands — or build on our APIs. Proven in production, ready for your business.
           </p>
         </div>
 

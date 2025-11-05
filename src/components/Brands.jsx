@@ -99,9 +99,9 @@ export default function Brands() {
     <section className="relative bg-black text-white py-16 sm:py-20 overflow-hidden">
       <div className="container-bleed relative z-10">
         <div className="max-w-5xl mx-auto text-center mb-10">
-          <h2 className="text-3xl sm:text-5xl font-extrabold mb-4">Our Brands</h2>
+          <h2 className="text-3xl sm:text-5xl font-extrabold mb-4">The Brands You Trust</h2>
           <p className="text-gray-400 text-sm sm:text-base max-w-2xl mx-auto">
-            Decades of expertise. Trusted by millions.
+            Every brand under TCG carries the same standard: if we put our name on it, it works. From Westar's legendary engine mounts to Premium Shocks' suspension—quality runs in the family.
           </p>
         </div>
 
@@ -244,10 +244,10 @@ export default function Brands() {
                 </svg>
               </div>
               <h3 className="text-2xl sm:text-3xl font-bold mb-4">
-                The TCG Standard
+                Why Our Customers Keep Coming Back
               </h3>
               <p className="text-gray-300 leading-relaxed text-base sm:text-lg max-w-2xl mx-auto">
-                Closing technology gaps. Delivering measurable results. When TCG launches something, it matters.
+                Fast shipping. Perfect fitment. No surprises. We built the technology behind the scenes so your experience is seamless. That's what a century of family expertise looks like in action.
               </p>
             </div>
           </div>

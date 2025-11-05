@@ -24,12 +24,16 @@ export default function Hero() {
         </div>
 
         <h1 className="text-4xl sm:text-6xl font-extrabold leading-tight">
-          Built by Legacy.
+          Built by Family.
           <br className="hidden sm:block" />
           <span className="relative inline-block text-transparent bg-clip-text bg-[linear-gradient(90deg,#2563EB,#9333EA,#EC4899,#F59E0B,#10B981,#2563EB)] animate-flow-synced px-1 pb-[4px]">
-            Designed for the Future.
+            Trusted by Thousands.
           </span>
         </h1>
+
+        <p className="mt-5 text-gray-300 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
+          Four generations building automotive brands that just work. No shortcuts. No compromises. Just products you can count on—backed by the technology we built ourselves.
+        </p>
 
         <p className="mt-5 text-gray-300 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
           Reshaping automotive commerce and technology — drawing upon four generations of industry expertise.

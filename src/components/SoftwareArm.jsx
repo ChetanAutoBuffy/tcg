@@ -61,15 +61,15 @@ export default function SoftwareArm() {
           </div>
           
           <h1 className="text-3xl sm:text-6xl font-extrabold mb-5 sm:mb-6 leading-tight">
-            We build the infrastructure
+            Custom Development
             <br />
             <span className="text-transparent bg-clip-text bg-[linear-gradient(90deg,#2563EB,#9333EA,#EC4899)] animate-flow-synced">
-              for what comes next
+              That Ships Fast
             </span>
           </h1>
           
           <p className="text-base sm:text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
-            The same team that built Buffy360, ab7, and Ride360 can build your next platform. From concept to production in weeks, not months.
+            Need something custom? The team that built Buffy360, ab7, and Ride360 can build your platform. Full-stack development, AI integration, and production deployment — weeks, not months.
           </p>
         </div>
 

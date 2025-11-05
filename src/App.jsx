@@ -19,6 +19,7 @@ import { useState } from "react";
 import logoUrl from "./assets/TCG_logo.svg";
 import ParticleBackground from "./components/ParticleBackground.jsx";
 import ScrollToTop from "./components/ScrollToTop.jsx";
+import AnnouncementTicker from "./components/AnnouncementTicker.jsx";
 
 export default function App() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -37,6 +38,10 @@ export default function App() {
   return (
     <>
       <ScrollToTop />
+      
+      {/* Announcement Ticker */}
+      <AnnouncementTicker onContactClick={() => setContactPopupOpen(true)} />
+      
       {/* Particle Background - OUTSIDE main container */}
       <ParticleBackground />
       

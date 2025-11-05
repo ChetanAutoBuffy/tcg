@@ -69,7 +69,7 @@ export default function ApiPlatform() {
           </p>
           
           <p className="text-base sm:text-lg text-gray-400 max-w-3xl mx-auto leading-relaxed">
-            Access TCG's proprietary fitment intelligence, ACES/PIES data, and AI-powered product recommendations. Built by the team that powers millions in automotive eCommerce.
+            Access TCG's proven fitment intelligence, ACES/PIES processing, and AI recommendations via API. The same data powering our brands — now available to power yours.
           </p>
         </div>
 

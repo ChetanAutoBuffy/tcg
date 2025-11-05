@@ -58,7 +58,7 @@ export default function Contact() {
               </h2>
               
               <p className="text-base sm:text-xl text-gray-400 mb-8 leading-relaxed">
-                For investment, partnership, or media inquiries.
+                Questions about our brands? Want to learn more about what makes TCG different? Reach out—we're a family business and we actually respond.
               </p>
 
               {/* Quick Links */}

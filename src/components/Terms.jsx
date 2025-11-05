@@ -78,12 +78,30 @@ export default function Terms() {
 
             <section>
               <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">5. Privacy & Data Protection</h2>
-              <p className="text-gray-300 leading-relaxed">
+              <p className="text-gray-300 leading-relaxed mb-4">
                 We respect your privacy. When you contact us through this website, we may collect basic information such as your name, email address, and message. This data is used solely to respond to inquiries, partnership discussions, or investor communications.
               </p>
-              <p className="text-gray-300 leading-relaxed">
-                We do not sell, rent, or share your data with third parties for advertising purposes. All personal information is stored securely and handled in accordance with applicable U.S. data protection laws.
+              
+              <div className="bg-blue-500/10 border border-blue-500/20 rounded-xl p-6 mb-4">
+                <p className="text-blue-300 font-semibold mb-2">🔒 Your Data is Yours</p>
+                <p className="text-gray-300 leading-relaxed">
+                  <strong>TCG never shares your business data, customer lists, or proprietary information with competitors or third parties.</strong> If we build custom technology for you, it operates on YOUR data—we don't take, store, or repurpose it. Period.
+                </p>
+              </div>
+
+              <p className="text-gray-300 leading-relaxed mb-4">
+                We do not sell, rent, or share contact information with third parties for advertising purposes. All personal information is stored securely and handled in accordance with applicable U.S. data protection laws.
               </p>
+
+              <p className="text-white font-semibold">
+                Custom Development Data Policy:
+              </p>
+              <ul className="list-disc pl-6 space-y-2 text-gray-300 mt-2">
+                <li>Any software we build for you uses YOUR curated data—not ours, not competitors'.</li>
+                <li>We don't access, store, or share your business intelligence.</li>
+                <li>Your customer data, pricing strategies, and proprietary information remain 100% yours.</li>
+                <li>We sign NDAs and respect confidentiality—always.</li>
+              </ul>
             </section>
 
             <section>

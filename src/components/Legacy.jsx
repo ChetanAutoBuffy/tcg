@@ -55,9 +55,9 @@ export default function Legacy() {
           <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs uppercase tracking-wider text-gray-400 mb-6">
             Not a Team. A Family.
           </div>
-          <h2 className="text-3xl sm:text-6xl font-extrabold mb-4 sm:mb-6">Who We Are</h2>
+          <h2 className="text-3xl sm:text-6xl font-extrabold mb-4 sm:mb-6">Four Generations. One Standard.</h2>
           <p className="text-base sm:text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
-            Four generations. One unwavering commitment to quality, trust, and innovation.
+            We've been perfecting automotive products since the 1920s. Every generation raised the bar. Every brand carries that legacy. When you buy from us, you're getting a century of obsession with quality.
           </p>
         </div>
 
@@ -150,7 +150,7 @@ export default function Legacy() {
           {/* Bottom Text + CTA */}
           <div className="mt-16 sm:mt-24 text-center">
             <p className="text-base sm:text-xl text-gray-300 mb-6 sm:mb-8 max-w-4xl mx-auto leading-relaxed">
-              From precision manufacturing to AI-powered commerce. Each generation pushed boundaries, built systems, and set new standards.
+              Santokh laid the foundation. Kuldip scaled manufacturing. Hardeep built Westar into the industry standard for engine mounts. Chetan brought AI and automation to make sure every customer gets exactly what they need. That's the TCG way.
             </p>
             <Link 
               to="/about" 

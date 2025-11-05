@@ -2,12 +2,23 @@ import { useParams, Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { pressReleases } from "../data/pressReleases";
 import ReactMarkdown from "react-markdown";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function PressReleasePage() {
   const { slug } = useParams();
   const release = pressReleases.find((r) => r.slug === slug);
   const [copied, setCopied] = useState(false);
+  const [content, setContent] = useState("");
+
+  useEffect(() => {
+    if (release) {
+      // Fetch markdown file
+      fetch(`/press/${slug}.md`)
+        .then(res => res.text())
+        .then(text => setContent(text))
+        .catch(err => console.error("Failed to load press release:", err));
+    }
+  }, [release, slug]);
 
   if (!release) {
     return (
@@ -129,9 +140,10 @@ export default function PressReleasePage() {
                   p: ({ children }) => <p className="text-sm sm:text-base text-gray-300 leading-relaxed mb-6">{children}</p>,
                   strong: ({ children }) => <strong className="text-white font-semibold">{children}</strong>,
                   hr: () => <hr className="my-8 border-white/10" />,
+                  img: ({ src, alt }) => <img src={src} alt={alt} className="h-16 sm:h-20 w-auto mb-6" />,
                 }}
               >
-                {release.content}
+                {content}
               </ReactMarkdown>
             </div>
           </article>
