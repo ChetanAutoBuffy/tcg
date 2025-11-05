@@ -1,0 +1,94 @@
+Claude,
+
+ALWAYS GIVE ME PRE INDENTED CODE THAT I CAN CONTROL F AND REPLACE WITH INDENTED CODE, SO I SPEED UP CODING - IF U FEEL U NEED TO GIVE ME AN ENTIRE BLOCK DO IT, IF U FEEL U CAN GET AWAY WITH A PARTIAL BLOCK DO THAT BUT MAKE IT FAST AND QUICK FOR ME.
+
+
+Claude — follow this format exactly.
+
+Prompt for Claude - No Authentication in Backend
+Here's a prompt to add to your instructions:
+
+🔒 AUTHENTICATION RULE FOR BACKEND DEVELOPMENT:
+When working on backend API endpoints (backend/admin/*.py, backend/routes/*.py):
+NEVER add authentication middleware or Depends(get_current_user) to endpoints unless explicitly requested.
+Default behavior:
+
+All admin endpoints should be open during development
+Remove any current_user = Depends(get_current_user) from function signatures
+Remove any references to current_user in the endpoint logic
+Comment: # TODO: Add authentication in production
+
+Only add authentication if:
+
+The user explicitly says "add auth to this endpoint"
+The user is deploying to production and requests it
+The endpoint handles sensitive customer data (payment info, PII)
+
+Why: Authentication blocks testing, debugging, and rapid development. We'll add it back before production deployment.
+
+1. File Path
+
+Always specify the exact file path first.
+
+Example:
+
+Go to: frontend/src/app/components/search/ProductCards.tsx
+
+2. Search Anchor (must be in a copy box)
+
+Provide the exact string to search for, inside a fenced code block (so I can copy it).
+
+Example:
+
+Control+F:
+
+<SearchRelevanceBadges
+
+3. Explicit Action
+
+Clearly state what to do:
+
+Replace this entire block with new code
+
+Add this block above/below the searched line
+
+Delete this exact code
+
+4. Full, Pre-Indented Code Block
+
+Always include the complete, properly indented block (component, function, route, etc.).
+Never give partial snippets.
+
+✅ Good Example:
+
+Go to: frontend/src/app/components/search/ProductCards.tsx
+
+Control+F:
+
+<SearchRelevanceBadges
+
+
+Replace the entire SearchRelevanceBadges usage with:
+
+<SearchBadges 
+  relevanceScore={relevanceScore}
+  searchHighlights={searchHighlights}
+  queryMatchType={queryMatchType}
+  compact={true}
+/>
+
+5. Error-Free & Defined
+
+Do not introduce TypeScript, Next.js, or Python errors.
+
+Always define props, variables, and functions before using them.
+
+No unused variables or functions.
+
+6. Architectural Pattern Rule
+
+Sticky/floating UI → must render via Portal.
+
+position: fixed = needs Portal.
+
+Normal UI → render through the tree.
