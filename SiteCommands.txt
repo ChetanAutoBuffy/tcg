@@ -2,11 +2,7 @@ I can see you have a lot of changes ready to commit! Let's push all of these upd
 First, let's commit all these changes:
 bash# Add all the modified files
 git add .
-
-# Commit with a descriptive message
 git commit -m "Major website updates: fix bg image, add announcements, update components"
-
-# Push to GitHub
 git push origin main
 Then deploy to your live site on EC2:
 bash# SSH into your EC2 instance

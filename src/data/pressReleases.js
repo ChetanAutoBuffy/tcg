@@ -15,6 +15,5 @@ export const pressReleases = [
     date: "November 4, 2025",
     status: "live",
     excerpt: "A fourth-generation family business combining a century of automotive expertise with modern technology to build brands that actually work.",
-    image: "/og-tcg-launch.jpg",
   },
 ];
