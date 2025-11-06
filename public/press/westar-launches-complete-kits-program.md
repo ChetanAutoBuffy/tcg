@@ -3,7 +3,7 @@
 ## **FOR IMMEDIATE RELEASE**  
 **November 5, 2025**
 
-**POTOMAC, MD** — Westar Automotive today announced the launch of a comprehensive kit program featuring over **1,500 new SKUs** across **engine mount** and **air suspension** categories. Covering more than **36,000 vehicle applications**, these kits provide complete, verified solutions for automotive repair and installation.
+**Savage, MD** — Westar Automotive today announced the launch of a comprehensive kit program featuring over **1,500 new SKUs** across **engine mount** and **air suspension** categories. Covering more than **36,000 vehicle applications**, these kits provide complete, verified solutions for automotive repair and installation.
 
 This rollout reflects Westar's commitment to helping customers complete repairs correctly the first time—eliminating the frustration of missing components and incompatible parts.
 

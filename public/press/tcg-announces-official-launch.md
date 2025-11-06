@@ -1,6 +1,6 @@
 # The Chadha Group: Four Generations Building Brands That Work
 
-**POTOMAC, MD – November 4, 2025** – The Chadha Group (TCG) is a fourth-generation family business that's been perfecting automotive products for over 100 years. Today, we're sharing what makes us different: we don't just sell parts — we build the technology that makes sure every customer gets exactly what they need, when they need it.
+**Savage, MD – November 4, 2025** – The Chadha Group (TCG) is a fourth-generation family business that's been perfecting automotive products for over 100 years. Today, we're sharing what makes us different: we don't just sell parts — we build the technology that makes sure every customer gets exactly what they need, when they need it.
 
 ---
 
@@ -74,7 +74,7 @@ Full-stack development. AI integration. Real solutions — not vaporware.
 
 ## About The Chadha Group
 
-TCG is a privately held, family-operated business headquartered in Potomac, Maryland. We combine a century of automotive expertise with cutting-edge technology to build brands that mechanics, enthusiasts, and DIYers actually trust.
+TCG is a privately held, family-operated business headquartered in Savage, Maryland. We combine a century of automotive expertise with cutting-edge technology to build brands that mechanics, enthusiasts, and DIYers actually trust.
 
 We're not trying to disrupt the industry. We're trying to perfect it.
 

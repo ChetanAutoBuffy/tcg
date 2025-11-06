@@ -20,7 +20,7 @@ export default function Terms() {
             <section>
               <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4">1. General Information</h2>
               <p className="text-gray-300 leading-relaxed">
-                This website is operated by The Chadha Group LLC, a privately held company headquartered in Potomac, Maryland, USA. The content provided here is for informational, media, and partnership purposes only and should not be interpreted as legal, investment, or financial advice.
+                This website is operated by The Chadha Group LLC, a privately held company headquartered in Savage, Maryland, USA. The content provided here is for informational, media, and partnership purposes only and should not be interpreted as legal, investment, or financial advice.
               </p>
               <p className="text-gray-300 leading-relaxed">
                 TCG reserves the right to update or modify these terms at any time without prior notice. Your continued use of the site constitutes acceptance of any changes.

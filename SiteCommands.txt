@@ -1,0 +1,26 @@
+I can see you have a lot of changes ready to commit! Let's push all of these updates to your live TCG website.
+First, let's commit all these changes:
+bash# Add all the modified files
+git add .
+
+# Commit with a descriptive message
+git commit -m "Major website updates: fix bg image, add announcements, update components"
+
+# Push to GitHub
+git push origin main
+Then deploy to your live site on EC2:
+bash# SSH into your EC2 instance
+ssh -i ~/Downloads/tcg-key.pem ec2-user@98.93.74.140
+
+# Once connected, pull the latest changes
+cd tcg
+git pull origin main
+
+# Rebuild the site with all your updates
+npm run build
+
+# Deploy to the web server
+sudo cp -r dist/* /var/www/html/
+
+# Restart Apache to ensure everything loads fresh
+sudo systemctl restart httpd
