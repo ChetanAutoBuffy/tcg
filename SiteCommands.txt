@@ -17,6 +17,4 @@ npm run build
 
 # Deploy to the web server
 sudo cp -r dist/* /var/www/html/
-
-# Restart Apache to ensure everything loads fresh
 sudo systemctl restart httpd
