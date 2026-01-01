@@ -286,11 +286,15 @@ export default function Countdown() {
     }
   }, []);
 
-  // Track page view on mount
+  // Track page view on mount + check for secret admin param
   useEffect(() => {
     trackEvent('pageView');
     setAnalytics(getAnalytics());
     setLevelStats(getLevelStats());
+    // Secret admin access: ?tcgadmin=true
+    if (window.location.search.includes('tcgadmin=true')) {
+      setShowStats(true);
+    }
   }, []);
 
   // Save score to leaderboard
@@ -768,17 +772,11 @@ export default function Countdown() {
                 <img key={brand.name} src={brand.logo} alt={brand.name} className={`${brand.height} w-auto opacity-25 hover:opacity-40 transition-opacity duration-300 grayscale`} />
               ))}
             </div>
-            <div className="text-center flex items-center justify-center gap-4">
+            <div className="text-center">
               <a href="https://thechadhagroup.com" target="_blank" rel="noopener noreferrer"
                 className="text-[9px] font-light tracking-widest uppercase text-white/15 hover:text-white/30 transition-colors duration-300 hover-gradient-text">
                 visit us
               </a>
-              <button
-                onClick={() => { setAnalytics(getAnalytics()); setShowStats(true); }}
-                className="text-[9px] font-light tracking-widest uppercase text-white/15 hover:text-white/30 transition-colors duration-300 hover-gradient-text"
-              >
-                stats
-              </button>
             </div>
           </div>
         </div>
