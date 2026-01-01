@@ -26,7 +26,7 @@ export default function Footer() {
           </a>
         </div>
         <div className="text-gray-400">
-          © 2025 The Chadha Group — All Rights Reserved.
+          © 2026 The Chadha Group — All Rights Reserved.
         </div>
         <div className="text-gray-500 mt-2">
           Privately Owned • Family Operated

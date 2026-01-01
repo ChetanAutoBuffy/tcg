@@ -6,7 +6,7 @@ export default function Terms() {
       <div className="relative z-10 container-bleed py-16 sm:py-28">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-3xl sm:text-5xl font-extrabold mb-4">Terms of Use & Privacy Policy</h1>
-          <p className="text-sm text-gray-500 mb-12">Last updated: November 2025</p>
+          <p className="text-sm text-gray-500 mb-12">Last updated: January 2026</p>
 
           <div className="prose prose-invert prose-lg max-w-none space-y-8">
             <p className="text-base sm:text-xl text-gray-300 leading-relaxed">
@@ -152,7 +152,7 @@ export default function Terms() {
                 We built this company on trust, legacy, and integrity. We welcome collaboration, innovation, and open dialogue — but we also protect our name, our data, and our people. If you respect that, we'll work together with transparency and purpose.
               </p>
               <p className="text-gray-500 text-sm mt-8">
-                © 2025 The Chadha Group LLC — Privately Owned • Family Operated
+                © 2026 The Chadha Group LLC — Privately Owned • Family Operated
               </p>
             </section>
           </div>

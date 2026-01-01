@@ -85,7 +85,7 @@ export default function MobileHamburgerMenu({ id, open, onClose, logo, links = [
           </div>
           
           <p className="text-xs text-gray-500 text-center">
-            © 2025 The Chadha Group · Privately Owned · Family Operated
+            © 2026 The Chadha Group · Privately Owned · Family Operated
           </p>
         </div>
       </div>
