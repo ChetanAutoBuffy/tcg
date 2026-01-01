@@ -126,8 +126,11 @@ export default function Countdown() {
   const [gameSpeed, setGameSpeed] = useState(3);
   const [showLevelUp, setShowLevelUp] = useState(false);
   const [gameComplete, setGameComplete] = useState(false);
+  const [gameOver, setGameOver] = useState(false);
+  const [levelTimer, setLevelTimer] = useState(0);
   const [orbs, setOrbs] = useState([]);
   const [sparkles, setSparkles] = useState([]);
+  const [popEffects, setPopEffects] = useState([]);
   const tickerRef = useRef(null);
 
   const confettiColors = ['#FFD700', '#C0C0C0', '#9333EA', '#FFFFFF', '#EC4899', '#2563EB'];
@@ -191,45 +194,137 @@ export default function Countdown() {
     return () => clearInterval(interval);
   }, []);
 
+  // 5 levels - more balloons, faster fall speed each level
   const getLevelConfig = (lvl) => ({
-    1: { balloons: 10, speed: 4, name: "Warm Up" },
-    2: { balloons: 15, speed: 3.5, name: "Getting Started" },
-    3: { balloons: 18, speed: 3, name: "Pick Up the Pace" },
-    4: { balloons: 22, speed: 2.5, name: "Getting Tricky" },
-    5: { balloons: 25, speed: 2.2, name: "Speed Demon" },
-    6: { balloons: 28, speed: 2, name: "Chaos Mode" },
-    7: { balloons: 32, speed: 1.8, name: "Insanity" },
-    8: { balloons: 35, speed: 1.5, name: "Nightmare" },
-    9: { balloons: 40, speed: 1.2, name: "IMPOSSIBLE" },
-    10: { balloons: 50, speed: 1, name: "THE FINAL BOSS" },
-  }[lvl] || { balloons: 50, speed: 1, name: "THE FINAL BOSS" });
+    1: { balloons: 10, fallSpeed: 3, spawnRate: 800, name: "Warm Up" },
+    2: { balloons: 15, fallSpeed: 4, spawnRate: 600, name: "Getting Faster" },
+    3: { balloons: 20, fallSpeed: 5, spawnRate: 450, name: "Speed Demon" },
+    4: { balloons: 25, fallSpeed: 6, spawnRate: 350, name: "Chaos Mode" },
+    5: { balloons: 30, fallSpeed: 8, spawnRate: 250, name: "THE FINAL BOSS" },
+  }[lvl] || { balloons: 30, fallSpeed: 8, spawnRate: 250, name: "THE FINAL BOSS" });
 
-  const startGame = () => { setLevel(1); setGameComplete(false); startLevel(1); };
+  const balloonIdRef = useRef(0);
+  const spawnIntervalRef = useRef(null);
+  const fallIntervalRef = useRef(null);
+  const spawnedCountRef = useRef(0);
+
+  const startGame = () => {
+    setLevel(1);
+    setGameComplete(false);
+    setGameOver(false);
+    balloonIdRef.current = 0;
+    startLevel(1);
+  };
 
   const startLevel = (lvl) => {
     const config = getLevelConfig(lvl);
-    setBalloons(Array.from({ length: config.balloons }, (_, i) => ({
-      id: i, x: Math.random() * 75 + 10, y: Math.random() * 60 + 20,
-      color: balloonColors[Math.floor(Math.random() * balloonColors.length)],
-      popped: false, size: Math.random() * 15 + 55,
-    })));
-    setPoppedCount(0); setTotalBalloons(config.balloons); setGameSpeed(config.speed);
-    setGameActive(true); setShowFortune(false); setShowLevelUp(false);
+    setBalloons([]);
+    setPoppedCount(0);
+    setTotalBalloons(config.balloons);
+    spawnedCountRef.current = 0;
+    setGameActive(true);
+    setShowFortune(false);
+    setShowLevelUp(false);
+    setGameOver(false);
+    setGameSpeed(config.fallSpeed);
+  };
+
+  // Spawn balloons from top
+  useEffect(() => {
+    if (!gameActive || showLevelUp || gameComplete || gameOver) {
+      if (spawnIntervalRef.current) clearInterval(spawnIntervalRef.current);
+      return;
+    }
+
+    const config = getLevelConfig(level);
+
+    spawnIntervalRef.current = setInterval(() => {
+      if (spawnedCountRef.current >= config.balloons) {
+        clearInterval(spawnIntervalRef.current);
+        return;
+      }
+
+      const newBalloon = {
+        id: balloonIdRef.current++,
+        x: Math.random() * 85 + 5,
+        y: -10,
+        color: balloonColors[Math.floor(Math.random() * balloonColors.length)],
+        popped: false,
+        escaped: false,
+        size: Math.random() * 20 + 45,
+      };
+
+      setBalloons(prev => [...prev, newBalloon]);
+      spawnedCountRef.current++;
+    }, config.spawnRate);
+
+    return () => {
+      if (spawnIntervalRef.current) clearInterval(spawnIntervalRef.current);
+    };
+  }, [gameActive, level, showLevelUp, gameComplete, gameOver]);
+
+  // Move balloons down
+  useEffect(() => {
+    if (!gameActive || showLevelUp || gameComplete || gameOver) {
+      if (fallIntervalRef.current) clearInterval(fallIntervalRef.current);
+      return;
+    }
+
+    const config = getLevelConfig(level);
+
+    fallIntervalRef.current = setInterval(() => {
+      setBalloons(prev => {
+        const updated = prev.map(b => {
+          if (b.popped || b.escaped) return b;
+          const newY = b.y + config.fallSpeed * 0.5;
+          if (newY > 100) {
+            return { ...b, escaped: true };
+          }
+          return { ...b, y: newY };
+        });
+
+        // Check for escaped balloons = game over
+        const escaped = updated.filter(b => b.escaped && !b.popped).length;
+        if (escaped > 0) {
+          setGameOver(true);
+        }
+
+        return updated;
+      });
+    }, 50);
+
+    return () => {
+      if (fallIntervalRef.current) clearInterval(fallIntervalRef.current);
+    };
+  }, [gameActive, level, showLevelUp, gameComplete, gameOver]);
+
+  // Spawn pop effect
+  const spawnPopEffect = (x, y) => {
+    const id = Date.now() + Math.random();
+    setPopEffects(prev => [...prev, { id, x, y }]);
+    setTimeout(() => setPopEffects(prev => prev.filter(p => p.id !== id)), 500);
   };
 
   const popBalloon = (id) => {
-    createPopSound(); spawnConfetti(10);
-    setBalloons(prev => prev.map(b => b.id === id ? { ...b, popped: true } : b));
-    const newPoppedCount = poppedCount + 1;
-    setPoppedCount(newPoppedCount);
-    if (newPoppedCount >= totalBalloons) {
-      if (level >= 10) {
-        createLevelUpSound(); spawnConfetti(100); setGameComplete(true);
-        setFortune(fortunes[Math.floor(Math.random() * fortunes.length)]);
-        setTimeout(() => setShowFortune(true), 500);
-      } else {
-        createLevelUpSound(); spawnConfetti(50); setShowLevelUp(true);
-        setTimeout(() => { setLevel(prev => prev + 1); startLevel(level + 1); }, 2000);
+    const balloon = balloons.find(b => b.id === id);
+    if (balloon && !balloon.popped && !balloon.escaped) {
+      createPopSound();
+      spawnConfetti(8);
+      spawnPopEffect(balloon.x, balloon.y);
+
+      setBalloons(prev => prev.map(b => b.id === id ? { ...b, popped: true } : b));
+      const newPoppedCount = poppedCount + 1;
+      setPoppedCount(newPoppedCount);
+
+      if (newPoppedCount >= totalBalloons) {
+        if (level >= 5) {
+          createLevelUpSound(); spawnConfetti(100); setGameComplete(true);
+          setFortune(fortunes[Math.floor(Math.random() * fortunes.length)]);
+          setTimeout(() => setShowFortune(true), 500);
+        } else {
+          createLevelUpSound(); spawnConfetti(50); setShowLevelUp(true);
+          setTimeout(() => { setLevel(prev => prev + 1); startLevel(level + 1); }, 1500);
+        }
       }
     }
   };
@@ -389,18 +484,24 @@ export default function Countdown() {
           {/* HUD */}
           <div className="absolute top-0 left-0 right-0 p-3 flex justify-between items-center bg-black/60 backdrop-blur-md z-10 border-b border-white/5">
             <div className="flex items-center gap-3">
-              <span className="text-base font-light bg-gradient-to-r from-yellow-400 to-purple-400 bg-clip-text text-transparent">Level {level}</span>
+              <span className="text-lg font-bold bg-gradient-to-r from-yellow-400 to-purple-400 bg-clip-text text-transparent">Level {level}/5</span>
               <span className="text-xs font-light text-white/30">{levelConfig.name}</span>
             </div>
-            <div className="text-base font-light text-white/60 bg-white/5 px-4 py-1 rounded-full border border-white/5">
-              {poppedCount} / {totalBalloons}
+            <div className="text-center">
+              <div className="text-2xl md:text-3xl font-bold text-white/90 tabular-nums">
+                {poppedCount} / {totalBalloons}
+              </div>
+              <div className="text-[10px] text-white/40 uppercase tracking-widest">Don't let any escape!</div>
             </div>
-            <button onClick={() => setGameActive(false)} className="text-white/30 hover:text-white/60 transition-colors p-2 text-xs tracking-widest uppercase">Exit</button>
+            <button onClick={() => { setGameActive(false); setGameOver(false); }} className="text-white/30 hover:text-white/60 transition-colors p-2 text-xs tracking-widest uppercase">Exit</button>
           </div>
 
           {/* Progress bar */}
-          <div className="absolute top-12 left-4 right-4 h-[2px] bg-white/5 overflow-hidden rounded-full">
-            <div className="h-full bg-[linear-gradient(90deg,#2563EB,#9333EA,#EC4899,#F59E0B,#10B981)] bg-[length:200%_100%] animate-flow transition-all duration-300" style={{ width: `${(poppedCount / totalBalloons) * 100}%` }} />
+          <div className="absolute top-14 left-4 right-4 h-[4px] bg-white/5 overflow-hidden rounded-full">
+            <div
+              className="h-full bg-[linear-gradient(90deg,#10B981,#2563EB,#9333EA,#EC4899)] bg-[length:200%_100%] animate-flow transition-all duration-300"
+              style={{ width: `${(poppedCount / totalBalloons) * 100}%` }}
+            />
           </div>
 
           {/* Level up */}
@@ -411,12 +512,24 @@ export default function Countdown() {
                   Level {level + 1}
                 </h2>
                 <p className="text-lg text-white/30 font-light tracking-widest">{getLevelConfig(level + 1).name}</p>
+                <p className="text-sm text-yellow-400/60 mt-2">Pop {getLevelConfig(level + 1).balloons} balloons - FASTER!</p>
               </div>
             </div>
           )}
 
+          {/* Pop effects */}
+          {popEffects.map(effect => (
+            <div
+              key={effect.id}
+              className="absolute pointer-events-none z-30 animate-pop-burst"
+              style={{ left: `${effect.x}%`, top: `${effect.y}%` }}
+            >
+              <div className="text-4xl md:text-5xl font-bold text-yellow-400 animate-pop-text">POP!</div>
+            </div>
+          ))}
+
           {/* Balloons */}
-          <div className="absolute inset-0 pt-16">
+          <div className="absolute inset-0 pt-20">
             {balloons.map(balloon => (
               !balloon.popped && (
                 <button
@@ -427,7 +540,7 @@ export default function Countdown() {
                     left: `${balloon.x}%`, top: `${balloon.y}%`,
                     width: `${balloon.size}px`, height: `${balloon.size * 1.3}px`,
                     borderRadius: '50% 50% 50% 50% / 40% 40% 60% 60%',
-                    animationDuration: `${gameSpeed}s`, animationDelay: `${balloon.id * 0.03}s`,
+                    animationDuration: `${2 + Math.random()}s`, animationDelay: `${balloon.id * 0.05}s`,
                     boxShadow: '0 10px 40px rgba(0,0,0,0.4), inset 0 -5px 20px rgba(0,0,0,0.3), inset 0 5px 20px rgba(255,255,255,0.15)',
                   }}
                 >
@@ -440,13 +553,40 @@ export default function Countdown() {
             ))}
           </div>
 
+          {/* Game Over */}
+          {gameOver && (
+            <div className="absolute inset-0 flex items-center justify-center z-30 bg-black/90 backdrop-blur-md">
+              <div className="bg-white/[0.03] backdrop-blur-xl p-8 md:p-12 rounded-3xl border border-red-500/20 max-w-xl text-center mx-4">
+                <div className="text-5xl mb-4">💥</div>
+                <h2 className="text-2xl md:text-3xl font-extralight tracking-wide mb-2 text-red-400">Time's Up!</h2>
+                <p className="text-white/40 text-sm mb-2">You got to Level {level}</p>
+                <p className="text-white/30 text-xs mb-6">Popped {poppedCount} of {totalBalloons} balloons</p>
+                <div className="w-12 h-[1px] bg-gradient-to-r from-transparent via-white/15 to-transparent mx-auto mb-6" />
+                <div className="flex gap-3 justify-center">
+                  <button
+                    onClick={startGame}
+                    className="px-6 py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 rounded-full font-light text-sm tracking-widest uppercase transition-all duration-300"
+                  >
+                    Try Again
+                  </button>
+                  <button
+                    onClick={() => { setGameActive(false); setGameOver(false); }}
+                    className="px-6 py-2 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/15 rounded-full font-light text-xs tracking-widest uppercase transition-all duration-300"
+                  >
+                    Exit
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Fortune */}
           {showFortune && gameComplete && (
             <div className="absolute inset-0 flex items-center justify-center z-30 bg-black/90 backdrop-blur-md">
               <div className="bg-white/[0.03] backdrop-blur-xl p-8 md:p-12 rounded-3xl border border-white/10 max-w-xl text-center mx-4">
                 <div className="text-4xl mb-4">🏆</div>
                 <h2 className="text-xl md:text-2xl font-extralight tracking-wide mb-2 bg-gradient-to-r from-yellow-400 to-purple-400 bg-clip-text text-transparent">Champion</h2>
-                <p className="text-white/30 text-xs mb-6 tracking-widest uppercase">All 10 Levels Complete</p>
+                <p className="text-white/30 text-xs mb-6 tracking-widest uppercase">All 5 Levels Complete</p>
                 <div className="w-12 h-[1px] bg-gradient-to-r from-transparent via-white/15 to-transparent mx-auto mb-6" />
                 <p className="text-lg md:text-xl font-light text-white/70 leading-relaxed mb-8">{fortune}</p>
                 <button
@@ -472,6 +612,8 @@ export default function Countdown() {
         @keyframes sparkle { 0%, 100% { opacity: 0; transform: scale(0); } 50% { opacity: 1; transform: scale(1); } }
         @keyframes gradient-text { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
         @keyframes bounce-slow { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+        @keyframes pop-burst { 0% { transform: scale(0.5); opacity: 1; } 100% { transform: scale(2); opacity: 0; } }
+        @keyframes pop-text { 0% { transform: scale(0.5) translateY(0); opacity: 1; } 100% { transform: scale(1.5) translateY(-30px); opacity: 0; } }
 
         .animate-ticker-fast { animation: ticker-fast 25s linear infinite; }
         .animate-gradient-shift { animation: gradient-shift 20s ease-in-out infinite; }
@@ -482,6 +624,8 @@ export default function Countdown() {
         .animate-sparkle { animation: sparkle 3s ease-in-out infinite; }
         .animate-gradient-text { animation: gradient-text 3s linear infinite; }
         .animate-bounce-slow { animation: bounce-slow 2s ease-in-out infinite; }
+        .animate-pop-burst { animation: pop-burst 0.4s ease-out forwards; }
+        .animate-pop-text { animation: pop-text 0.5s ease-out forwards; }
 
         .hover-gradient-text:hover {
           background: linear-gradient(90deg,#2563EB,#9333EA,#EC4899,#F59E0B,#10B981);
