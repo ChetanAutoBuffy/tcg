@@ -1,4 +1,4 @@
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route, Link, Navigate } from "react-router-dom";
 import Hero from "./components/Hero.jsx";
 import HeroMobile from "./components/HeroMobile.jsx";
 import Technologies from "./components/Technologies.jsx";
@@ -79,6 +79,9 @@ export default function App() {
     <>
       <ScrollToTop />
       <Routes>
+        {/* Redirect old countdown page to home */}
+        <Route path="/countdown" element={<Navigate to="/" replace />} />
+
         {/* Main site routes with layout */}
         <Route path="/" element={
           <MainLayout {...layoutProps}>
