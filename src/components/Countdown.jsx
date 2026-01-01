@@ -1018,6 +1018,7 @@ export default function Countdown() {
       {/* CSS */}
       <style>{`
         @keyframes ticker-fast { 0% { transform: translateX(0); } 100% { transform: translateX(-33.33%); } }
+        .animate-ticker-fast { animation: ticker-fast 15s linear infinite; }
         @keyframes gradient-shift { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
         @keyframes float-slow { 0%, 100% { transform: translate(0, 0) scale(1); } 25% { transform: translate(10px, -20px) scale(1.05); } 50% { transform: translate(-5px, -40px) scale(1); } 75% { transform: translate(-15px, -20px) scale(0.95); } }
         @keyframes balloon-float { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-20px) rotate(2deg); } }
@@ -1029,7 +1030,7 @@ export default function Countdown() {
         @keyframes pop-burst { 0% { transform: scale(0.5); opacity: 1; } 100% { transform: scale(2); opacity: 0; } }
         @keyframes pop-text { 0% { transform: scale(0.5) translateY(0); opacity: 1; } 100% { transform: scale(1.5) translateY(-30px); opacity: 0; } }
 
-        .animate-ticker-fast { animation: ticker-fast 25s linear infinite; }
+        .animate-ticker-fast { animation: ticker-fast 15s linear infinite; }
         .animate-gradient-shift { animation: gradient-shift 20s ease-in-out infinite; }
         .animate-float-slow { animation: float-slow ease-in-out infinite; }
         .balloon-premium { animation: balloon-float ease-in-out infinite; }
