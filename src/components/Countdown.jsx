@@ -325,14 +325,14 @@ export default function Countdown() {
     return () => clearInterval(interval);
   }, []);
 
-  // 5 levels - realistic difficulty curve
+  // 5 levels - Level 4 & 5 are BRUTAL
   const getLevelConfig = (lvl) => ({
-    1: { balloons: 5, fallSpeed: 0.5, spawnRate: 1500, time: 20, name: "Warm Up" },        // Super easy
-    2: { balloons: 8, fallSpeed: 0.6, spawnRate: 1200, time: 20, name: "Getting Started" }, // Easy
-    3: { balloons: 12, fallSpeed: 0.8, spawnRate: 900, time: 18, name: "Pick It Up" },      // Medium
-    4: { balloons: 16, fallSpeed: 1.0, spawnRate: 700, time: 18, name: "Getting Hard" },    // Hard
-    5: { balloons: 20, fallSpeed: 1.2, spawnRate: 500, time: 15, name: "THE FINAL BOSS" },  // Very hard
-  }[lvl] || { balloons: 20, fallSpeed: 1.2, spawnRate: 500, time: 15, name: "THE FINAL BOSS" });
+    1: { balloons: 5, fallSpeed: 0.4, spawnRate: 1800, time: 25, name: "Warm Up" },         // Easy start
+    2: { balloons: 8, fallSpeed: 0.5, spawnRate: 1400, time: 22, name: "Getting Started" }, // Still easy
+    3: { balloons: 12, fallSpeed: 0.7, spawnRate: 1000, time: 20, name: "Pick It Up" },     // Medium
+    4: { balloons: 18, fallSpeed: 1.3, spawnRate: 450, time: 15, name: "HARD MODE" },       // Hard - fast spawn, fast fall
+    5: { balloons: 25, fallSpeed: 1.8, spawnRate: 300, time: 12, name: "IMPOSSIBLE" },      // Brutal - insane speed
+  }[lvl] || { balloons: 25, fallSpeed: 1.8, spawnRate: 300, time: 12, name: "IMPOSSIBLE" });
 
   const balloonIdRef = useRef(0);
   const spawnIntervalRef = useRef(null);
@@ -425,10 +425,11 @@ export default function Countdown() {
         return false;
       }
 
-      // Fall duration varies by level (slower at level 1, faster at higher levels)
-      // Level 1: ~12-15 sec, Level 5: ~6-8 sec
-      const baseDuration = 16 - (level * 2);
-      const fallDuration = baseDuration * (0.9 + Math.random() * 0.2);
+      // Fall duration varies by level - Level 4 & 5 are FAST
+      // Level 1: ~12-14 sec, Level 4: ~5-6 sec, Level 5: ~3-4 sec (insane)
+      const baseDurations = { 1: 13, 2: 11, 3: 8, 4: 5, 5: 3.5 };
+      const baseDuration = baseDurations[level] || 3.5;
+      const fallDuration = baseDuration * (0.85 + Math.random() * 0.3);
 
       const newBalloon = {
         id: balloonIdRef.current++,
@@ -876,20 +877,25 @@ export default function Countdown() {
             </div>
           )}
 
-          {/* Fortune */}
+          {/* Fortune - EPIC WIN SCREEN */}
           {showFortune && gameComplete && (
-            <div className="absolute inset-0 flex items-center justify-center z-30 bg-black/90 backdrop-blur-md">
-              <div className="bg-white/[0.03] backdrop-blur-xl p-8 md:p-12 rounded-3xl border border-white/10 max-w-xl text-center mx-4">
-                <div className="text-4xl mb-4">🏆</div>
-                <h2 className="text-xl md:text-2xl font-extralight tracking-wide mb-2 bg-gradient-to-r from-yellow-400 to-purple-400 bg-clip-text text-transparent">Champion</h2>
-                <p className="text-white/30 text-xs mb-6 tracking-widest uppercase">All 5 Levels Complete</p>
-                <div className="w-12 h-[1px] bg-gradient-to-r from-transparent via-white/15 to-transparent mx-auto mb-6" />
-                <p className="text-lg md:text-xl font-light text-white/70 leading-relaxed mb-8">{fortune}</p>
+            <div className="absolute inset-0 flex items-center justify-center z-30 bg-black/95 backdrop-blur-md">
+              <div className="bg-gradient-to-br from-yellow-500/10 via-purple-500/10 to-pink-500/10 backdrop-blur-xl p-8 md:p-12 rounded-3xl border border-yellow-400/30 max-w-xl text-center mx-4 shadow-[0_0_100px_rgba(250,204,21,0.3)]">
+                <div className="text-6xl mb-4 animate-bounce">🏆</div>
+                <h2 className="text-3xl md:text-4xl font-black tracking-wide mb-2 bg-gradient-to-r from-yellow-400 via-pink-400 to-purple-400 bg-clip-text text-transparent animate-pulse">LEGENDARY!</h2>
+                <p className="text-yellow-400/80 text-sm mb-2 tracking-widest uppercase font-bold">You Beat Level 5!</p>
+                <p className="text-white/50 text-xs mb-6">Less than 1% of players make it this far</p>
+                <div className="bg-yellow-400/20 rounded-xl p-4 mb-6 border border-yellow-400/30">
+                  <p className="text-xs text-yellow-400/60 uppercase tracking-wider mb-1">You're on the</p>
+                  <p className="text-2xl font-black text-yellow-400">TCG LEADERBOARD</p>
+                </div>
+                <div className="w-12 h-[1px] bg-gradient-to-r from-transparent via-yellow-400/50 to-transparent mx-auto mb-6" />
+                <p className="text-base md:text-lg font-light text-white/70 leading-relaxed mb-8 italic">{fortune}</p>
                 <button
                   onClick={() => { setShowFortune(false); setGameActive(false); setGameComplete(false); }}
-                  className="px-6 py-2 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/15 rounded-full font-light text-xs tracking-widest uppercase transition-all duration-300"
+                  className="px-8 py-3 bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-400 hover:to-orange-400 rounded-full font-bold text-sm tracking-widest uppercase transition-all duration-300 text-black shadow-lg shadow-yellow-500/30"
                 >
-                  Close
+                  Claim Victory
                 </button>
               </div>
             </div>
