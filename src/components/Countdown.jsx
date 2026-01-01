@@ -124,6 +124,30 @@ function FloatingOrb({ size, x, y, color, delay, duration }) {
   );
 }
 
+// Format numbers like 1.1k, 2.5k
+const formatCount = (num) => {
+  if (num >= 1000000) return (num / 1000000).toFixed(1) + 'm';
+  if (num >= 1000) return (num / 1000).toFixed(1) + 'k';
+  return num.toString();
+};
+
+// Track level completions
+const trackLevelComplete = (level) => {
+  try {
+    const stats = JSON.parse(localStorage.getItem('tcg-level-stats') || '{"1":0,"2":0,"3":0,"4":0,"5":0}');
+    stats[level] = (stats[level] || 0) + 1;
+    localStorage.setItem('tcg-level-stats', JSON.stringify(stats));
+  } catch (e) {}
+};
+
+const getLevelStats = () => {
+  try {
+    return JSON.parse(localStorage.getItem('tcg-level-stats') || '{"1":0,"2":0,"3":0,"4":0,"5":0}');
+  } catch (e) {
+    return { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+  }
+};
+
 // Simple analytics tracker
 const trackEvent = (eventName, data = {}) => {
   try {
@@ -209,6 +233,8 @@ export default function Countdown() {
   const [gameActive, setGameActive] = useState(false);
   const [showStats, setShowStats] = useState(false);
   const [analytics, setAnalytics] = useState({ today: {}, total: {} });
+  const [levelStats, setLevelStats] = useState({ 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 });
+  const [showLeaderboardPanel, setShowLeaderboardPanel] = useState(true);
   const [balloons, setBalloons] = useState([]);
   const [poppedCount, setPoppedCount] = useState(0);
   const [fortune, setFortune] = useState('');
@@ -264,6 +290,7 @@ export default function Countdown() {
   useEffect(() => {
     trackEvent('pageView');
     setAnalytics(getAnalytics());
+    setLevelStats(getLevelStats());
   }, []);
 
   // Save score to leaderboard
@@ -507,6 +534,10 @@ export default function Countdown() {
       setTotalPopped(prev => prev + 1);
 
       if (newPoppedCount >= totalBalloons) {
+        // Track this level completion
+        trackLevelComplete(level);
+        setLevelStats(getLevelStats());
+
         if (level >= 5) {
           trackEvent('gameComplete');
           setAnalytics(getAnalytics());
@@ -652,6 +683,54 @@ export default function Countdown() {
           <TimezoneCard emoji="🌴" name="California" timezone="PST" time={time.cali} celebrating={time.cali.celebrating} index={2} />
         </div>
       </div>
+
+      {/* Leaderboard Panel - Bottom Right */}
+      {showLeaderboardPanel && !gameActive && (
+        <div className="fixed bottom-20 right-4 z-30 w-48 md:w-56">
+          <div className="bg-black/80 backdrop-blur-xl rounded-xl border border-white/10 overflow-hidden shadow-2xl">
+            {/* Header */}
+            <div className="bg-gradient-to-r from-yellow-500/20 to-purple-500/20 px-3 py-2 border-b border-white/10 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <span className="text-lg">🏆</span>
+                <span className="text-xs font-bold text-white/90 uppercase tracking-wider">Leaderboard</span>
+              </div>
+              <button onClick={() => setShowLeaderboardPanel(false)} className="text-white/30 hover:text-white/60 text-xs">✕</button>
+            </div>
+            {/* Level Stats */}
+            <div className="p-2 space-y-1">
+              {[5, 4, 3, 2, 1].map(lvl => (
+                <div key={lvl} className={`flex items-center justify-between px-2 py-1.5 rounded-lg ${lvl === 5 ? 'bg-yellow-500/20 border border-yellow-500/30' : lvl === 4 ? 'bg-purple-500/10' : 'bg-white/5'}`}>
+                  <div className="flex items-center gap-2">
+                    <span className={`text-xs font-bold ${lvl === 5 ? 'text-yellow-400' : lvl === 4 ? 'text-purple-400' : 'text-white/60'}`}>
+                      L{lvl}
+                    </span>
+                    <span className={`text-[10px] ${lvl === 5 ? 'text-yellow-400/70' : lvl === 4 ? 'text-purple-400/70' : 'text-white/30'}`}>
+                      {lvl === 5 ? 'IMPOSSIBLE' : lvl === 4 ? 'HARD' : lvl === 3 ? 'Medium' : lvl === 2 ? 'Easy' : 'Warm Up'}
+                    </span>
+                  </div>
+                  <span className={`text-sm font-bold tabular-nums ${lvl === 5 ? 'text-yellow-400' : lvl === 4 ? 'text-purple-400' : 'text-white/70'}`}>
+                    {formatCount(levelStats[lvl] || 0)}
+                  </span>
+                </div>
+              ))}
+            </div>
+            {/* Footer */}
+            <div className="px-3 py-2 bg-white/5 border-t border-white/5">
+              <p className="text-[9px] text-white/30 text-center">Players who cleared each level</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Minimized Leaderboard Button */}
+      {!showLeaderboardPanel && !gameActive && (
+        <button
+          onClick={() => setShowLeaderboardPanel(true)}
+          className="fixed bottom-20 right-4 z-30 bg-black/80 backdrop-blur-xl rounded-full p-3 border border-white/10 shadow-lg hover:bg-white/10 transition-all"
+        >
+          <span className="text-xl">🏆</span>
+        </button>
+      )}
 
       {/* Glass Footer with Brands */}
       <footer className="relative z-10 mt-auto">
