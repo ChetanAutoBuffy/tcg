@@ -234,7 +234,6 @@ export default function Countdown() {
   const [showStats, setShowStats] = useState(false);
   const [analytics, setAnalytics] = useState({ today: {}, total: {} });
   const [levelStats, setLevelStats] = useState({ 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 });
-  const [showLeaderboardPanel, setShowLeaderboardPanel] = useState(true);
   const [balloons, setBalloons] = useState([]);
   const [poppedCount, setPoppedCount] = useState(0);
   const [fortune, setFortune] = useState('');
@@ -688,76 +687,28 @@ export default function Countdown() {
         </div>
       </div>
 
-      {/* Leaderboard Button - Top bar on mobile, bottom right on desktop */}
+      {/* Floating Leaderboard - Bottom right on all devices */}
       {!gameActive && (
-        <>
-          {/* Mobile: Top button */}
-          <button
-            onClick={() => setShowLeaderboardPanel(true)}
-            className="md:hidden fixed top-[88px] right-4 z-30 bg-black/80 backdrop-blur-xl rounded-full px-3 py-1.5 border border-yellow-500/30 shadow-lg flex items-center gap-1.5"
-          >
-            <span className="text-sm">🏆</span>
-            <span className="text-[10px] font-bold text-yellow-400 uppercase">Leaderboard</span>
-          </button>
-
-          {/* Desktop: Bottom right panel */}
-          <div className="hidden md:block fixed bottom-20 right-4 z-30 w-56">
-            <div className="bg-black/80 backdrop-blur-xl rounded-xl border border-white/10 overflow-hidden shadow-2xl">
-              <div className="bg-gradient-to-r from-yellow-500/20 to-purple-500/20 px-3 py-2 border-b border-white/10 flex items-center gap-2">
-                <span className="text-lg">🏆</span>
-                <span className="text-xs font-bold text-white/90 uppercase tracking-wider">Leaderboard</span>
-              </div>
-              <div className="p-2 space-y-1">
-                {[5, 4, 3, 2, 1].map(lvl => (
-                  <div key={lvl} className={`flex items-center justify-between px-2 py-1.5 rounded-lg ${lvl === 5 ? 'bg-yellow-500/20 border border-yellow-500/30' : lvl === 4 ? 'bg-purple-500/10' : 'bg-white/5'}`}>
-                    <div className="flex items-center gap-2">
-                      <span className={`text-xs font-bold ${lvl === 5 ? 'text-yellow-400' : lvl === 4 ? 'text-purple-400' : 'text-white/60'}`}>L{lvl}</span>
-                      <span className={`text-[10px] ${lvl === 5 ? 'text-yellow-400/70' : lvl === 4 ? 'text-purple-400/70' : 'text-white/30'}`}>
-                        {lvl === 5 ? 'IMPOSSIBLE' : lvl === 4 ? 'HARD' : lvl === 3 ? 'Medium' : lvl === 2 ? 'Easy' : 'Warm Up'}
-                      </span>
-                    </div>
-                    <span className={`text-sm font-bold tabular-nums ${lvl === 5 ? 'text-yellow-400' : lvl === 4 ? 'text-purple-400' : 'text-white/70'}`}>
-                      {formatCount(levelStats[lvl] || 0)}
-                    </span>
-                  </div>
-                ))}
-              </div>
-              <div className="px-3 py-2 bg-white/5 border-t border-white/5">
-                <p className="text-[9px] text-white/30 text-center">Players who cleared each level</p>
-              </div>
+        <div className="fixed bottom-20 right-3 md:right-4 z-30 w-44 md:w-52">
+          <div className="bg-black/80 backdrop-blur-xl rounded-xl border border-white/10 overflow-hidden shadow-2xl">
+            <div className="bg-gradient-to-r from-yellow-500/20 to-purple-500/20 px-2 md:px-3 py-1.5 md:py-2 border-b border-white/10 flex items-center gap-1.5 md:gap-2">
+              <span className="text-base md:text-lg">🏆</span>
+              <span className="text-[10px] md:text-xs font-bold text-white/90 uppercase tracking-wider">Leaderboard</span>
             </div>
-          </div>
-        </>
-      )}
-
-      {/* Mobile Leaderboard Modal */}
-      {showLeaderboardPanel && !gameActive && (
-        <div className="md:hidden fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm" onClick={() => setShowLeaderboardPanel(false)}>
-          <div className="bg-black/95 backdrop-blur-xl rounded-2xl border border-white/10 w-[85%] max-w-sm overflow-hidden shadow-2xl" onClick={e => e.stopPropagation()}>
-            <div className="bg-gradient-to-r from-yellow-500/20 to-purple-500/20 px-4 py-3 border-b border-white/10 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <span className="text-xl">🏆</span>
-                <span className="text-sm font-bold text-white/90 uppercase tracking-wider">Leaderboard</span>
-              </div>
-              <button onClick={() => setShowLeaderboardPanel(false)} className="text-white/50 hover:text-white text-lg">✕</button>
-            </div>
-            <div className="p-3 space-y-2">
+            <div className="p-1.5 md:p-2 space-y-0.5 md:space-y-1">
               {[5, 4, 3, 2, 1].map(lvl => (
-                <div key={lvl} className={`flex items-center justify-between px-3 py-2.5 rounded-xl ${lvl === 5 ? 'bg-yellow-500/20 border border-yellow-500/30' : lvl === 4 ? 'bg-purple-500/10 border border-purple-500/20' : 'bg-white/5'}`}>
-                  <div className="flex items-center gap-3">
-                    <span className={`text-base font-bold ${lvl === 5 ? 'text-yellow-400' : lvl === 4 ? 'text-purple-400' : 'text-white/60'}`}>L{lvl}</span>
-                    <span className={`text-xs ${lvl === 5 ? 'text-yellow-400/70' : lvl === 4 ? 'text-purple-400/70' : 'text-white/40'}`}>
+                <div key={lvl} className={`flex items-center justify-between px-1.5 md:px-2 py-1 md:py-1.5 rounded-lg ${lvl === 5 ? 'bg-yellow-500/20 border border-yellow-500/30' : lvl === 4 ? 'bg-purple-500/10' : 'bg-white/5'}`}>
+                  <div className="flex items-center gap-1.5 md:gap-2">
+                    <span className={`text-[10px] md:text-xs font-bold ${lvl === 5 ? 'text-yellow-400' : lvl === 4 ? 'text-purple-400' : 'text-white/60'}`}>L{lvl}</span>
+                    <span className={`text-[8px] md:text-[10px] ${lvl === 5 ? 'text-yellow-400/70' : lvl === 4 ? 'text-purple-400/70' : 'text-white/30'}`}>
                       {lvl === 5 ? 'IMPOSSIBLE' : lvl === 4 ? 'HARD' : lvl === 3 ? 'Medium' : lvl === 2 ? 'Easy' : 'Warm Up'}
                     </span>
                   </div>
-                  <span className={`text-lg font-bold tabular-nums ${lvl === 5 ? 'text-yellow-400' : lvl === 4 ? 'text-purple-400' : 'text-white/70'}`}>
+                  <span className={`text-xs md:text-sm font-bold tabular-nums ${lvl === 5 ? 'text-yellow-400' : lvl === 4 ? 'text-purple-400' : 'text-white/70'}`}>
                     {formatCount(levelStats[lvl] || 0)}
                   </span>
                 </div>
               ))}
-            </div>
-            <div className="px-4 py-3 bg-white/5 border-t border-white/5">
-              <p className="text-[10px] text-white/30 text-center">Players who cleared each level</p>
             </div>
           </div>
         </div>
