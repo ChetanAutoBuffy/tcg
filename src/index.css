@@ -406,3 +406,526 @@ p {
 .animate-ticker:hover {
   animation-play-state: paused;
 }
+
+/* ==========================================================================
+   NEW YEAR COUNTDOWN ANIMATIONS
+   ========================================================================== */
+
+/* Confetti animation */
+@keyframes confetti-fall {
+  0% {
+    transform: translateY(-100vh) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+.animate-confetti {
+  animation: confetti-fall 3s ease-in-out forwards;
+}
+
+/* Logo glow pulse for celebration */
+@keyframes logo-celebrate {
+  0%, 100% {
+    filter: drop-shadow(0 0 20px #2563EB) drop-shadow(0 0 40px #9333EA);
+    transform: scale(1);
+  }
+  50% {
+    filter: drop-shadow(0 0 40px #2563EB) drop-shadow(0 0 80px #9333EA) drop-shadow(0 0 120px #EC4899);
+    transform: scale(1.05);
+  }
+}
+
+.animate-logo-celebrate {
+  animation: logo-celebrate 1s ease-in-out infinite;
+}
+
+/* Countdown number pulse */
+@keyframes countdown-pulse {
+  0%, 100% {
+    transform: scale(1);
+    text-shadow: 0 0 20px rgba(37, 99, 235, 0.5);
+  }
+  50% {
+    transform: scale(1.02);
+    text-shadow: 0 0 40px rgba(37, 99, 235, 0.8);
+  }
+}
+
+.animate-countdown-pulse {
+  animation: countdown-pulse 2s ease-in-out infinite;
+}
+
+/* Flash effect for midnight hit */
+@keyframes midnight-flash {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.animate-midnight-flash {
+  animation: midnight-flash 0.5s ease-out;
+}
+
+/* Floating particles for countdown bg */
+@keyframes countdown-float {
+  0% {
+    transform: translateY(100vh) translateX(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.6;
+  }
+  90% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(-20vh) translateX(20px);
+    opacity: 0;
+  }
+}
+
+.animate-countdown-float {
+  animation: countdown-float linear infinite;
+}
+
+/* Ticker for predictions */
+@keyframes predictions-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-predictions-scroll {
+  animation: predictions-scroll 60s linear infinite;
+}
+
+.animate-predictions-scroll:hover {
+  animation-play-state: paused;
+}
+
+/* ==========================================================================
+   NYE BALLOON POP GAME ANIMATIONS
+   ========================================================================== */
+
+/* Balloon floating animation - natural up/down sway */
+@keyframes float-balloon {
+  0%, 100% {
+    transform: translateY(0) translateX(0) rotate(-2deg);
+  }
+  25% {
+    transform: translateY(-15px) translateX(8px) rotate(2deg);
+  }
+  50% {
+    transform: translateY(-25px) translateX(-5px) rotate(-1deg);
+  }
+  75% {
+    transform: translateY(-12px) translateX(10px) rotate(3deg);
+  }
+}
+
+/* Balloon pop explosion effect */
+@keyframes pop {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  30% {
+    transform: scale(1.3);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
+
+/* Confetti pieces falling after pop */
+@keyframes confetti-fall-game {
+  0% {
+    transform: translateY(0) rotate(0deg) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(500px) rotate(720deg) scale(0.5);
+    opacity: 0;
+  }
+}
+
+/* Pulsing glow for TCG logo */
+@keyframes glow-pulse-logo {
+  0%, 100% {
+    filter: drop-shadow(0 0 10px rgba(37, 99, 235, 0.4))
+            drop-shadow(0 0 20px rgba(147, 51, 234, 0.3));
+    transform: scale(1);
+  }
+  50% {
+    filter: drop-shadow(0 0 25px rgba(37, 99, 235, 0.7))
+            drop-shadow(0 0 50px rgba(147, 51, 234, 0.6))
+            drop-shadow(0 0 75px rgba(236, 72, 153, 0.4));
+    transform: scale(1.02);
+  }
+}
+
+/* Infinite scroll for predictions ticker */
+@keyframes ticker-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* Shimmer effect for Play button */
+@keyframes shimmer-sweep {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+/* Firework explosion effect */
+@keyframes firework {
+  0% {
+    transform: translate(0, 0) scale(0);
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--tx, 0), var(--ty, 0)) scale(1);
+    opacity: 0;
+  }
+}
+
+/* Elements floating upward (lanterns, sparkles) */
+@keyframes float-up {
+  0% {
+    transform: translateY(0) translateX(0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.8;
+  }
+  90% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(-100vh) translateX(var(--drift-x, 30px)) rotate(180deg);
+    opacity: 0;
+  }
+}
+
+/* Shake effect for excitement/celebration */
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0) rotate(0deg);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-5px) rotate(-1deg);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translateX(5px) rotate(1deg);
+  }
+}
+
+/* Liquid fill progress effect for logo sections */
+@keyframes fill-progress {
+  0% {
+    height: 0%;
+    opacity: 0.5;
+  }
+  100% {
+    height: 100%;
+    opacity: 1;
+  }
+}
+
+/* Balloon bounce when appearing */
+@keyframes balloon-enter {
+  0% {
+    transform: scale(0) translateY(100px);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.1) translateY(-10px);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Score popup animation */
+@keyframes score-popup {
+  0% {
+    transform: scale(0) translateY(0);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2) translateY(-20px);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) translateY(-40px);
+    opacity: 0;
+  }
+}
+
+/* Star burst effect */
+@keyframes star-burst {
+  0% {
+    transform: scale(0) rotate(0deg);
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(3) rotate(180deg);
+    opacity: 0;
+  }
+}
+
+/* ==========================================================================
+   NYE BALLOON GAME UTILITY CLASSES
+   ========================================================================== */
+
+/* Base balloon styling with float animation */
+.balloon {
+  position: relative;
+  cursor: pointer;
+  animation: float-balloon 3s ease-in-out infinite;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+
+.balloon:hover {
+  transform: scale(1.05);
+  filter: brightness(1.2);
+}
+
+.balloon:active {
+  transform: scale(0.95);
+}
+
+/* Balloon pop animation when clicked */
+.balloon-pop {
+  animation: pop 0.3s cubic-bezier(0.4, 0, 1, 1) forwards;
+  pointer-events: none;
+}
+
+/* Individual confetti piece */
+.confetti-piece {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  animation: confetti-fall-game 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  will-change: transform, opacity;
+}
+
+/* Glowing text effect */
+.glow-text {
+  text-shadow:
+    0 0 10px rgba(255, 255, 255, 0.8),
+    0 0 20px rgba(37, 99, 235, 0.6),
+    0 0 30px rgba(147, 51, 234, 0.4);
+  animation: glow-pulse-logo 2s ease-in-out infinite;
+}
+
+/* Infinite scrolling ticker container */
+.ticker-container {
+  display: flex;
+  animation: ticker-scroll 30s linear infinite;
+  will-change: transform;
+}
+
+.ticker-container:hover {
+  animation-play-state: paused;
+}
+
+/* Shimmering CTA button */
+.shimmer-button {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.3) 50%,
+    rgba(255, 255, 255, 0.1) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer-sweep 2s ease-in-out infinite;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.shimmer-button:hover {
+  transform: scale(1.05);
+  box-shadow:
+    0 0 20px rgba(37, 99, 235, 0.5),
+    0 0 40px rgba(147, 51, 234, 0.3);
+}
+
+.shimmer-button:active {
+  transform: scale(0.98);
+}
+
+/* Firework particle */
+.firework-particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  animation: firework 1s cubic-bezier(0, 0.55, 0.45, 1) forwards;
+  will-change: transform, opacity;
+}
+
+/* Floating element (lanterns, sparkles) */
+.float-up-element {
+  position: absolute;
+  animation: float-up linear forwards;
+  will-change: transform, opacity;
+  pointer-events: none;
+}
+
+/* Shake animation utility */
+.animate-shake {
+  animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+/* Fill progress container */
+.fill-progress {
+  position: relative;
+  overflow: hidden;
+}
+
+.fill-progress::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(
+    to top,
+    rgba(37, 99, 235, 0.5),
+    rgba(147, 51, 234, 0.3)
+  );
+  animation: fill-progress 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Score popup */
+.score-popup {
+  position: absolute;
+  font-weight: bold;
+  color: #fbbf24;
+  animation: score-popup 1s ease-out forwards;
+  pointer-events: none;
+  text-shadow: 0 0 10px rgba(251, 191, 36, 0.8);
+  will-change: transform, opacity;
+}
+
+/* Star burst overlay */
+.star-burst {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  pointer-events: none;
+  animation: star-burst 0.6s ease-out forwards;
+  will-change: transform, opacity;
+}
+
+/* Balloon enter animation */
+.balloon-enter {
+  animation: balloon-enter 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Glowing logo pulse */
+.logo-glow-pulse {
+  animation: glow-pulse-logo 3s ease-in-out infinite;
+  will-change: filter, transform;
+}
+
+/* Ticker scrolling variations */
+.ticker-slow {
+  animation-duration: 45s;
+}
+
+.ticker-fast {
+  animation-duration: 20s;
+}
+
+/* Confetti burst container */
+.confetti-burst {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* Smooth hardware acceleration for all game elements */
+.balloon,
+.balloon-pop,
+.confetti-piece,
+.firework-particle,
+.float-up-element,
+.score-popup,
+.star-burst {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Mobile optimizations for animations */
+@media (max-width: 640px) {
+  .balloon {
+    animation-duration: 2.5s;
+  }
+
+  .ticker-container {
+    animation-duration: 25s;
+  }
+
+  /* Reduce particle count on mobile via display:none selectors */
+  .confetti-piece:nth-child(n+20) {
+    display: none;
+  }
+
+  .firework-particle:nth-child(n+15) {
+    display: none;
+  }
+}
+
+/* Pause animations when user prefers reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .balloon,
+  .ticker-container,
+  .shimmer-button,
+  .logo-glow-pulse,
+  .glow-text {
+    animation: none;
+  }
+
+  .balloon-pop {
+    animation: pop 0.15s ease-out forwards;
+  }
+}
