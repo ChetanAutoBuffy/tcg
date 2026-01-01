@@ -596,30 +596,41 @@ export default function Countdown() {
             {orbs.map(orb => <FloatingOrb key={orb.id} {...orb} />)}
           </div>
 
-          {/* HUD */}
-          <div className="absolute top-0 left-0 right-0 p-3 flex justify-between items-center bg-black/60 backdrop-blur-md z-10 border-b border-white/5">
-            <div className="flex items-center gap-3">
-              <span className="text-lg font-bold bg-gradient-to-r from-yellow-400 to-purple-400 bg-clip-text text-transparent">Level {level}/5</span>
-              <span className="text-xs font-light text-white/30">{levelConfig.name}</span>
-            </div>
-            {/* Timer - big and prominent */}
-            <div className={`text-4xl md:text-5xl font-black tabular-nums ${levelTimer <= 5 ? 'text-red-500 animate-pulse' : levelTimer <= 10 ? 'text-yellow-400' : 'text-white'}`}>
-              {levelTimer}
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="text-base font-light text-white/60 bg-white/5 px-4 py-1 rounded-full border border-white/5">
-                {poppedCount} popped
+          {/* HUD - Mobile optimized */}
+          <div className="absolute top-0 left-0 right-0 p-2 md:p-3 bg-black/70 backdrop-blur-md z-10 border-b border-white/5">
+            {/* Mobile: stacked layout */}
+            <div className="flex items-center justify-between">
+              {/* Timer - center and big */}
+              <div className={`text-3xl md:text-5xl font-black tabular-nums ${levelTimer <= 5 ? 'text-red-500 animate-pulse' : levelTimer <= 10 ? 'text-yellow-400' : 'text-white'}`}>
+                {levelTimer}s
               </div>
-              <button onClick={() => { setGameActive(false); setGameOver(false); }} className="text-white/30 hover:text-white/60 transition-colors p-2 text-xs tracking-widest uppercase">Exit</button>
+              {/* Level info */}
+              <div className="text-center flex-1 mx-2">
+                <span className="text-sm md:text-lg font-bold bg-gradient-to-r from-yellow-400 to-purple-400 bg-clip-text text-transparent">Level {level}/5</span>
+                <span className="hidden md:inline text-xs font-light text-white/30 ml-2">{levelConfig.name}</span>
+              </div>
+              {/* Score */}
+              <div className="text-right">
+                <div className="text-lg md:text-xl font-bold text-white">{poppedCount}<span className="text-white/40">/{totalBalloons}</span></div>
+              </div>
+            </div>
+            {/* Progress bar inline */}
+            <div className="mt-2 h-[3px] bg-white/10 overflow-hidden rounded-full">
+              <div
+                className="h-full bg-[linear-gradient(90deg,#10B981,#2563EB,#9333EA,#EC4899)] bg-[length:200%_100%] animate-flow transition-all duration-300"
+                style={{ width: `${(poppedCount / totalBalloons) * 100}%` }}
+              />
             </div>
           </div>
 
-          {/* Progress bar */}
-          <div className="absolute top-14 left-4 right-4 h-[4px] bg-white/5 overflow-hidden rounded-full">
-            <div
-              className="h-full bg-[linear-gradient(90deg,#10B981,#2563EB,#9333EA,#EC4899)] bg-[length:200%_100%] animate-flow transition-all duration-300"
-              style={{ width: `${(poppedCount / totalBalloons) * 100}%` }}
-            />
+          {/* Fixed bottom bar - Exit button */}
+          <div className="absolute bottom-0 left-0 right-0 p-3 bg-black/70 backdrop-blur-md z-10 border-t border-white/5 flex justify-center">
+            <button
+              onClick={() => { setGameActive(false); setGameOver(false); }}
+              className="px-6 py-2 bg-white/10 hover:bg-white/20 border border-white/20 rounded-full text-sm font-medium text-white/70 hover:text-white transition-all"
+            >
+              Exit Game
+            </button>
           </div>
 
           {/* 3-2-1 Countdown */}
