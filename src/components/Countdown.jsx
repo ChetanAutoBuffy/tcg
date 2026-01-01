@@ -124,6 +124,81 @@ function FloatingOrb({ size, x, y, color, delay, duration }) {
   );
 }
 
+// Simple analytics tracker
+const trackEvent = (eventName, data = {}) => {
+  try {
+    const stats = JSON.parse(localStorage.getItem('tcg-analytics') || '{}');
+    const today = new Date().toISOString().split('T')[0];
+
+    if (!stats[today]) stats[today] = { pageViews: 0, gamePlays: 0, gamesCompleted: 0, uniqueVisitors: new Set() };
+
+    // Convert Set back from array (localStorage doesn't store Sets)
+    if (Array.isArray(stats[today].uniqueVisitors)) {
+      stats[today].uniqueVisitors = new Set(stats[today].uniqueVisitors);
+    }
+
+    if (eventName === 'pageView') {
+      stats[today].pageViews = (stats[today].pageViews || 0) + 1;
+      // Track unique visitor by session
+      const visitorId = sessionStorage.getItem('tcg-visitor-id') || Date.now().toString();
+      sessionStorage.setItem('tcg-visitor-id', visitorId);
+      stats[today].uniqueVisitors.add(visitorId);
+    } else if (eventName === 'gameStart') {
+      stats[today].gamePlays = (stats[today].gamePlays || 0) + 1;
+    } else if (eventName === 'gameComplete') {
+      stats[today].gamesCompleted = (stats[today].gamesCompleted || 0) + 1;
+    }
+
+    // Convert Set to array for storage
+    const statsToSave = { ...stats };
+    Object.keys(statsToSave).forEach(day => {
+      if (statsToSave[day].uniqueVisitors instanceof Set) {
+        statsToSave[day].uniqueVisitors = [...statsToSave[day].uniqueVisitors];
+      }
+    });
+
+    localStorage.setItem('tcg-analytics', JSON.stringify(statsToSave));
+  } catch (e) {
+    console.log('Analytics error:', e);
+  }
+};
+
+// Get analytics stats
+const getAnalytics = () => {
+  try {
+    const stats = JSON.parse(localStorage.getItem('tcg-analytics') || '{}');
+    const today = new Date().toISOString().split('T')[0];
+    const todayStats = stats[today] || { pageViews: 0, gamePlays: 0, gamesCompleted: 0, uniqueVisitors: [] };
+
+    // Calculate totals across all days
+    let totalPageViews = 0;
+    let totalGamePlays = 0;
+    let totalGamesCompleted = 0;
+
+    Object.values(stats).forEach(day => {
+      totalPageViews += day.pageViews || 0;
+      totalGamePlays += day.gamePlays || 0;
+      totalGamesCompleted += day.gamesCompleted || 0;
+    });
+
+    return {
+      today: {
+        pageViews: todayStats.pageViews,
+        gamePlays: todayStats.gamePlays,
+        gamesCompleted: todayStats.gamesCompleted,
+        uniqueVisitors: Array.isArray(todayStats.uniqueVisitors) ? todayStats.uniqueVisitors.length : 0,
+      },
+      total: {
+        pageViews: totalPageViews,
+        gamePlays: totalGamePlays,
+        gamesCompleted: totalGamesCompleted,
+      }
+    };
+  } catch (e) {
+    return { today: { pageViews: 0, gamePlays: 0, gamesCompleted: 0, uniqueVisitors: 0 }, total: { pageViews: 0, gamePlays: 0, gamesCompleted: 0 } };
+  }
+};
+
 export default function Countdown() {
   const [time, setTime] = useState({
     nyc: { hours: 0, minutes: 0, seconds: 0, celebrating: false },
@@ -132,6 +207,8 @@ export default function Countdown() {
   });
   const [logoProgress, setLogoProgress] = useState({ T: false, C: false, G: false });
   const [gameActive, setGameActive] = useState(false);
+  const [showStats, setShowStats] = useState(false);
+  const [analytics, setAnalytics] = useState({ today: {}, total: {} });
   const [balloons, setBalloons] = useState([]);
   const [poppedCount, setPoppedCount] = useState(0);
   const [fortune, setFortune] = useState('');
@@ -181,6 +258,12 @@ export default function Countdown() {
     if (saved) {
       setLeaderboard(JSON.parse(saved));
     }
+  }, []);
+
+  // Track page view on mount
+  useEffect(() => {
+    trackEvent('pageView');
+    setAnalytics(getAnalytics());
   }, []);
 
   // Save score to leaderboard
@@ -258,6 +341,7 @@ export default function Countdown() {
   const spawnedCountRef = useRef(0);
 
   const startGame = () => {
+    trackEvent('gameStart');
     setLevel(1);
     setGameComplete(false);
     setGameOver(false);
@@ -423,6 +507,8 @@ export default function Countdown() {
 
       if (newPoppedCount >= totalBalloons) {
         if (level >= 5) {
+          trackEvent('gameComplete');
+          setAnalytics(getAnalytics());
           createLevelUpSound(); spawnConfetti(100); setGameComplete(true);
           setFortune(fortunes[Math.floor(Math.random() * fortunes.length)]);
           setShowNameInput(true); // Show name input for leaderboard
@@ -575,15 +661,81 @@ export default function Countdown() {
                 <img key={brand.name} src={brand.logo} alt={brand.name} className={`${brand.height} w-auto opacity-25 hover:opacity-40 transition-opacity duration-300 grayscale`} />
               ))}
             </div>
-            <div className="text-center">
+            <div className="text-center flex items-center justify-center gap-4">
               <a href="https://thechadhagroup.com" target="_blank" rel="noopener noreferrer"
                 className="text-[9px] font-light tracking-widest uppercase text-white/15 hover:text-white/30 transition-colors duration-300 hover-gradient-text">
                 visit us
               </a>
+              <button
+                onClick={() => { setAnalytics(getAnalytics()); setShowStats(true); }}
+                className="text-[9px] font-light tracking-widest uppercase text-white/15 hover:text-white/30 transition-colors duration-300 hover-gradient-text"
+              >
+                stats
+              </button>
             </div>
           </div>
         </div>
       </footer>
+
+      {/* Stats Modal */}
+      {showStats && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm" onClick={() => setShowStats(false)}>
+          <div className="bg-white/[0.05] backdrop-blur-xl p-6 md:p-8 rounded-2xl border border-white/10 max-w-md w-full mx-4" onClick={e => e.stopPropagation()}>
+            <h2 className="text-xl font-light text-white/90 mb-4 text-center tracking-wide">Site Stats</h2>
+
+            <div className="space-y-4">
+              <div className="bg-white/5 rounded-xl p-4">
+                <h3 className="text-xs text-white/40 uppercase tracking-wider mb-3">Today</h3>
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="text-center">
+                    <div className="text-2xl font-light text-white/90">{analytics.today.pageViews || 0}</div>
+                    <div className="text-[10px] text-white/30 uppercase">Page Views</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl font-light text-white/90">{analytics.today.uniqueVisitors || 0}</div>
+                    <div className="text-[10px] text-white/30 uppercase">Visitors</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl font-light text-purple-400">{analytics.today.gamePlays || 0}</div>
+                    <div className="text-[10px] text-white/30 uppercase">Games Played</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl font-light text-yellow-400">{analytics.today.gamesCompleted || 0}</div>
+                    <div className="text-[10px] text-white/30 uppercase">Completed</div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white/5 rounded-xl p-4">
+                <h3 className="text-xs text-white/40 uppercase tracking-wider mb-3">All Time</h3>
+                <div className="grid grid-cols-3 gap-3">
+                  <div className="text-center">
+                    <div className="text-xl font-light text-white/90">{analytics.total.pageViews || 0}</div>
+                    <div className="text-[10px] text-white/30 uppercase">Views</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-xl font-light text-purple-400">{analytics.total.gamePlays || 0}</div>
+                    <div className="text-[10px] text-white/30 uppercase">Played</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-xl font-light text-yellow-400">{analytics.total.gamesCompleted || 0}</div>
+                    <div className="text-[10px] text-white/30 uppercase">Won</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <p className="text-[10px] text-white/20 text-center mt-4">Stats stored locally on each visitor's device</p>
+
+            <button
+              onClick={() => setShowStats(false)}
+              className="mt-4 w-full py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-full text-sm text-white/60 hover:text-white transition-all"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Game overlay */}
       {gameActive && (
