@@ -84,6 +84,22 @@ const createLevelUpSound = () => {
   } catch (e) {}
 };
 
+// Countdown beep sound
+const createBeepSound = (isGo = false) => {
+  try {
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+    oscillator.frequency.setValueAtTime(isGo ? 880 : 440, audioContext.currentTime);
+    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + (isGo ? 0.3 : 0.15));
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + (isGo ? 0.3 : 0.15));
+  } catch (e) {}
+};
+
 // Confetti
 function ConfettiPiece({ x, delay, color }) {
   const shapes = ['rounded-full', 'rounded-sm', 'rounded-none'];
@@ -131,6 +147,14 @@ export default function Countdown() {
   const [orbs, setOrbs] = useState([]);
   const [sparkles, setSparkles] = useState([]);
   const [popEffects, setPopEffects] = useState([]);
+  const [showLeaderboard, setShowLeaderboard] = useState(false);
+  const [leaderboard, setLeaderboard] = useState([]);
+  const [playerName, setPlayerName] = useState('');
+  const [showNameInput, setShowNameInput] = useState(false);
+  const [gameStartTime, setGameStartTime] = useState(null);
+  const [totalPopped, setTotalPopped] = useState(0);
+  const [countdown, setCountdown] = useState(0); // 3, 2, 1 countdown
+  const [showCountdown, setShowCountdown] = useState(false);
   const tickerRef = useRef(null);
 
   const confettiColors = ['#FFD700', '#C0C0C0', '#9333EA', '#FFFFFF', '#EC4899', '#2563EB'];
@@ -150,6 +174,30 @@ export default function Countdown() {
     setConfetti(prev => [...prev, ...newConfetti]);
     setTimeout(() => setConfetti(prev => prev.filter(c => !newConfetti.find(nc => nc.id === c.id))), 3000);
   }, []);
+
+  // Load leaderboard from localStorage
+  useEffect(() => {
+    const saved = localStorage.getItem('tcg-balloon-leaderboard');
+    if (saved) {
+      setLeaderboard(JSON.parse(saved));
+    }
+  }, []);
+
+  // Save score to leaderboard
+  const saveScore = (name, totalPopped, timeSeconds) => {
+    const newEntry = {
+      id: Date.now(),
+      name: name.trim() || 'Anonymous',
+      totalPopped,
+      time: timeSeconds,
+      date: new Date().toLocaleDateString(),
+    };
+    const updated = [...leaderboard, newEntry]
+      .sort((a, b) => b.totalPopped - a.totalPopped || a.time - b.time)
+      .slice(0, 20); // Keep top 20
+    setLeaderboard(updated);
+    localStorage.setItem('tcg-balloon-leaderboard', JSON.stringify(updated));
+  };
 
   useEffect(() => {
     const orbColors = [
@@ -194,26 +242,44 @@ export default function Countdown() {
     return () => clearInterval(interval);
   }, []);
 
-  // 5 levels - more balloons, faster fall speed each level
+  // 5 levels - realistic difficulty curve
   const getLevelConfig = (lvl) => ({
-    1: { balloons: 10, fallSpeed: 3, spawnRate: 800, name: "Warm Up" },
-    2: { balloons: 15, fallSpeed: 4, spawnRate: 600, name: "Getting Faster" },
-    3: { balloons: 20, fallSpeed: 5, spawnRate: 450, name: "Speed Demon" },
-    4: { balloons: 25, fallSpeed: 6, spawnRate: 350, name: "Chaos Mode" },
-    5: { balloons: 30, fallSpeed: 8, spawnRate: 250, name: "THE FINAL BOSS" },
-  }[lvl] || { balloons: 30, fallSpeed: 8, spawnRate: 250, name: "THE FINAL BOSS" });
+    1: { balloons: 5, fallSpeed: 0.5, spawnRate: 1500, time: 20, name: "Warm Up" },        // Super easy
+    2: { balloons: 8, fallSpeed: 0.6, spawnRate: 1200, time: 20, name: "Getting Started" }, // Easy
+    3: { balloons: 12, fallSpeed: 0.8, spawnRate: 900, time: 18, name: "Pick It Up" },      // Medium
+    4: { balloons: 16, fallSpeed: 1.0, spawnRate: 700, time: 18, name: "Getting Hard" },    // Hard
+    5: { balloons: 20, fallSpeed: 1.2, spawnRate: 500, time: 15, name: "THE FINAL BOSS" },  // Very hard
+  }[lvl] || { balloons: 20, fallSpeed: 1.2, spawnRate: 500, time: 15, name: "THE FINAL BOSS" });
 
   const balloonIdRef = useRef(0);
   const spawnIntervalRef = useRef(null);
   const fallIntervalRef = useRef(null);
+  const timerIntervalRef = useRef(null);
   const spawnedCountRef = useRef(0);
 
   const startGame = () => {
     setLevel(1);
     setGameComplete(false);
     setGameOver(false);
+    setTotalPopped(0);
     balloonIdRef.current = 0;
-    startLevel(1);
+    setBalloons([]);
+    setGameActive(true);
+
+    // Show 3-2-1 countdown
+    setShowCountdown(true);
+    setCountdown(3);
+    createBeepSound();
+
+    setTimeout(() => { setCountdown(2); createBeepSound(); }, 1000);
+    setTimeout(() => { setCountdown(1); createBeepSound(); }, 2000);
+    setTimeout(() => {
+      setCountdown(0);
+      createBeepSound(true); // GO sound
+      setShowCountdown(false);
+      setGameStartTime(Date.now());
+      startLevel(1);
+    }, 3000);
   };
 
   const startLevel = (lvl) => {
@@ -221,6 +287,7 @@ export default function Countdown() {
     setBalloons([]);
     setPoppedCount(0);
     setTotalBalloons(config.balloons);
+    setLevelTimer(config.time);
     spawnedCountRef.current = 0;
     setGameActive(true);
     setShowFortune(false);
@@ -229,74 +296,111 @@ export default function Countdown() {
     setGameSpeed(config.fallSpeed);
   };
 
+  // Level timer countdown
+  useEffect(() => {
+    if (!gameActive || showLevelUp || gameComplete || gameOver || showCountdown) {
+      if (timerIntervalRef.current) clearInterval(timerIntervalRef.current);
+      return;
+    }
+
+    timerIntervalRef.current = setInterval(() => {
+      setLevelTimer(prev => {
+        // Beep for last 5 seconds
+        if (prev <= 6 && prev > 1) {
+          createBeepSound();
+        }
+
+        if (prev <= 1) {
+          // Time's up - GAME OVER if not all balloons popped
+          clearInterval(timerIntervalRef.current);
+          createBeepSound(true);
+          setGameOver(true);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => {
+      if (timerIntervalRef.current) clearInterval(timerIntervalRef.current);
+    };
+  }, [gameActive, level, showLevelUp, gameComplete, gameOver, showCountdown]);
+
   // Spawn balloons from top
   useEffect(() => {
-    if (!gameActive || showLevelUp || gameComplete || gameOver) {
+    if (!gameActive || showLevelUp || gameComplete || gameOver || showCountdown) {
       if (spawnIntervalRef.current) clearInterval(spawnIntervalRef.current);
       return;
     }
 
     const config = getLevelConfig(level);
 
-    spawnIntervalRef.current = setInterval(() => {
+    // Function to spawn a balloon
+    const spawnBalloon = () => {
       if (spawnedCountRef.current >= config.balloons) {
-        clearInterval(spawnIntervalRef.current);
-        return;
+        return false;
       }
+
+      // Fall duration varies by level (slower at level 1, faster at higher levels)
+      // Level 1: ~12-15 sec, Level 5: ~6-8 sec
+      const baseDuration = 16 - (level * 2);
+      const fallDuration = baseDuration * (0.9 + Math.random() * 0.2);
 
       const newBalloon = {
         id: balloonIdRef.current++,
-        x: Math.random() * 85 + 5,
-        y: -10,
+        x: Math.random() * 80 + 10,
         color: balloonColors[Math.floor(Math.random() * balloonColors.length)],
         popped: false,
         escaped: false,
-        size: Math.random() * 20 + 45,
+        size: Math.random() * 25 + 50,
+        fallDuration: fallDuration,
+        spawnTime: Date.now(),
       };
+
+      // Mark balloon as escaped after its fall duration
+      setTimeout(() => {
+        setBalloons(prev => prev.map(b =>
+          b.id === newBalloon.id && !b.popped ? { ...b, escaped: true } : b
+        ));
+      }, fallDuration * 1000);
 
       setBalloons(prev => [...prev, newBalloon]);
       spawnedCountRef.current++;
+      return true;
+    };
+
+    // Spawn first 3 balloons immediately
+    spawnBalloon();
+    setTimeout(() => spawnBalloon(), 150);
+    setTimeout(() => spawnBalloon(), 300);
+
+    // Then continue spawning at regular intervals
+    spawnIntervalRef.current = setInterval(() => {
+      if (!spawnBalloon()) {
+        clearInterval(spawnIntervalRef.current);
+      }
     }, config.spawnRate);
 
     return () => {
       if (spawnIntervalRef.current) clearInterval(spawnIntervalRef.current);
     };
-  }, [gameActive, level, showLevelUp, gameComplete, gameOver]);
+  }, [gameActive, level, showLevelUp, gameComplete, gameOver, showCountdown]);
 
-  // Move balloons down
+  // Check for escaped balloons (using CSS animation, just check escaped flag set by setTimeout)
   useEffect(() => {
-    if (!gameActive || showLevelUp || gameComplete || gameOver) {
-      if (fallIntervalRef.current) clearInterval(fallIntervalRef.current);
+    if (!gameActive || showLevelUp || gameComplete || gameOver || showCountdown) {
       return;
     }
 
-    const config = getLevelConfig(level);
+    const checkInterval = setInterval(() => {
+      const escaped = balloons.filter(b => b.escaped && !b.popped).length;
+      if (escaped > 0) {
+        setGameOver(true);
+      }
+    }, 200);
 
-    fallIntervalRef.current = setInterval(() => {
-      setBalloons(prev => {
-        const updated = prev.map(b => {
-          if (b.popped || b.escaped) return b;
-          const newY = b.y + config.fallSpeed * 0.5;
-          if (newY > 100) {
-            return { ...b, escaped: true };
-          }
-          return { ...b, y: newY };
-        });
-
-        // Check for escaped balloons = game over
-        const escaped = updated.filter(b => b.escaped && !b.popped).length;
-        if (escaped > 0) {
-          setGameOver(true);
-        }
-
-        return updated;
-      });
-    }, 50);
-
-    return () => {
-      if (fallIntervalRef.current) clearInterval(fallIntervalRef.current);
-    };
-  }, [gameActive, level, showLevelUp, gameComplete, gameOver]);
+    return () => clearInterval(checkInterval);
+  }, [gameActive, balloons, showLevelUp, gameComplete, gameOver, showCountdown]);
 
   // Spawn pop effect
   const spawnPopEffect = (x, y) => {
@@ -315,18 +419,29 @@ export default function Countdown() {
       setBalloons(prev => prev.map(b => b.id === id ? { ...b, popped: true } : b));
       const newPoppedCount = poppedCount + 1;
       setPoppedCount(newPoppedCount);
+      setTotalPopped(prev => prev + 1);
 
       if (newPoppedCount >= totalBalloons) {
         if (level >= 5) {
           createLevelUpSound(); spawnConfetti(100); setGameComplete(true);
           setFortune(fortunes[Math.floor(Math.random() * fortunes.length)]);
-          setTimeout(() => setShowFortune(true), 500);
+          setShowNameInput(true); // Show name input for leaderboard
         } else {
           createLevelUpSound(); spawnConfetti(50); setShowLevelUp(true);
           setTimeout(() => { setLevel(prev => prev + 1); startLevel(level + 1); }, 1500);
         }
       }
     }
+  };
+
+  // Submit score to leaderboard
+  const submitScore = () => {
+    const timeSeconds = Math.round((Date.now() - gameStartTime) / 1000);
+    // Total balloons across all 5 levels: 8+10+12+15+18 = 63
+    saveScore(playerName, 63, timeSeconds);
+    setShowNameInput(false);
+    setShowFortune(true);
+    setPlayerName('');
   };
 
   const allCelebrating = time.nyc.celebrating && time.texas.celebrating && time.cali.celebrating;
@@ -487,13 +602,16 @@ export default function Countdown() {
               <span className="text-lg font-bold bg-gradient-to-r from-yellow-400 to-purple-400 bg-clip-text text-transparent">Level {level}/5</span>
               <span className="text-xs font-light text-white/30">{levelConfig.name}</span>
             </div>
-            <div className="text-center">
-              <div className="text-2xl md:text-3xl font-bold text-white/90 tabular-nums">
-                {poppedCount} / {totalBalloons}
-              </div>
-              <div className="text-[10px] text-white/40 uppercase tracking-widest">Don't let any escape!</div>
+            {/* Timer - big and prominent */}
+            <div className={`text-4xl md:text-5xl font-black tabular-nums ${levelTimer <= 5 ? 'text-red-500 animate-pulse' : levelTimer <= 10 ? 'text-yellow-400' : 'text-white'}`}>
+              {levelTimer}
             </div>
-            <button onClick={() => { setGameActive(false); setGameOver(false); }} className="text-white/30 hover:text-white/60 transition-colors p-2 text-xs tracking-widest uppercase">Exit</button>
+            <div className="flex items-center gap-3">
+              <div className="text-base font-light text-white/60 bg-white/5 px-4 py-1 rounded-full border border-white/5">
+                {poppedCount} popped
+              </div>
+              <button onClick={() => { setGameActive(false); setGameOver(false); }} className="text-white/30 hover:text-white/60 transition-colors p-2 text-xs tracking-widest uppercase">Exit</button>
+            </div>
           </div>
 
           {/* Progress bar */}
@@ -503,6 +621,18 @@ export default function Countdown() {
               style={{ width: `${(poppedCount / totalBalloons) * 100}%` }}
             />
           </div>
+
+          {/* 3-2-1 Countdown */}
+          {showCountdown && (
+            <div className="absolute inset-0 flex items-center justify-center z-40 bg-black/80 backdrop-blur-sm">
+              <div className="text-center">
+                <div className="text-[150px] md:text-[200px] font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 via-pink-500 to-purple-500 animate-pulse leading-none">
+                  {countdown > 0 ? countdown : 'GO!'}
+                </div>
+                <p className="text-xl text-white/50 mt-4 tracking-widest uppercase">Get Ready!</p>
+              </div>
+            </div>
+          )}
 
           {/* Level up */}
           {showLevelUp && (
@@ -529,19 +659,22 @@ export default function Countdown() {
           ))}
 
           {/* Balloons */}
-          <div className="absolute inset-0 pt-20">
+          <div className="absolute inset-0 pt-20 overflow-hidden">
             {balloons.map(balloon => (
-              !balloon.popped && (
+              !balloon.popped && !balloon.escaped && (
                 <button
                   key={balloon.id}
                   onClick={() => popBalloon(balloon.id)}
-                  className={`absolute ${balloon.color} cursor-pointer hover:scale-110 transition-all duration-200 focus:outline-none balloon-premium`}
+                  className={`absolute ${balloon.color} cursor-pointer hover:scale-110 focus:outline-none balloon-fall`}
                   style={{
-                    left: `${balloon.x}%`, top: `${balloon.y}%`,
-                    width: `${balloon.size}px`, height: `${balloon.size * 1.3}px`,
+                    left: `${balloon.x}%`,
+                    top: '-80px',
+                    width: `${balloon.size}px`,
+                    height: `${balloon.size * 1.3}px`,
                     borderRadius: '50% 50% 50% 50% / 40% 40% 60% 60%',
-                    animationDuration: `${2 + Math.random()}s`, animationDelay: `${balloon.id * 0.05}s`,
                     boxShadow: '0 10px 40px rgba(0,0,0,0.4), inset 0 -5px 20px rgba(0,0,0,0.3), inset 0 5px 20px rgba(255,255,255,0.15)',
+                    '--fall-duration': `${balloon.fallDuration || 10}s`,
+                    animationDelay: '0s',
                   }}
                 >
                   <div className="absolute top-3 left-3 w-3 h-3 bg-white/30 rounded-full blur-sm" />
@@ -626,6 +759,15 @@ export default function Countdown() {
         .animate-bounce-slow { animation: bounce-slow 2s ease-in-out infinite; }
         .animate-pop-burst { animation: pop-burst 0.4s ease-out forwards; }
         .animate-pop-text { animation: pop-text 0.5s ease-out forwards; }
+
+        @keyframes balloon-fall-down {
+          0% { transform: translateY(0); }
+          100% { transform: translateY(calc(100vh + 100px)); }
+        }
+        .balloon-fall {
+          animation: balloon-fall-down var(--fall-duration, 10s) linear forwards;
+          will-change: transform;
+        }
 
         .hover-gradient-text:hover {
           background: linear-gradient(90deg,#2563EB,#9333EA,#EC4899,#F59E0B,#10B981);
