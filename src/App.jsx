@@ -15,7 +15,6 @@ import InvestorRelations from "./components/InvestorRelations.jsx";
 import Footer from "./components/Footer.jsx";
 import ContactPopup from "./components/ContactPopup.jsx";
 import MobileHamburgerMenu from "./components/MobileHamburgerMenu.jsx";
-import Countdown from "./components/Countdown.jsx";
 import { useState } from "react";
 import logoUrl from "./assets/TCG_logo.svg";
 import ParticleBackground from "./components/ParticleBackground.jsx";
@@ -80,9 +79,6 @@ export default function App() {
     <>
       <ScrollToTop />
       <Routes>
-        {/* Standalone Countdown Route - No Layout */}
-        <Route path="/countdown" element={<Countdown />} />
-
         {/* Main site routes with layout */}
         <Route path="/" element={
           <MainLayout {...layoutProps}>
