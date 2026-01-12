@@ -1,6 +1,15 @@
 import westarLogo from "../assets/brands/Westar-Logo.svg";
+import autoBuffyLogo from "../assets/brands/AutoBuffy-Logo.svg";
 
 export const pressReleases = [
+  {
+    slug: "autobuffy-officially-live",
+    title: "AutoBuffy.com Is Officially Live — Quality Parts, Trusted Brands, Smarter Fitment",
+    date: "January 12, 2026",
+    status: "live",
+    excerpt: "AutoBuffy launches on a new platform built to scale. Carrying trusted brands like FCS, KYB, Monroe, MOOG, Detroit Axle, TrakMotive, Bosch, Dorman, and Westar — with kits on demand, smarter fitment intelligence, and on-the-go installation guidance.",
+    image: autoBuffyLogo,
+  },
   {
     slug: "westar-launches-complete-kits-program",
     title: "Westar Announces New Kits — 1,511 Engine Mount & Air Suspension Kits",

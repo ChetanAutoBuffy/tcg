@@ -6,10 +6,10 @@ export default function AnnouncementTicker({ onContactClick }) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const messages = [
-    { mobile: "Westar Launches 1,511 Complete Kits", desktop: "Westar Launches 1,511 Complete Kits — Engine Mounts & Air Suspension • 36,111 Applications" },
-    { mobile: "1,175 Engine Mount Kits Available", desktop: "1,175 Engine Mount Kits + 336 Air Suspension Kits Now Available" },
-    { mobile: "Verified Fitment • Free Shipping", desktop: "Verified Fitment Data • 5,701 Professional Images • Free Shipping" },
-    { mobile: "Powered by TCG Technology", desktop: "Powered by TCG Technology — ISO-Certified Since 1986" }
+    { mobile: "AutoBuffy.com Is Now Live!", desktop: "AutoBuffy.com Is Officially Live — Quality Parts, Trusted Brands, Smarter Fitment" },
+    { mobile: "FCS • KYB • Monroe • MOOG & More", desktop: "Carrying FCS, KYB, Monroe, MOOG, Detroit Axle, TrakMotive, Bosch, Dorman & Westar" },
+    { mobile: "Kits Built for Your Vehicle", desktop: "Kits on Demand — Built Specifically for Each Vehicle and Repair" },
+    { mobile: "Powered by TCG Technology", desktop: "Powered by TCG Technology — AI-Driven Fitment Intelligence" }
   ];
 
   // Rotate messages every 4 seconds
@@ -52,7 +52,7 @@ export default function AnnouncementTicker({ onContactClick }) {
           {/* Action Buttons */}
           <div className="flex items-center gap-2 flex-shrink-0">
             <Link
-              to="/press/westar-launches-complete-kits-program"
+              to="/press/autobuffy-officially-live"
               className="px-3 py-1 bg-white/10 backdrop-blur-sm border border-white/20 text-white rounded-lg text-[10px] sm:text-xs font-semibold hover:bg-white/20 transition whitespace-nowrap"
             >
               Read Release

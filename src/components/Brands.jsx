@@ -48,13 +48,13 @@ export default function Brands() {
       name: "Auto Buffy",
       logo: autoBuffyLogo,
       description:
-        "Direct-to-consumer brand for complete automotive kits — from suspension assemblies to fitment-verified bundles. Relaunching with expanded catalog and a modern eCommerce stack.",
-      status: { label: "Rebrand in Progress", tone: "yellow" },
+        "AutoBuffy.com is officially live. Quality auto parts from brands you trust — FCS, KYB, Monroe, MOOG, Detroit Axle, TrakMotive, Bosch, Dorman, Westar, and more. Complete kits built for your vehicle with smarter fitment intelligence and on-the-go installation guidance.",
+      status: { label: "Live", tone: "green" },
       focus: "D2C Complete Kits",
-      eta: "Relaunch ETA: Q1 2026",
+      eta: null,
       stats: null,
       colorClass: "hover:brightness-100 hover:saturate-100",
-      hoverColor: "",
+      hoverColor: "hover:drop-shadow-[0_0_15px_rgba(59,130,246,0.6)]",
     },
   ];
 
