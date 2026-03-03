@@ -33,11 +33,10 @@ export default function About() {
       era: "1970s - Present",
       generation: "3rd Generation",
       title: "Distribution & Brand Building",
-      story: "Hardeep Chadha launched Westar in the 1980s, establishing North American distribution and building the engine and transmission mount brand known worldwide today. He bridged manufacturing excellence with market reach.",
+      story: "Hardeep Chadha established North American distribution, bridging manufacturing excellence with market reach and building the foundation for today's multi-brand enterprise.",
       achievements: [
-        "Founded Westar in 1986",
-        "Built Westar into a leading engine mount brand",
         "Established North American distribution networks",
+        "Built industry-leading automotive parts brands",
         "Grew catalog to 3,200+ SKUs with ISO certifications",
       ],
     },
@@ -50,7 +49,6 @@ export default function About() {
       story: "Chetan Chadha is the tech leader of this generation, bridging the AI boom with automotive commerce. A mechanical engineer turned prompt engineer and AI innovator, he's leading the digital transformation of the family enterprise.",
       achievements: [
         "Launched Auto Buffy, RC Automotive, Premium Shocks",
-        "Introduced Westar's new Bush brand",
         "Developed proprietary AI platforms (Buffy360, ab7, ImageIQ, PartsIQ)",
         "Leading Ride360 AI commerce platform development",
         "Established TCG Software arm for custom development",

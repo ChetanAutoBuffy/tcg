@@ -150,7 +150,7 @@ export default function Legacy() {
           {/* Bottom Text + CTA */}
           <div className="mt-16 sm:mt-24 text-center">
             <p className="text-base sm:text-xl text-gray-300 mb-6 sm:mb-8 max-w-4xl mx-auto leading-relaxed">
-              Santokh laid the foundation. Kuldip scaled manufacturing. Hardeep built Westar into the industry standard for engine mounts. Chetan brought AI and automation to make sure every customer gets exactly what they need. That's the TCG way.
+              Santokh laid the foundation. Kuldip scaled manufacturing. Hardeep built the distribution network. Chetan brought AI and automation to make sure every customer gets exactly what they need. That's the TCG way.
             </p>
             <Link 
               to="/about" 
