@@ -1,10 +1,27 @@
 import { useState } from "react";
 import LoadingDots from "./LoadingDots.jsx";
 
+const serviceTypes = [
+  { id: "build", label: "Build a Product", icon: "M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" },
+  { id: "consult", label: "AI Consulting", icon: "M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" },
+  { id: "train", label: "Team Training", icon: "M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" },
+  { id: "other", label: "Other / Not Sure", icon: "M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" },
+];
+
+const budgetRanges = [
+  { id: "small", label: "$5K - $15K", description: "MVP / Small Project" },
+  { id: "medium", label: "$15K - $50K", description: "Standard Project" },
+  { id: "large", label: "$50K+", description: "Enterprise / Complex" },
+  { id: "discuss", label: "Let's Discuss", description: "Not sure yet" },
+];
+
 export default function Contact() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    company: "",
+    service: "",
+    budget: "",
     message: "",
   });
   const [status, setStatus] = useState(null);
@@ -12,6 +29,9 @@ export default function Contact() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus("sending");
+
+    const serviceLabel = serviceTypes.find(s => s.id === formData.service)?.label || formData.service;
+    const budgetLabel = budgetRanges.find(b => b.id === formData.budget)?.label || formData.budget;
 
     try {
       const response = await fetch("https://formsubmit.co/ajax/c.chadha@westarparts.com", {
@@ -23,14 +43,17 @@ export default function Contact() {
         body: JSON.stringify({
           name: formData.name,
           email: formData.email,
+          company: formData.company || "Not provided",
+          service: serviceLabel,
+          budget: budgetLabel,
           message: formData.message,
-          _subject: `New Contact Form Submission from ${formData.name}`,
+          _subject: `New Project Request: ${serviceLabel} from ${formData.name}`,
         }),
       });
 
       if (response.ok) {
         setStatus("success");
-        setFormData({ name: "", email: "", message: "" });
+        setFormData({ name: "", email: "", company: "", service: "", budget: "", message: "" });
         setTimeout(() => setStatus(null), 5000);
       } else {
         setStatus("error");
@@ -41,34 +64,40 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="relative bg-black text-white py-16 sm:py-28 overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.08)_0%,transparent_60%)]" />
-      
+    <section id="contact" className="relative bg-black/50 backdrop-blur-sm text-white py-24 sm:py-32 overflow-hidden">
+      {/* Abstract Background */}
+      <div className="absolute inset-0">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-r from-blue-500/5 via-purple-500/5 to-pink-500/5 rounded-full blur-3xl" />
+      </div>
+
+      {/* Grid Pattern */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.01)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[size:50px_50px]" />
+
       <div className="container-bleed relative z-10">
         <div className="max-w-6xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-12 items-start">
-            {/* Left Side - Contact Info */}
-            <div>
+          <div className="grid lg:grid-cols-5 gap-12 items-start">
+            {/* Left Side - Info */}
+            <div className="lg:col-span-2">
               <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs uppercase tracking-wider text-gray-400 mb-6">
-                Get in Touch
+                Start a Project
               </div>
-              
-              <h2 className="text-3xl sm:text-5xl font-extrabold mb-3 sm:mb-4">
-                Contact the Group
+
+              <h2 className="text-4xl sm:text-5xl font-black mb-4 leading-tight">
+                Let's Build
+                <span className="text-transparent bg-clip-text bg-[linear-gradient(90deg,#2563EB,#9333EA,#EC4899)] animate-flow-synced"> Something</span>
               </h2>
-              
-              <p className="text-base sm:text-xl text-gray-400 mb-8 leading-relaxed">
-                Questions about our brands? Want to learn more about what makes TCG different? Reach out—we're a family business and we actually respond.
+
+              <p className="text-lg text-gray-400 mb-8 leading-relaxed">
+                Tell us about your project. We'll get back to you within 24 hours with a plan and timeline.
               </p>
 
               {/* Quick Links */}
-              <div className="space-y-4 mb-12">
-                
+              <div className="space-y-4 mb-8">
                 <a
                   href="https://www.linkedin.com/in/chetan-chadha-80241465/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex flex-col items-start gap-3 p-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all group text-left sm:flex-row sm:items-center sm:gap-4"
+                  className="flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all group"
                 >
                   <div className="w-12 h-12 rounded-xl bg-[#0077B5]/10 border border-[#0077B5]/20 flex items-center justify-center group-hover:scale-110 transition-transform">
                     <svg className="w-6 h-6 text-[#0077B5]" fill="currentColor" viewBox="0 0 24 24">
@@ -76,100 +105,143 @@ export default function Contact() {
                     </svg>
                   </div>
                   <div className="flex-1">
-                    <div className="font-semibold text-white mb-1 text-base sm:text-lg">Connect on LinkedIn</div>
+                    <div className="font-semibold text-white">Connect on LinkedIn</div>
                     <div className="text-sm text-gray-400">Professional inquiries</div>
                   </div>
                   <svg className="w-5 h-5 text-gray-500 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                   </svg>
                 </a>
-
-                
-                  <div className="flex flex-col items-start gap-3 p-4 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all group text-left sm:flex-row sm:items-center sm:gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center">
-                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                    </svg>
-                  </div>
-                  <div className="flex-1">
-                    <div className="font-semibold text-white mb-1 text-base sm:text-lg">Contact Us</div>
-                    <div className="text-sm text-gray-400">Use the form below to reach us</div>
-                  </div>
-                  <svg className="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                  </svg>
-                </div>
               </div>
 
-              {/* Info */}
-              <div className="space-y-3">
-                <div className="flex items-start gap-3 text-sm text-gray-400">
-                  <svg className="w-5 h-5 text-gray-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  <span>Typical response time: 24 hours</span>
-                </div>
+              {/* Response Time */}
+              <div className="flex items-center gap-3 text-sm text-gray-400">
+                <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                <span>Typical response: under 24 hours</span>
               </div>
             </div>
 
             {/* Right Side - Form */}
-            <div className="lg:pl-8">
-              <div className="rounded-2xl bg-white/5 border border-white/10 p-6 sm:p-8">
-                <h3 className="text-xl sm:text-2xl font-bold mb-6">Send us a message</h3>
-                
-                <form onSubmit={handleSubmit} className="space-y-5">
+            <div className="lg:col-span-3">
+              <div className="bg-white/5 border border-white/10 rounded-3xl p-6 sm:p-8">
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  {/* Service Type */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-400 mb-2">Your Name</label>
+                    <label className="block text-sm font-semibold text-gray-300 mb-3">What do you need?</label>
+                    <div className="grid grid-cols-2 gap-3">
+                      {serviceTypes.map((service) => (
+                        <button
+                          key={service.id}
+                          type="button"
+                          onClick={() => setFormData({ ...formData, service: service.id })}
+                          className={`flex items-center gap-3 p-4 rounded-xl border transition-all text-left ${
+                            formData.service === service.id
+                              ? "bg-white/10 border-white/30 text-white"
+                              : "bg-white/5 border-white/10 text-gray-400 hover:bg-white/10 hover:border-white/20"
+                          }`}
+                        >
+                          <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d={service.icon} />
+                          </svg>
+                          <span className="text-sm font-medium">{service.label}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Budget Range */}
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-300 mb-3">Budget Range</label>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                      {budgetRanges.map((budget) => (
+                        <button
+                          key={budget.id}
+                          type="button"
+                          onClick={() => setFormData({ ...formData, budget: budget.id })}
+                          className={`p-3 rounded-xl border transition-all text-center ${
+                            formData.budget === budget.id
+                              ? "bg-white/10 border-white/30"
+                              : "bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20"
+                          }`}
+                        >
+                          <div className={`text-sm font-bold ${formData.budget === budget.id ? "text-white" : "text-gray-300"}`}>
+                            {budget.label}
+                          </div>
+                          <div className="text-xs text-gray-500 mt-0.5">{budget.description}</div>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Name & Email Row */}
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-300 mb-2">Your Name *</label>
+                      <input
+                        className="w-full rounded-xl bg-black border border-white/10 px-4 py-3 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent transition"
+                        name="name"
+                        type="text"
+                        placeholder="John Doe"
+                        required
+                        value={formData.name}
+                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-300 mb-2">Email *</label>
+                      <input
+                        className="w-full rounded-xl bg-black border border-white/10 px-4 py-3 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent transition"
+                        name="email"
+                        type="email"
+                        placeholder="john@company.com"
+                        required
+                        value={formData.email}
+                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Company */}
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-300 mb-2">Company (optional)</label>
                     <input
                       className="w-full rounded-xl bg-black border border-white/10 px-4 py-3 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent transition"
-                      name="name"
+                      name="company"
                       type="text"
-                      placeholder="John Doe"
-                      required
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                      placeholder="Your company name"
+                      value={formData.company}
+                      onChange={(e) => setFormData({ ...formData, company: e.target.value })}
                     />
                   </div>
 
+                  {/* Message */}
                   <div>
-                    <label className="block text-sm font-medium text-gray-400 mb-2">Your Email</label>
-                    <input
-                      className="w-full rounded-xl bg-black border border-white/10 px-4 py-3 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent transition"
-                      name="email"
-                      type="email"
-                      placeholder="john@company.com"
-                      required
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-400 mb-2">Your Message</label>
+                    <label className="block text-sm font-semibold text-gray-300 mb-2">Tell us about your project *</label>
                     <textarea
                       className="w-full rounded-xl bg-black border border-white/10 px-4 py-3 text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-transparent transition resize-none"
                       name="message"
-                      rows="5"
-                      placeholder="Tell us about your inquiry..."
+                      rows="4"
+                      placeholder="What are you trying to build? What problem are you solving? Any specific technologies or requirements?"
                       required
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                     ></textarea>
                   </div>
 
+                  {/* Submit */}
                   <button
-                    className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-white text-black font-semibold px-5 py-3 text-sm sm:px-6 sm:py-3 sm:text-base hover:bg-gray-200 transition disabled:opacity-50 disabled:cursor-not-allowed group"
+                    className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-white text-black font-bold px-6 py-4 text-base hover:bg-gray-200 transition disabled:opacity-50 disabled:cursor-not-allowed group"
                     type="submit"
                     disabled={status === "sending"}
                   >
                     {status === "sending" ? (
                       <>
                         <LoadingDots colorClass="bg-black/70" />
-                        <span className="text-sm font-medium text-black/70">Sending</span>
+                        <span className="text-sm font-medium text-black/70">Sending...</span>
                       </>
                     ) : (
                       <>
-                        Send Message
+                        Send Project Request
                         <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                         </svg>
@@ -178,17 +250,17 @@ export default function Contact() {
                   </button>
                 </form>
 
-                {/* Toast Notifications */}
+                {/* Status Messages */}
                 {status === "success" && (
-                  <div className="mt-4 p-4 rounded-xl bg-green-500/10 border border-green-500/20 text-green-400 text-sm flex items-start gap-3 animate-in fade-in slide-in-from-bottom-4">
+                  <div className="mt-4 p-4 rounded-xl bg-green-500/10 border border-green-500/20 text-green-400 text-sm flex items-start gap-3">
                     <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
-                    <span>Message sent successfully! We'll get back to you soon.</span>
+                    <span>Request sent! We'll get back to you within 24 hours.</span>
                   </div>
                 )}
                 {status === "error" && (
-                  <div className="mt-4 p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm flex items-start gap-3 animate-in fade-in slide-in-from-bottom-4">
+                  <div className="mt-4 p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm flex items-start gap-3">
                     <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
