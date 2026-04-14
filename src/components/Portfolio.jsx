@@ -2,43 +2,46 @@ import buffy360Logo from "../assets/software/Buffy360-Logo.svg";
 
 const projects = [
   {
+    name: "AutoBuffy",
+    tagline: "AI-Powered Auto Parts Platform",
+    description: "Revolutionary auto parts marketplace powered by AI. Instant part fitment verification, smart search, and automated inventory management across millions of parts.",
+    url: "https://autobuffy.com",
+    stats: [
+      { value: "1M+", label: "Parts Listed" },
+      { value: "AI", label: "Fitment Check" },
+      { value: "24/7", label: "Live Platform" },
+    ],
+    tags: ["Next.js", "AI", "E-commerce", "Automation"],
+    gradient: "from-blue-500 via-cyan-500 to-teal-500",
+    featured: true,
+  },
+  {
     name: "Buffy360",
     tagline: "Commerce Operating System",
     description: "Complete e-commerce platform managing 300K+ SKUs across multiple channels. Automated order routing, inventory sync, and smart pricing.",
+    url: "https://buffy360.com",
     stats: [
       { value: "300K+", label: "SKUs Managed" },
       { value: "5", label: "Sales Channels" },
       { value: "$10M+", label: "Annual GMV" },
     ],
     tags: ["React", "Python", "AWS", "AI"],
-    gradient: "from-blue-500 via-purple-500 to-pink-500",
-    featured: true,
+    gradient: "from-purple-500 via-pink-500 to-rose-500",
+    featured: false,
     logo: buffy360Logo,
   },
   {
-    name: "ab7",
-    tagline: "Automotive Intelligence",
-    description: "AI-powered fitment verification and part matching system. Real-time compatibility checks across thousands of vehicle combinations.",
+    name: "Westar Auto",
+    tagline: "OE-Quality Auto Parts Since 1986",
+    description: "B2B and D2C automotive parts distributor specializing in engine & transmission mounts. Full e-commerce with vehicle fitment, 24-month warranty.",
+    url: "https://westarauto.com",
     stats: [
-      { value: "98%", label: "Accuracy" },
-      { value: "50ms", label: "Response Time" },
-      { value: "1M+", label: "Parts Indexed" },
+      { value: "Since 1986", label: "Est." },
+      { value: "B2B + D2C", label: "Channels" },
+      { value: "Free Ship", label: "Ground" },
     ],
-    tags: ["FastAPI", "PostgreSQL", "ML"],
-    gradient: "from-green-500 via-emerald-500 to-teal-500",
-    featured: false,
-  },
-  {
-    name: "Ride360",
-    tagline: "Fleet Management",
-    description: "Complete vehicle fleet tracking and management platform. Real-time GPS, maintenance scheduling, and driver analytics.",
-    stats: [
-      { value: "Real-time", label: "Tracking" },
-      { value: "100+", label: "Vehicles" },
-      { value: "99.9%", label: "Uptime" },
-    ],
-    tags: ["React", "Node.js", "IoT"],
-    gradient: "from-orange-500 via-amber-500 to-yellow-500",
+    tags: ["Next.js", "E-commerce", "B2B", "SEO"],
+    gradient: "from-amber-500 via-orange-500 to-red-500",
     featured: false,
   },
 ];
@@ -133,15 +136,30 @@ export default function Portfolio() {
                       ))}
                     </div>
 
-                    <a
-                      href="#contact"
-                      className="inline-flex items-center gap-2 text-white font-semibold hover:text-gray-300 transition group/link"
-                    >
-                      Build something like this
-                      <svg className="w-5 h-5 group-hover/link:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                      </svg>
-                    </a>
+                    <div className="flex flex-wrap gap-4">
+                      {project.url && (
+                        <a
+                          href={project.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white text-black font-semibold hover:bg-gray-200 transition group/link"
+                        >
+                          Visit Live Site
+                          <svg className="w-4 h-4 group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                          </svg>
+                        </a>
+                      )}
+                      <a
+                        href="#contact"
+                        className="inline-flex items-center gap-2 text-white font-semibold hover:text-gray-300 transition group/link"
+                      >
+                        Build something like this
+                        <svg className="w-5 h-5 group-hover/link:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                      </a>
+                    </div>
                   </div>
 
                   {/* Right - Stats */}
@@ -165,11 +183,26 @@ export default function Portfolio() {
         <div className="max-w-6xl mx-auto mb-20">
           <div className="grid sm:grid-cols-2 gap-6">
             {projects.filter(p => !p.featured).map((project) => (
-              <div key={project.name} className="group relative bg-white/5 border border-white/10 rounded-2xl p-6 hover:bg-white/10 transition-all">
+              <div key={project.name} className="group relative bg-white/5 border border-white/10 rounded-2xl p-6 hover:bg-white/10 hover:border-white/20 transition-all">
                 {/* Gradient accent */}
                 <div className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${project.gradient} rounded-t-2xl`} />
 
-                <h3 className="text-xl font-bold mb-1 mt-2">{project.name}</h3>
+                <div className="flex items-start justify-between mt-2 mb-1">
+                  <h3 className="text-xl font-bold">{project.name}</h3>
+                  {project.url && (
+                    <a
+                      href={project.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition"
+                      aria-label={`Visit ${project.name}`}
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      </svg>
+                    </a>
+                  )}
+                </div>
                 <div className="text-sm text-gray-500 mb-3">{project.tagline}</div>
                 <p className="text-sm text-gray-400 mb-4">{project.description}</p>
 

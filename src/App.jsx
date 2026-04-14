@@ -2,8 +2,11 @@ import { Routes, Route, Link, Navigate } from "react-router-dom";
 import Hero from "./components/Hero.jsx";
 import HeroMobile from "./components/HeroMobile.jsx";
 import Services from "./components/Services.jsx";
+import ServicesCatalog from "./components/ServicesCatalog.jsx";
+import Packages from "./components/Packages.jsx";
+import IntakeForm from "./components/IntakeForm.jsx";
 import PromptDemo from "./components/PromptDemo.jsx";
-import AITools from "./components/AITools.jsx";
+import Capabilities from "./components/Capabilities.jsx";
 import Portfolio from "./components/Portfolio.jsx";
 import About from "./components/About.jsx";
 import Terms from "./components/Terms.jsx";
@@ -54,9 +57,10 @@ function MainLayout({ children, mobileMenuOpen, setMobileMenuOpen, contactPopupO
             <div className="hidden md:flex items-center gap-6">
               <Link to="/" className="text-sm font-semibold text-white/80 hover:text-white transition">Home</Link>
               <a href="/#services" className="text-sm font-semibold text-white/80 hover:text-white transition">Services</a>
+              <a href="/#packages" className="text-sm font-semibold text-white/80 hover:text-white transition">Packages</a>
               <a href="/#portfolio" className="text-sm font-semibold text-white/80 hover:text-white transition">Work</a>
               <Link to="/about" className="text-sm font-semibold text-white/80 hover:text-white transition">About</Link>
-              <button onClick={() => setContactPopupOpen(true)} className="inline-flex items-center justify-center rounded-xl border border-white/20 px-5 py-2 text-sm font-semibold text-white hover:bg-white/10 transition">Start a Project</button>
+              <a href="/#intake-form" className="inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 px-5 py-2 text-sm font-semibold text-white hover:from-purple-400 hover:to-pink-400 transition-all hover:scale-105 active:scale-95">Get Started</a>
             </div>
             <button type="button" className="md:hidden text-white p-2 rounded-lg bg-white/10 hover:bg-white/20 transition border border-white/20" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} aria-label="Toggle menu">
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -82,9 +86,10 @@ export default function App() {
   const navLinks = [
     { label: "Home", to: "/" },
     { label: "Services", to: "/#services" },
+    { label: "Packages", to: "/#packages" },
     { label: "Work", to: "/#portfolio" },
     { label: "About", to: "/about" },
-    { label: "Terms", to: "/terms" },
+    { label: "Get Started", to: "/#intake-form", highlight: true },
   ];
 
   const layoutProps = { mobileMenuOpen, setMobileMenuOpen, contactPopupOpen, setContactPopupOpen, navLinks };
@@ -103,9 +108,12 @@ export default function App() {
             <div className="block sm:hidden"><HeroMobile /></div>
             <div className="hidden sm:block"><Hero /></div>
             <Services />
+            <ServicesCatalog />
+            <Packages />
+            <Capabilities />
             <PromptDemo />
-            <AITools />
             <Portfolio />
+            <IntakeForm />
             <Contact />
           </MainLayout>
         } />

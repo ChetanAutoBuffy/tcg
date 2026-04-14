@@ -12,7 +12,7 @@ export default function About() {
     },
     {
       title: "AI-Native",
-      description: "We don't just use AI—we've mastered it. Claude, GPT, and cutting-edge tools are core to everything we build.",
+      description: "We don't just use AI—we've mastered it. Cutting-edge AI tools are core to everything we build.",
       icon: "M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z",
     },
     {
@@ -25,7 +25,7 @@ export default function About() {
   const expertise = [
     "Full-Stack Development",
     "AI Agent Development",
-    "Claude & GPT Integration",
+    "AI Integration & Automation",
     "API Design & Architecture",
     "E-commerce Platforms",
     "Real-time Systems",
@@ -95,7 +95,7 @@ export default function About() {
                 <h2 className="text-3xl font-bold mb-2">Chetan Chadha</h2>
                 <p className="text-gray-400 mb-6 leading-relaxed">
                   Mechanical engineer turned prompt engineer. I've spent years mastering AI-assisted development
-                  with Claude Code, Cursor, and the latest AI tools. I've built enterprise platforms, commerce systems,
+                  with the latest AI coding tools. I've built enterprise platforms, commerce systems,
                   and AI agents that power real businesses. Now I help others do the same.
                 </p>
                 <div className="flex flex-wrap gap-3 mb-6">
@@ -112,7 +112,7 @@ export default function About() {
                   </a>
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  {["Claude Code", "Cursor", "React", "Python", "AI Agents"].map((skill) => (
+                  {["AI Development", "Automation", "React", "Python", "AI Agents"].map((skill) => (
                     <span key={skill} className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs text-gray-400">
                       {skill}
                     </span>

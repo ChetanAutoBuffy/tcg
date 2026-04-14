@@ -28,10 +28,10 @@ const services = [
     description: "Not sure how to leverage AI? We help you understand the landscape, choose the right tools, and create a roadmap for AI adoption.",
     features: [
       "AI readiness assessment",
-      "Tool selection (Claude, GPT, etc.)",
+      "Tool selection & integration",
       "Workflow automation strategy",
-      "Integration architecture",
-      "ROI analysis & planning",
+      "Architecture planning",
+      "ROI analysis & roadmapping",
     ],
     gradient: "from-purple-500 to-pink-400",
     bgGlow: "bg-purple-500/20",
@@ -45,10 +45,10 @@ const services = [
     id: "train",
     title: "Train",
     tagline: "Level up your team",
-    description: "Hands-on training for Claude Code, Cursor, and AI-assisted development. Get your team shipping faster with modern AI tools.",
+    description: "Hands-on training for AI-assisted development. Get your team shipping faster with modern AI tools.",
     features: [
-      "Claude Code mastery",
-      "Cursor & AI IDE training",
+      "AI coding assistants mastery",
+      "AI IDE & tooling training",
       "Prompt engineering workshops",
       "Best practices & workflows",
       "Custom training programs",
@@ -189,6 +189,18 @@ export default function Services() {
                 <div className="text-xs sm:text-sm text-gray-500 mt-1">{stat.label}</div>
               </div>
             ))}
+          </div>
+          {/* CTA to Packages */}
+          <div className="max-w-3xl mx-auto text-center mt-16">
+            <a
+              href="#packages"
+              className="inline-flex items-center gap-2 text-lg font-semibold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 hover:from-purple-300 hover:to-pink-300 transition-all duration-300 group"
+            >
+              See Our Packages
+              <svg className="w-5 h-5 text-purple-400 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </a>
           </div>
         </div>
       </div>

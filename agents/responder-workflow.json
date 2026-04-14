@@ -1,0 +1,270 @@
+{
+  "name": "TCG Auto-Responder Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "simple": {
+          "labelIds": [
+            "Label_Leads"
+          ],
+          "format": "resolved"
+        }
+      },
+      "id": "gmail-trigger",
+      "name": "Gmail Trigger - Watch Leads",
+      "type": "n8n-nodes-base.gmailTrigger",
+      "typeVersion": 1,
+      "position": [
+        240,
+        300
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "1",
+          "name": "Gmail OAuth2 account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false
+          },
+          "combinator": "or",
+          "conditions": [
+            {
+              "id": "condition-1",
+              "leftValue": "={{ $json.subject }}",
+              "rightValue": "Re:",
+              "operator": {
+                "type": "string",
+                "operation": "startsWith"
+              }
+            },
+            {
+              "id": "condition-2",
+              "leftValue": "={{ $json.from }}",
+              "rightValue": "formsubmit.co",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "condition-3",
+              "leftValue": "={{ $json.from }}",
+              "rightValue": "tcgservices.com",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ]
+        }
+      },
+      "id": "filter-replies",
+      "name": "Filter: Is Reply or Contact Form",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        460,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.anthropic.com/v1/messages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-api-key",
+              "value": "={{$credentials.ANTHROPIC_API_KEY}}"
+            },
+            {
+              "name": "anthropic-version",
+              "value": "2023-06-01"
+            },
+            {
+              "name": "content-type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "model",
+              "value": "claude-3-5-haiku-20241022"
+            },
+            {
+              "name": "max_tokens",
+              "value": 1024
+            },
+            {
+              "name": "system",
+              "value": "You are an AI assistant representing The Chadha Group (TCG), an AI-native software studio. Your role is to respond professionally to customer inquiries and leads.\n\n# About TCG\nTCG is an AI-native software studio founded by Chetan Chadha. We build production-ready software using AI-accelerated development.\n\n# Services\n- Build: Full-stack web & mobile apps, AI-powered features, APIs, cloud infrastructure\n- Consult: AI strategy & integration, tool selection, workflow automation\n- Train: AI coding assistants training, prompt engineering workshops\n\n# Packages\n- Starter: $1,500 (MVPs, simple integrations, 1 week delivery)\n- Business: $3,500 (Full web apps, AI features, 3 weeks delivery)\n- Pro: $7,000 (Complex platforms, AI-first products, 6-8 weeks delivery)\n- Enterprise: Custom pricing\n\n# Portfolio\n- AutoBuffy: AI-powered auto parts platform (1M+ parts)\n- Buffy360: E-commerce OS managing 300K+ SKUs\n- Westar Auto: B2B/D2C auto parts distributor\n\n# Response Guidelines\n- Be professional yet friendly\n- Keep responses concise (3-5 paragraphs)\n- Acknowledge their specific needs\n- Suggest relevant package or service\n- Include clear call-to-action with Calendly link\n- For hot leads (mentioned budget/timeline), prioritize booking a call\n\n# Calendar Link\nUse this Calendly link for all scheduling: [CALENDLY_LINK]\n\nWebsite: https://tcgservices.com\n\nRespond to the email below in a helpful, professional manner."
+            },
+            {
+              "name": "messages",
+              "value": "=[{\"role\": \"user\", \"content\": \"Email Subject: {{ $json.subject }}\\n\\nFrom: {{ $json.from }}\\n\\nEmail Body:\\n{{ $json.textPlain || $json.textHtml }}\"}]"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "anthropic-api",
+      "name": "Claude Haiku - Generate Response",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        680,
+        300
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "2",
+          "name": "Anthropic API Key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "reply",
+        "emailId": "={{ $('Gmail Trigger - Watch Leads').item.json.id }}",
+        "message": "={{ $json.content[0].text }}",
+        "options": {
+          "ccList": "",
+          "bccList": "",
+          "replyToSenderOnly": true
+        }
+      },
+      "id": "gmail-draft",
+      "name": "Gmail - Create Draft Reply",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        900,
+        300
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "1",
+          "name": "Gmail OAuth2 account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C01234567",
+          "mode": "list",
+          "cachedResultName": "#leads"
+        },
+        "text": "=🤖 **New Lead Reply Drafted**\n\n**From:** {{ $('Gmail Trigger - Watch Leads').item.json.from }}\n**Subject:** {{ $('Gmail Trigger - Watch Leads').item.json.subject }}\n\n**Draft Preview:**\n{{ $json.content[0].text.substring(0, 200) }}...\n\n_Draft created and ready for review in Gmail._",
+        "otherOptions": {}
+      },
+      "id": "slack-notification",
+      "name": "Slack - Notify Chetan",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.1,
+      "position": [
+        1120,
+        300
+      ],
+      "credentials": {
+        "slackApi": {
+          "id": "3",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "no-op-false",
+      "name": "Not a Reply - Skip",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        680,
+        480
+      ]
+    }
+  ],
+  "connections": {
+    "Gmail Trigger - Watch Leads": {
+      "main": [
+        [
+          {
+            "node": "Filter: Is Reply or Contact Form",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter: Is Reply or Contact Form": {
+      "main": [
+        [
+          {
+            "node": "Claude Haiku - Generate Response",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Not a Reply - Skip",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Claude Haiku - Generate Response": {
+      "main": [
+        [
+          {
+            "node": "Gmail - Create Draft Reply",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail - Create Draft Reply": {
+      "main": [
+        [
+          {
+            "node": "Slack - Notify Chetan",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2026-04-13T00:00:00.000Z",
+  "versionId": "1"
+}

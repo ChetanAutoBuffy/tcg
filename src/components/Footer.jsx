@@ -65,7 +65,7 @@ export default function Footer() {
 
           {/* Tech Stack Badges */}
           <div className="flex flex-wrap justify-center gap-2 mb-8">
-            {["Claude", "React", "Python", "AWS", "TypeScript"].map((tech) => (
+            {["AI Native", "React", "Python", "AWS", "TypeScript"].map((tech) => (
               <span key={tech} className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs text-gray-500">
                 {tech}
               </span>

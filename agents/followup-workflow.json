@@ -1,0 +1,343 @@
+{
+  "name": "TCG Follow-Up Nurture Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 9
+            }
+          ]
+        }
+      },
+      "id": "schedule-trigger",
+      "name": "Schedule - Daily 9am ET",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        240,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "read",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_GOOGLE_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "TCG Lead Pipeline"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Status",
+              "lookupValue": "Contacted"
+            }
+          ]
+        },
+        "options": {
+          "rangeDefinition": "specifyRange",
+          "range": "A:H"
+        }
+      },
+      "id": "google-sheets-read",
+      "name": "Google Sheets - Read Contacted Leads",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.4,
+      "position": [
+        460,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "4",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Filter leads where last_contact_date is 3+ days ago\nconst today = new Date();\nconst threeDaysAgo = new Date(today.getTime() - (3 * 24 * 60 * 60 * 1000));\n\nconst staleLeads = [];\n\nfor (const item of $input.all()) {\n  const dateField = item.json.Date || item.json.last_contact_date;\n  \n  if (dateField) {\n    const contactDate = new Date(dateField);\n    \n    // If contact was 3+ days ago, add to stale leads\n    if (contactDate <= threeDaysAgo) {\n      staleLeads.push(item);\n    }\n  }\n}\n\nreturn staleLeads;"
+      },
+      "id": "filter-stale-leads",
+      "name": "Code - Filter Stale Leads (3+ Days)",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        680,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "batchSize": 1,
+        "options": {}
+      },
+      "id": "loop-leads",
+      "name": "Loop Over Stale Leads",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        900,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.anthropic.com/v1/messages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-api-key",
+              "value": "={{$credentials.ANTHROPIC_API_KEY}}"
+            },
+            {
+              "name": "anthropic-version",
+              "value": "2023-06-01"
+            },
+            {
+              "name": "content-type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "model",
+              "value": "claude-3-5-haiku-20241022"
+            },
+            {
+              "name": "max_tokens",
+              "value": 1024
+            },
+            {
+              "name": "system",
+              "value": "You are an AI assistant representing The Chadha Group (TCG), an AI-native software studio. Your role is to craft warm, helpful follow-up emails for leads who haven't responded in 3+ days.\n\n# About TCG\nTCG is an AI-native software studio founded by Chetan Chadha. We build production-ready software using AI-accelerated development.\n\n# Services\n- Build: Full-stack web & mobile apps, AI-powered features, APIs, cloud infrastructure\n- Consult: AI strategy & integration, tool selection, workflow automation\n- Train: AI coding assistants training, prompt engineering workshops\n\n# Packages\n- Starter: $1,500 (MVPs, simple integrations, 1 week delivery)\n- Business: $3,500 (Full web apps, AI features, 3 weeks delivery)\n- Pro: $7,000 (Complex platforms, AI-first products, 6-8 weeks delivery)\n- Enterprise: Custom pricing\n\n# Portfolio\n- AutoBuffy: AI-powered auto parts platform (1M+ parts)\n- Buffy360: E-commerce OS managing 300K+ SKUs\n- Westar Auto: B2B/D2C auto parts distributor\n\n# Follow-Up Guidelines\n- Keep it short and friendly (2-3 paragraphs max)\n- Acknowledge they may be busy\n- Provide additional value or insight\n- Gently remind them of the opportunity\n- Include a soft call-to-action (Calendly or reply)\n- Don't be pushy or sales-y\n- Show genuine interest in helping\n\n# Calendar Link\nUse this Calendly link: [CALENDLY_LINK]\n\nWebsite: https://tcgservices.com\n\nCraft a warm follow-up email for this lead."
+            },
+            {
+              "name": "messages",
+              "value": "=[{\"role\": \"user\", \"content\": \"Lead Details:\\n\\nName: {{ $json.Name }}\\nEmail: {{ $json.Email }}\\nService Interested In: {{ $json.Service }}\\nBudget: {{ $json.Budget }}\\nOriginal Message: {{ $json.Notes }}\\n\\nLast Contact Date: {{ $json.Date }}\\n\\nPlease write a friendly follow-up email to re-engage this lead.\"}]"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "anthropic-followup",
+      "name": "Claude Haiku - Generate Follow-Up",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1120,
+        300
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "2",
+          "name": "Anthropic API Key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "draft",
+        "sendTo": "={{ $json.Email }}",
+        "subject": "=Following up - {{ $json.Service || 'Your Project' }}",
+        "message": "={{ $('Claude Haiku - Generate Follow-Up').item.json.content[0].text }}",
+        "options": {
+          "senderName": "Chetan Chadha - TCG"
+        }
+      },
+      "id": "gmail-draft-followup",
+      "name": "Gmail - Create Follow-Up Draft",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1340,
+        300
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "1",
+          "name": "Gmail OAuth2 account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "id": "loop-back",
+      "name": "Loop Back to Next Lead",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1560,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C01234567",
+          "mode": "list",
+          "cachedResultName": "#leads"
+        },
+        "text": "=📬 **Follow-Up Nurture Complete**\n\n**{{ $('Code - Filter Stale Leads (3+ Days)').all().length }}** follow-up drafts created for stale leads.\n\n_Drafts are ready for review in Gmail._",
+        "otherOptions": {}
+      },
+      "id": "slack-summary",
+      "name": "Slack - Daily Summary Notification",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.1,
+      "position": [
+        1120,
+        480
+      ],
+      "credentials": {
+        "slackApi": {
+          "id": "3",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ $('Code - Filter Stale Leads (3+ Days)').all().length }}",
+              "operation": "larger",
+              "value2": 0
+            }
+          ]
+        }
+      },
+      "id": "check-if-stale-leads",
+      "name": "Check If Any Stale Leads",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        680,
+        480
+      ]
+    }
+  ],
+  "connections": {
+    "Schedule - Daily 9am ET": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Read Contacted Leads",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Read Contacted Leads": {
+      "main": [
+        [
+          {
+            "node": "Code - Filter Stale Leads (3+ Days)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code - Filter Stale Leads (3+ Days)": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Stale Leads",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Check If Any Stale Leads",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Stale Leads": {
+      "main": [
+        [
+          {
+            "node": "Claude Haiku - Generate Follow-Up",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Claude Haiku - Generate Follow-Up": {
+      "main": [
+        [
+          {
+            "node": "Gmail - Create Follow-Up Draft",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail - Create Follow-Up Draft": {
+      "main": [
+        [
+          {
+            "node": "Loop Back to Next Lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Back to Next Lead": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Stale Leads",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check If Any Stale Leads": {
+      "main": [
+        [
+          {
+            "node": "Slack - Daily Summary Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2026-04-13T00:00:00.000Z",
+  "versionId": "1"
+}

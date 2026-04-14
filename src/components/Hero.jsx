@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 const codeSnippets = [
-  "const ai = await claude.init();",
+  "const ai = await init();",
   "deploy({ target: 'production' });",
   "ship.fast({ quality: 'max' });",
   "automate.everything();",
@@ -117,7 +117,7 @@ export default function Hero() {
         {/* Subhead */}
         <p className="text-lg sm:text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed mb-6">
           Custom software, AI integration, and automation—built at the speed of thought.
-          We leverage Claude, GPT, and cutting-edge AI to ship what others can't.
+          46 services. Same-day delivery. We ship what others can't.
         </p>
 
         <p className="text-base text-gray-500 max-w-xl mx-auto mb-12">

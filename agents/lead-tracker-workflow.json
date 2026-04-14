@@ -1,0 +1,312 @@
+{
+  "name": "TCG Lead Tracker Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "tcg-lead-submission",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-trigger",
+      "name": "Webhook - FormSubmit Contact Form",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1.1,
+      "position": [
+        240,
+        300
+      ],
+      "webhookId": "tcg-lead-webhook"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_GOOGLE_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "TCG Lead Pipeline"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Date": "={{ $now.toFormat('yyyy-MM-dd HH:mm:ss') }}",
+            "Name": "={{ $json.name || $json.Name || 'N/A' }}",
+            "Email": "={{ $json.email || $json.Email || 'N/A' }}",
+            "Source": "=Contact Form",
+            "Service": "={{ $json.service || $json['Service Type'] || 'General Inquiry' }}",
+            "Budget": "={{ $json.budget || $json.Budget || 'Not specified' }}",
+            "Status": "=New",
+            "Notes": "={{ $json.message || $json.Message || '' }}"
+          }
+        },
+        "options": {}
+      },
+      "id": "google-sheets-append",
+      "name": "Google Sheets - Append Lead",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.4,
+      "position": [
+        460,
+        300
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "4",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": false
+          },
+          "combinator": "or",
+          "conditions": [
+            {
+              "id": "hot-lead-1",
+              "leftValue": "={{ $json.Budget || $json.budget || '' }}",
+              "rightValue": "$5,000",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "hot-lead-2",
+              "leftValue": "={{ $json.Budget || $json.budget || '' }}",
+              "rightValue": "Pro",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "hot-lead-3",
+              "leftValue": "={{ $json.Budget || $json.budget || '' }}",
+              "rightValue": "enterprise",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "hot-lead-4",
+              "leftValue": "={{ $json.Budget || $json.budget || '' }}",
+              "rightValue": "custom",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            },
+            {
+              "id": "hot-lead-5",
+              "leftValue": "={{ $json['Service Type'] || $json.service || '' }}",
+              "rightValue": "Pro",
+              "operator": {
+                "type": "string",
+                "operation": "contains"
+              }
+            }
+          ]
+        }
+      },
+      "id": "filter-hot-leads",
+      "name": "Filter: Is Hot Lead?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        680,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Webhook - FormSubmit Contact Form').item.json.email || $('Webhook - FormSubmit Contact Form').item.json.Email }}",
+        "subject": "=Let's Get Started - TCG",
+        "emailType": "html",
+        "message": "=<!DOCTYPE html>\n<html>\n<head>\n  <style>\n    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #333; }\n    .container { max-width: 600px; margin: 0 auto; padding: 20px; }\n    .header { background: linear-gradient(135deg, #2563EB 0%, #9333EA 100%); color: white; padding: 30px; text-align: center; border-radius: 8px; }\n    .content { background: #f9fafb; padding: 30px; margin-top: 20px; border-radius: 8px; }\n    .cta-button { display: inline-block; background: #2563EB; color: white; padding: 14px 28px; text-decoration: none; border-radius: 8px; font-weight: bold; margin: 20px 0; }\n    .footer { text-align: center; color: #6b7280; font-size: 14px; margin-top: 30px; }\n  </style>\n</head>\n<body>\n  <div class=\"container\">\n    <div class=\"header\">\n      <h1>Thanks for Reaching Out!</h1>\n    </div>\n    <div class=\"content\">\n      <p>Hi {{ $('Webhook - FormSubmit Contact Form').item.json.name || $('Webhook - FormSubmit Contact Form').item.json.Name }},</p>\n      \n      <p>Thanks for your interest in TCG! I'm excited to learn more about your <strong>{{ $('Webhook - FormSubmit Contact Form').item.json.service || $('Webhook - FormSubmit Contact Form').item.json['Service Type'] || 'project' }}</strong>.</p>\n      \n      <p>Based on your inquiry, I'd love to hop on a quick 15-minute call to discuss your needs and see how we can help. We've built AI-powered platforms like AutoBuffy and Buffy360, and we can deliver production-ready software in weeks, not months.</p>\n      \n      <p style=\"text-align: center;\">\n        <a href=\"[CALENDLY_LINK]\" class=\"cta-button\">Schedule a Call</a>\n      </p>\n      \n      <p>Or feel free to reply to this email with any questions!</p>\n      \n      <p>Looking forward to connecting,<br>\n      <strong>Chetan Chadha</strong><br>\n      Founder, The Chadha Group<br>\n      <a href=\"https://tcgservices.com\">tcgservices.com</a></p>\n    </div>\n    <div class=\"footer\">\n      <p>The Chadha Group | AI-Native Software Studio</p>\n    </div>\n  </div>\n</body>\n</html>",
+        "options": {
+          "senderName": "Chetan Chadha - TCG"
+        }
+      },
+      "id": "gmail-send-hot-lead",
+      "name": "Gmail - Send Hot Lead Email",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        900,
+        200
+      ],
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "1",
+          "name": "Gmail OAuth2 account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C01234567",
+          "mode": "list",
+          "cachedResultName": "#leads"
+        },
+        "text": "=🔥 **HOT LEAD - Fast Track!**\n\n**Name:** {{ $('Webhook - FormSubmit Contact Form').item.json.name || $('Webhook - FormSubmit Contact Form').item.json.Name }}\n**Email:** {{ $('Webhook - FormSubmit Contact Form').item.json.email || $('Webhook - FormSubmit Contact Form').item.json.Email }}\n**Service:** {{ $('Webhook - FormSubmit Contact Form').item.json.service || $('Webhook - FormSubmit Contact Form').item.json['Service Type'] || 'General' }}\n**Budget:** {{ $('Webhook - FormSubmit Contact Form').item.json.budget || $('Webhook - FormSubmit Contact Form').item.json.Budget || 'Not specified' }}\n\n**Message:**\n{{ $('Webhook - FormSubmit Contact Form').item.json.message || $('Webhook - FormSubmit Contact Form').item.json.Message || 'N/A' }}\n\n✅ Calendly link sent automatically",
+        "otherOptions": {}
+      },
+      "id": "slack-hot-lead",
+      "name": "Slack - Hot Lead Notification",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.1,
+      "position": [
+        1120,
+        200
+      ],
+      "credentials": {
+        "slackApi": {
+          "id": "3",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C01234567",
+          "mode": "list",
+          "cachedResultName": "#leads"
+        },
+        "text": "=📨 **New Lead Logged**\n\n**Name:** {{ $('Webhook - FormSubmit Contact Form').item.json.name || $('Webhook - FormSubmit Contact Form').item.json.Name }}\n**Email:** {{ $('Webhook - FormSubmit Contact Form').item.json.email || $('Webhook - FormSubmit Contact Form').item.json.Email }}\n**Service:** {{ $('Webhook - FormSubmit Contact Form').item.json.service || $('Webhook - FormSubmit Contact Form').item.json['Service Type'] || 'General' }}\n**Budget:** {{ $('Webhook - FormSubmit Contact Form').item.json.budget || $('Webhook - FormSubmit Contact Form').item.json.Budget || 'Not specified' }}\n\n**Message:**\n{{ $('Webhook - FormSubmit Contact Form').item.json.message || $('Webhook - FormSubmit Contact Form').item.json.Message || 'N/A' }}",
+        "otherOptions": {}
+      },
+      "id": "slack-regular-lead",
+      "name": "Slack - Regular Lead Notification",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.1,
+      "position": [
+        900,
+        400
+      ],
+      "credentials": {
+        "slackApi": {
+          "id": "3",
+          "name": "Slack account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "=Thank you for contacting TCG! We've received your message and will get back to you within 24 hours.",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "webhook-response",
+      "name": "Webhook Response - Success",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1120,
+        400
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook - FormSubmit Contact Form": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets - Append Lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets - Append Lead": {
+      "main": [
+        [
+          {
+            "node": "Filter: Is Hot Lead?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter: Is Hot Lead?": {
+      "main": [
+        [
+          {
+            "node": "Gmail - Send Hot Lead Email",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Slack - Regular Lead Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gmail - Send Hot Lead Email": {
+      "main": [
+        [
+          {
+            "node": "Slack - Hot Lead Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Slack - Hot Lead Notification": {
+      "main": [
+        [
+          {
+            "node": "Webhook Response - Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Slack - Regular Lead Notification": {
+      "main": [
+        [
+          {
+            "node": "Webhook Response - Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2026-04-13T00:00:00.000Z",
+  "versionId": "1"
+}

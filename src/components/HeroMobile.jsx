@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 const codeSnippets = [
-  "const ai = await claude.init();",
+  "const ai = await init();",
   "deploy({ target: 'prod' });",
   "ship.fast({ quality: 'max' });",
 ];
