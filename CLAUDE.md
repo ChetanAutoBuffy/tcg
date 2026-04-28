@@ -1,6 +1,6 @@
 # CLAUDE.md - TCG Landing Project
 
-**Last Updated:** December 7, 2025
+**Last Updated:** April 21, 2026
 
 ---
 
@@ -11,10 +11,54 @@
 .claude/ui-ux-quality-agent.md
 ```
 
+**Before doing ANY Upwork bidding / proposal work (scheduled runs or ad-hoc), Claude MUST read:**
+```
+upwork/proposals/_templates/README.md
+```
+
 **This is NOT optional.** The UI/UX Quality Agent runs in parallel with all frontend tasks. It checks and fixes:
 - Touch targets, contrast, states, animations, mobile, spacing, CRO
 
 **At the end of frontend work, output the UI/UX Quality Scan checklist from that file.**
+
+---
+
+## MANDATORY: Upwork Bidding Workflow
+
+When Chetan pastes Upwork job posts (on a schedule or manually), follow this process every time:
+
+### Output per bid (saved to `upwork/proposals/YYYY-MM-DD_firstname-lastinitial_job-keyword/`)
+
+1. **`proposal.txt`** — 1500-char max Upwork message, copy-paste ready
+2. **`proposal.pdf`** — custom branded 1-2 page PDF, attached to the bid
+3. **`reference.txt`** — job post + client details + fit score + angle + why we bid
+
+### Proposal rules (apply to both proposal.txt and proposal.pdf)
+
+- **Open with ONE specific sentence quoting the client's post** (prove we read it)
+- **NEVER offer Loom videos** — close with "Happy to answer questions over message or jump on a quick call"
+- **NO URLs, .com patterns, email, or phone** — Upwork sanitizer blocks them
+- Use "and" not "/" (write "Claude and OpenAI", not "Claude/OpenAI")
+- Say "Make" not "Make.com"
+- Anchor on fixed-price ladder: **$197 / $497 / $997** (Starter / Build / Premium)
+- Reference ONE relevant portfolio asset by name: TCG Agent Army, AutoBuffy, Buffy360/Shipping Hub, AI Automation Scripts, TCG Agency Website
+- Fixed-price only, unless job post explicitly demands hourly
+
+### Scoring (1-10 fit)
+
+Green flags (raise score): posted <2hrs, <10 proposals, budget $200-$2000, fixed-price, payment verified, 90%+ hire rate, clear scope
+Red flags (drop or skip): live-call required, budget >$5000, scope unclear, unverified payment, synchronous US-hours requirement, long-term FTE dressed as project
+
+Only draft full proposals for jobs scoring **7+**.
+
+### PDF template structure
+
+**Page 1:** Header with "Proposal for [Client First Name]" → Your Problem (2-3 sentence paraphrase) → Proposed Solution (bulleted, specific) → Timeline + Deliverables
+**Page 2 (optional):** Price ladder → Relevant portfolio piece w/ screenshot + one-line result → About TCG (3 sentences) → Next step
+
+### Full workflow spec
+
+See `upwork/proposals/_templates/README.md` for templates, naming conventions, and reference.txt schema.
 
 ---
 

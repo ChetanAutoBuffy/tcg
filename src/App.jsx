@@ -5,6 +5,11 @@ import Services from "./components/Services.jsx";
 import ServicesCatalog from "./components/ServicesCatalog.jsx";
 import Packages from "./components/Packages.jsx";
 import IntakeForm from "./components/IntakeForm.jsx";
+import ProductsIndex from "./components/ProductsIndex.jsx";
+import ProductPage from "./components/ProductPage.jsx";
+import BlogIndex from "./components/BlogIndex.jsx";
+import BlogPost from "./components/BlogPost.jsx";
+import AdminDashboard from "./components/AdminDashboard.jsx";
 import PromptDemo from "./components/PromptDemo.jsx";
 import Capabilities from "./components/Capabilities.jsx";
 import Portfolio from "./components/Portfolio.jsx";
@@ -57,8 +62,10 @@ function MainLayout({ children, mobileMenuOpen, setMobileMenuOpen, contactPopupO
             <div className="hidden md:flex items-center gap-6">
               <Link to="/" className="text-sm font-semibold text-white/80 hover:text-white transition">Home</Link>
               <a href="/#services" className="text-sm font-semibold text-white/80 hover:text-white transition">Services</a>
+              <Link to="/products" className="text-sm font-semibold text-white/80 hover:text-white transition">Products</Link>
               <a href="/#packages" className="text-sm font-semibold text-white/80 hover:text-white transition">Packages</a>
               <a href="/#portfolio" className="text-sm font-semibold text-white/80 hover:text-white transition">Work</a>
+              <Link to="/blog" className="text-sm font-semibold text-white/80 hover:text-white transition">Blog</Link>
               <Link to="/about" className="text-sm font-semibold text-white/80 hover:text-white transition">About</Link>
               <a href="/#intake-form" className="inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-purple-500 to-pink-500 px-5 py-2 text-sm font-semibold text-white hover:from-purple-400 hover:to-pink-400 transition-all hover:scale-105 active:scale-95">Get Started</a>
             </div>
@@ -86,7 +93,9 @@ export default function App() {
   const navLinks = [
     { label: "Home", to: "/" },
     { label: "Services", to: "/#services" },
+    { label: "Products", to: "/products" },
     { label: "Packages", to: "/#packages" },
+    { label: "Blog", to: "/blog" },
     { label: "Work", to: "/#portfolio" },
     { label: "About", to: "/about" },
     { label: "Get Started", to: "/#intake-form", highlight: true },
@@ -119,6 +128,11 @@ export default function App() {
         } />
         <Route path="/about" element={<MainLayout {...layoutProps}><About /></MainLayout>} />
         <Route path="/terms" element={<MainLayout {...layoutProps}><Terms /></MainLayout>} />
+        <Route path="/products" element={<MainLayout {...layoutProps}><ProductsIndex /></MainLayout>} />
+        <Route path="/products/:slug" element={<MainLayout {...layoutProps}><ProductPage /></MainLayout>} />
+        <Route path="/blog" element={<MainLayout {...layoutProps}><BlogIndex /></MainLayout>} />
+        <Route path="/blog/:slug" element={<MainLayout {...layoutProps}><BlogPost /></MainLayout>} />
+        <Route path="/admin" element={<MainLayout {...layoutProps}><AdminDashboard /></MainLayout>} />
       </Routes>
     </>
   );
