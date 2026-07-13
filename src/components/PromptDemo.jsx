@@ -140,7 +140,7 @@ export default function PromptDemo() {
               <div className="text-xs text-gray-500">Faster Development</div>
             </div>
             <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-              <div className="text-2xl sm:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">2025</div>
+              <div className="text-2xl sm:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">2026</div>
               <div className="text-xs text-gray-500">AI Everywhere</div>
             </div>
             <div className="bg-white/5 border border-white/10 rounded-xl p-4">

@@ -3,7 +3,7 @@ export default function Packages() {
     {
       id: "sprint",
       name: "SPRINT",
-      price: "Scoped to fit",
+      price: "Contact Us",
       tagline: "One focused build, fast",
       description: "A single high-impact piece—a storefront, a catalog tool, or an AI agent—shipped in days.",
       whatYouGet: [
@@ -40,7 +40,7 @@ export default function Packages() {
     {
       id: "overhaul",
       name: "OVERHAUL",
-      price: "Scoped to fit",
+      price: "Contact Us",
       tagline: "Full web + catalog overhaul",
       description: "A complete storefront or B2B portal with your catalog, fitment, and content cleaned up and AI-accelerated.",
       whatYouGet: [
@@ -85,7 +85,7 @@ export default function Packages() {
     {
       id: "platform",
       name: "PLATFORM",
-      price: "Scoped to fit",
+      price: "Contact Us",
       tagline: "Custom platform + AI agents",
       description: "A full commerce platform with AI search, real-time inventory, marketplace sync, and agents built in.",
       whatYouGet: [
@@ -148,7 +148,7 @@ export default function Packages() {
     },
     {
       name: "AI Consulting",
-      price: "Advisory",
+      price: "$500 / hr",
       detail: "Savings analysis, strategy, roadmapping"
     },
   ];
@@ -176,7 +176,7 @@ export default function Packages() {
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-orange-400"> Not Months</span>
           </h2>
           <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-            AI writes your copy. We design, build, and deploy. You approve and launch.
+            We scope it, build it with AI, and ship it. Every engagement is custom—so the price is too.
           </p>
         </div>
 
@@ -209,7 +209,7 @@ export default function Packages() {
                     <span className="text-xs font-medium text-gray-400 bg-white/5 px-2 py-1 rounded">{pkg.delivery}</span>
                   </div>
                   <div className="text-3xl font-black text-white mb-1">{pkg.price}</div>
-                  <div className="text-[11px] text-gray-500 mb-2">Every project quoted after we scope it — no fixed pricing</div>
+                  <div className="text-[11px] text-gray-500 mb-2">Custom-scoped and quoted for your business</div>
                   <div className={`text-sm font-semibold bg-gradient-to-r ${pkg.gradient} bg-clip-text text-transparent`}>
                     {pkg.tagline}
                   </div>
@@ -309,6 +309,9 @@ export default function Packages() {
           </div>
 
           <div className="text-center mt-10">
+            <p className="text-xs text-gray-500 max-w-xl mx-auto mb-6">
+              Every engagement is custom-scoped and quoted. We don't take on projects under $500. Advisory &amp; consulting from $500/hr.
+            </p>
             <a
               href="#intake-form"
               className="inline-flex items-center gap-2 text-gray-400 hover:text-white text-sm font-medium transition-colors"

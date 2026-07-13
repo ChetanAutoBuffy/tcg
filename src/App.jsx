@@ -5,8 +5,6 @@ import Services from "./components/Services.jsx";
 import ServicesCatalog from "./components/ServicesCatalog.jsx";
 import Packages from "./components/Packages.jsx";
 import IntakeForm from "./components/IntakeForm.jsx";
-import ProductsIndex from "./components/ProductsIndex.jsx";
-import ProductPage from "./components/ProductPage.jsx";
 import BlogIndex from "./components/BlogIndex.jsx";
 import BlogPost from "./components/BlogPost.jsx";
 import AdminDashboard from "./components/AdminDashboard.jsx";
@@ -135,8 +133,9 @@ export default function App() {
         <Route path="/custom-software" element={<MainLayout {...layoutProps}><CustomSoftware /></MainLayout>} />
         <Route path="/chetan" element={<MainLayout {...layoutProps}><Founder /></MainLayout>} />
         <Route path="/terms" element={<MainLayout {...layoutProps}><Terms /></MainLayout>} />
-        <Route path="/products" element={<MainLayout {...layoutProps}><ProductsIndex /></MainLayout>} />
-        <Route path="/products/:slug" element={<MainLayout {...layoutProps}><ProductPage /></MainLayout>} />
+        {/* Old generic product catalog parked — funnel any interest to contact */}
+        <Route path="/products" element={<Navigate to="/#intake-form" replace />} />
+        <Route path="/products/:slug" element={<Navigate to="/#intake-form" replace />} />
         <Route path="/blog" element={<MainLayout {...layoutProps}><BlogIndex /></MainLayout>} />
         <Route path="/blog/:slug" element={<MainLayout {...layoutProps}><BlogPost /></MainLayout>} />
         <Route path="/admin" element={<MainLayout {...layoutProps}><AdminDashboard /></MainLayout>} />
