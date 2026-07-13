@@ -1,23 +1,23 @@
 export default function Packages() {
   const packages = [
     {
-      id: "starter",
-      name: "STARTER",
-      price: "$1,500",
-      tagline: "Launch in 72 hours",
-      description: "One high-converting landing page. AI writes the copy, we design & deploy.",
+      id: "sprint",
+      name: "SPRINT",
+      price: "Scoped to fit",
+      tagline: "One focused build, fast",
+      description: "A single high-impact piece—a storefront, a catalog tool, or an AI agent—shipped in days.",
       whatYouGet: [
         {
-          title: "1 Landing Page",
-          detail: "Like AutoBuffy's homepage — hero, features, testimonials, CTA",
+          title: "One Focused Deliverable",
+          detail: "A landing page, product tool, or single AI automation",
         },
         {
-          title: "AI-Written Copy",
-          detail: "Claude generates headlines, CTAs, and product descriptions",
+          title: "AI-Written Copy & Data",
+          detail: "Claude generates titles, descriptions, and product content",
         },
         {
-          title: "Contact Form",
-          detail: "Submissions go straight to your email or CRM",
+          title: "Marketplace-Ready",
+          detail: "Built to feed eBay, Amazon, or your own store",
         },
         {
           title: "SEO Setup",
@@ -28,29 +28,29 @@ export default function Packages() {
           detail: "We handle hosting, SSL, DNS — you just approve",
         },
       ],
-      example: "A coach needed a booking page. We built it with AI copy, Calendly embed, and testimonials. Live in 2 days.",
+      example: "A parts seller needed a clean fitment lookup on their homepage. Built with AI-written copy and live inventory. Live in 2 days.",
       exampleUrl: null,
       exampleStats: null,
       delivery: "1-3 days",
-      cta: "Get Started",
+      cta: "Book a Consultation",
       ctaLink: "#intake-form",
       gradient: "from-blue-500 to-cyan-400",
       popular: false,
     },
     {
-      id: "business",
-      name: "BUSINESS",
-      price: "$3,500",
-      tagline: "Full website, AI-accelerated",
-      description: "Complete 5-page website. AI handles content, we handle everything else.",
+      id: "overhaul",
+      name: "OVERHAUL",
+      price: "Scoped to fit",
+      tagline: "Full web + catalog overhaul",
+      description: "A complete storefront or B2B portal with your catalog, fitment, and content cleaned up and AI-accelerated.",
       whatYouGet: [
         {
-          title: "5 Custom Pages",
-          detail: "Home, About, Services, Portfolio, Contact — fully designed",
+          title: "Full Custom Site",
+          detail: "Storefront or B2B portal — designed around how you sell",
         },
         {
-          title: "AI Content Generation",
-          detail: "We prompt Claude to write your entire site copy",
+          title: "AI Category Management",
+          detail: "We clean, normalize, and enrich your catalog with AI",
         },
         {
           title: "Mobile-First Design",
@@ -58,18 +58,18 @@ export default function Packages() {
         },
         {
           title: "Analytics Dashboard",
-          detail: "Google Analytics 4 installed — track visitors, conversions",
+          detail: "Track visitors, conversions, and product performance",
         },
         {
           title: "CMS (Optional)",
           detail: "Edit your own content via simple admin panel",
         },
         {
-          title: "2 Revision Rounds",
+          title: "Revisions Until Right",
           detail: "We refine until you're 100% satisfied",
         },
       ],
-      example: "Westar Auto needed a full B2B site. 5 pages, product catalog, contact forms. Delivered in 5 days.",
+      example: "Westar Auto needed a full B2B site with product catalog and contact forms. Delivered in 5 days.",
       exampleUrl: "https://westarauto.com",
       exampleStats: [
         { value: "Since 1986", label: "Established" },
@@ -77,37 +77,37 @@ export default function Packages() {
         { value: "5 days", label: "Delivered" },
       ],
       delivery: "3-7 days",
-      cta: "Get Started",
+      cta: "Book a Consultation",
       ctaLink: "#intake-form",
       gradient: "from-purple-500 to-pink-400",
       popular: true,
     },
     {
-      id: "pro",
-      name: "PRO",
-      price: "$7,000",
-      tagline: "AI-powered platform",
-      description: "Full website + AI agent, e-commerce, or custom automation built in.",
+      id: "platform",
+      name: "PLATFORM",
+      price: "Scoped to fit",
+      tagline: "Custom platform + AI agents",
+      description: "A full commerce platform with AI search, real-time inventory, marketplace sync, and agents built in.",
       whatYouGet: [
         {
-          title: "Everything in Business",
-          detail: "5+ pages, AI copy, mobile-first, analytics, CMS",
+          title: "Everything in Overhaul",
+          detail: "Storefront, AI catalog, mobile-first, analytics, CMS",
         },
         {
-          title: "AI Chatbot OR E-commerce OR Booking",
-          detail: "Pick one: Claude-powered support bot, Stripe store, or Calendly system",
+          title: "AI Search + Agents + Sync",
+          detail: "Claude-powered search, autonomous agents, and eBay/Amazon/Shopify sync",
         },
         {
           title: "Custom Integrations",
-          detail: "Connect to your CRM, email, Slack, Zapier, n8n — whatever you need",
+          detail: "Connect your CRM, ERP, suppliers, Slack, n8n — whatever you run",
         },
         {
           title: "Performance Optimization",
           detail: "Sub-2s load times, Core Web Vitals green across the board",
         },
         {
-          title: "3 Revision Rounds",
-          detail: "We iterate until it's exactly right",
+          title: "Ongoing Iteration",
+          detail: "We keep shipping until it's exactly right",
         },
       ],
       example: "AutoBuffy — AI search across 1M+ auto parts, real-time inventory, checkout. Built in 2 weeks.",
@@ -117,8 +117,8 @@ export default function Packages() {
         { value: "AI", label: "Search" },
         { value: "2 wks", label: "Built" },
       ],
-      delivery: "7-14 days",
-      cta: "Book a Call",
+      delivery: "2+ weeks",
+      cta: "Book a Consultation",
       ctaLink: "#intake-form",
       gradient: "from-orange-500 to-amber-400",
       popular: false,
@@ -127,29 +127,29 @@ export default function Packages() {
 
   const addons = [
     {
-      name: "Monthly Retainer",
-      price: "$1.5-3K/mo",
-      detail: "Ongoing updates, monitoring, support"
+      name: "Ongoing Partner",
+      price: "Retainer",
+      detail: "Continuous updates, monitoring, and new features"
     },
     {
-      name: "AI Chatbot",
-      price: "$2-5K",
-      detail: "Claude-powered customer support"
+      name: "AI Support Agent",
+      price: "Add-on",
+      detail: "Claude-powered parts & customer support"
     },
     {
-      name: "Automation",
-      price: "$1-3K",
-      detail: "n8n/Zapier workflows, auto-emails"
+      name: "Marketplace Sync",
+      price: "Add-on",
+      detail: "eBay, Amazon, Shopify listing automation"
     },
     {
-      name: "Data Cleanup",
-      price: "$500-2K",
-      detail: "Fix messy spreadsheets, migrate DBs"
+      name: "Catalog Cleanup",
+      price: "Add-on",
+      detail: "Normalize fitment, de-dupe, enrich data"
     },
     {
-      name: "Consulting",
-      price: "$175/hr",
-      detail: "Strategy calls, code reviews, AI advice"
+      name: "AI Consulting",
+      price: "Advisory",
+      detail: "Savings analysis, strategy, roadmapping"
     },
   ];
 
@@ -208,7 +208,8 @@ export default function Packages() {
                     <span className="text-xs font-bold uppercase tracking-wider text-gray-500">{pkg.name}</span>
                     <span className="text-xs font-medium text-gray-400 bg-white/5 px-2 py-1 rounded">{pkg.delivery}</span>
                   </div>
-                  <div className="text-5xl font-black text-white mb-2">{pkg.price}</div>
+                  <div className="text-3xl font-black text-white mb-1">{pkg.price}</div>
+                  <div className="text-[11px] text-gray-500 mb-2">Every project quoted after we scope it — no fixed pricing</div>
                   <div className={`text-sm font-semibold bg-gradient-to-r ${pkg.gradient} bg-clip-text text-transparent`}>
                     {pkg.tagline}
                   </div>

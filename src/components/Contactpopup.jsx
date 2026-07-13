@@ -13,7 +13,7 @@ export default function ContactPopup({ isOpen, onClose }) {
     setStatus("sending");
 
     try {
-      const response = await fetch("https://formsubmit.co/ajax/c.chadha@westarparts.com", {
+      const response = await fetch("https://formsubmit.co/ajax/cchadha.tcg@gmail.com", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

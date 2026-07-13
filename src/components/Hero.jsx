@@ -1,19 +1,19 @@
 import { useState, useEffect } from "react";
 
 const codeSnippets = [
-  "const ai = await init();",
-  "deploy({ target: 'production' });",
-  "ship.fast({ quality: 'max' });",
-  "automate.everything();",
+  "normalize({ catalog: 'ACES/PIES' });",
+  "sync.listings(['ebay','amazon']);",
+  "agent.enrich({ titles, fitment });",
+  "deploy({ store: 'production' });",
 ];
 
 const floatingWords = [
-  { text: "BUILD", x: 15, y: 20, size: "text-6xl", opacity: 0.03 },
-  { text: "SHIP", x: 70, y: 35, size: "text-5xl", opacity: 0.04 },
-  { text: "SCALE", x: 25, y: 65, size: "text-7xl", opacity: 0.025 },
+  { text: "FITMENT", x: 15, y: 20, size: "text-6xl", opacity: 0.03 },
+  { text: "CATALOG", x: 70, y: 35, size: "text-5xl", opacity: 0.04 },
+  { text: "PARTS", x: 25, y: 65, size: "text-7xl", opacity: 0.025 },
   { text: "AUTOMATE", x: 60, y: 80, size: "text-4xl", opacity: 0.035 },
   { text: "AI", x: 85, y: 15, size: "text-8xl", opacity: 0.04 },
-  { text: "FAST", x: 10, y: 85, size: "text-5xl", opacity: 0.03 },
+  { text: "COMMERCE", x: 10, y: 85, size: "text-5xl", opacity: 0.03 },
 ];
 
 export default function Hero() {
@@ -103,25 +103,25 @@ export default function Hero() {
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
           </span>
-          AI-Native Software Studio
+          Automotive Software, Powered by AI
         </div>
 
         {/* Main Headline */}
         <h1 className="text-5xl sm:text-7xl lg:text-8xl font-black leading-[0.9] tracking-tight mb-8">
-          <span className="block">We Build</span>
+          <span className="block">Software That Moves</span>
           <span className="block text-transparent bg-clip-text bg-[linear-gradient(90deg,#2563EB,#9333EA,#EC4899,#F59E0B,#10B981,#2563EB)] animate-flow-synced">
-            The Future
+            Auto Parts
           </span>
         </h1>
 
         {/* Subhead */}
         <p className="text-lg sm:text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed mb-6">
-          Custom software, AI integration, and automation—built at the speed of thought.
-          46 services. Same-day delivery. We ship what others can't.
+          We build custom software for automotive commerce—catalog normalization, AI category
+          management, fitment, and marketplace integrations. Then we plug AI agents into it.
         </p>
 
         <p className="text-base text-gray-500 max-w-xl mx-auto mb-12">
-          From MVPs to enterprise platforms. Consulting to full implementation.
+          Cleaner data. Faster listings. Lower overhead. Shipped in days, not quarters.
         </p>
 
         {/* CTAs */}
@@ -138,16 +138,16 @@ export default function Hero() {
             </span>
           </a>
           <a
-            href="#contact"
+            href="#intake-form"
             className="inline-flex items-center justify-center rounded-xl border border-white/20 px-8 py-4 text-base sm:text-lg font-semibold text-white hover:bg-white/10 transition-all duration-300"
           >
-            Start a Project
+            Book a Consultation
           </a>
         </div>
 
         {/* Service Pills */}
         <div className="flex flex-wrap justify-center gap-3 max-w-3xl mx-auto">
-          {["Custom Software", "AI Agents", "Consulting", "Training", "Automation", "Full-Stack"].map((service) => (
+          {["Catalog & Fitment", "AI Category Mgmt", "Marketplace Sync", "AI Agents", "Web Overhaul", "Automation"].map((service) => (
             <div
               key={service}
               className="px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm text-gray-300 hover:bg-white/10 hover:border-white/20 transition-all cursor-default"

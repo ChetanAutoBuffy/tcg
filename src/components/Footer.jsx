@@ -13,16 +13,17 @@ export default function Footer() {
 
           {/* Tagline */}
           <p className="text-gray-400 mb-8 max-w-md mx-auto">
-            AI-native software development, consulting, and training.
-            We build what others can't.
+            Automotive software, powered by AI. We build the catalog, commerce,
+            and automation tools your parts business runs on.
           </p>
 
           {/* Quick Links */}
           <div className="flex flex-wrap justify-center gap-6 mb-8">
             <a href="/#services" className="text-gray-400 hover:text-white transition">Services</a>
-            <a href="/#portfolio" className="text-gray-400 hover:text-white transition">Work</a>
-            <Link to="/about" className="text-gray-400 hover:text-white transition">About</Link>
-            <a href="#contact" className="text-gray-400 hover:text-white transition">Contact</a>
+            <Link to="/custom-software" className="text-gray-400 hover:text-white transition">Custom Software</Link>
+            <a href="/#integrations" className="text-gray-400 hover:text-white transition">Integrations</a>
+            <Link to="/chetan" className="text-gray-400 hover:text-white transition">Founder</Link>
+            <a href="/#intake-form" className="text-gray-400 hover:text-white transition">Contact</a>
             <Link to="/terms" className="text-gray-400 hover:text-white transition">Terms</Link>
           </div>
 
@@ -41,7 +42,7 @@ export default function Footer() {
             </a>
 
             <a
-              href="mailto:c.chadha@westarparts.com"
+              href="mailto:cchadha.tcg@gmail.com"
               className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-400 hover:text-white hover:border-white/30 transition"
               aria-label="Email"
             >
@@ -65,7 +66,7 @@ export default function Footer() {
 
           {/* Tech Stack Badges */}
           <div className="flex flex-wrap justify-center gap-2 mb-8">
-            {["AI Native", "React", "Python", "AWS", "TypeScript"].map((tech) => (
+            {["AI Agents", "React", "Python", "AWS", "ACES/PIES"].map((tech) => (
               <span key={tech} className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs text-gray-500">
                 {tech}
               </span>

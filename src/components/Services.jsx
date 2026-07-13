@@ -4,14 +4,14 @@ const services = [
   {
     id: "build",
     title: "Build",
-    tagline: "Ship 10x faster",
-    description: "We build production-ready software using AI-accelerated development. From MVPs to enterprise platforms—delivered in weeks, not months.",
+    tagline: "Automotive commerce software",
+    description: "We build the software your parts business runs on—catalogs, fitment, storefronts, and marketplace sync—delivered in days, not quarters.",
     features: [
-      "Full-stack web & mobile apps",
-      "AI-powered features & agents",
-      "API design & integrations",
-      "Cloud infrastructure (AWS, Vercel)",
-      "Real-time systems & automation",
+      "Parts catalogs & fitment (ACES/PIES)",
+      "Custom storefronts & B2B portals",
+      "eBay / Amazon / Shopify sync",
+      "Inventory & order automation",
+      "SaaS tools built for your workflow",
     ],
     gradient: "from-blue-500 to-cyan-400",
     bgGlow: "bg-blue-500/20",
@@ -22,42 +22,42 @@ const services = [
     ),
   },
   {
-    id: "consult",
-    title: "Consult",
-    tagline: "AI strategy & integration",
-    description: "Not sure how to leverage AI? We help you understand the landscape, choose the right tools, and create a roadmap for AI adoption.",
+    id: "automate",
+    title: "Automate",
+    tagline: "AI agents & category management",
+    description: "We plug AI agents into your catalog and back office—writing titles, cleaning data, fixing fitment, and normalizing SKUs at a scale a team can't touch.",
     features: [
-      "AI readiness assessment",
-      "Tool selection & integration",
-      "Workflow automation strategy",
-      "Architecture planning",
-      "ROI analysis & roadmapping",
+      "AI category & catalog management",
+      "Auto-written titles & descriptions",
+      "Data normalization & de-duping",
+      "Image tagging & enrichment",
+      "Agents for pricing, listings & ops",
     ],
     gradient: "from-purple-500 to-pink-400",
     bgGlow: "bg-purple-500/20",
     icon: (
       <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
       </svg>
     ),
   },
   {
-    id: "train",
-    title: "Train",
-    tagline: "Level up your team",
-    description: "Hands-on training for AI-assisted development. Get your team shipping faster with modern AI tools.",
+    id: "consult",
+    title: "Consult",
+    tagline: "AI strategy & savings analysis",
+    description: "Where does AI actually cut cost in your operation? We map it, quantify it, and give you a roadmap—whether you're scaling, cutting overhead, or raising capital.",
     features: [
-      "AI coding assistants mastery",
-      "AI IDE & tooling training",
-      "Prompt engineering workshops",
-      "Best practices & workflows",
-      "Custom training programs",
+      "AI automation opportunity audit",
+      "Overhead & headcount savings analysis",
+      "Tool selection & integration plan",
+      "Catalog & data-quality assessment",
+      "Fundraising & finance modeling support",
     ],
     gradient: "from-orange-500 to-yellow-400",
     bgGlow: "bg-orange-500/20",
     icon: (
       <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
       </svg>
     ),
   },
@@ -89,7 +89,7 @@ export default function Services() {
             <span className="text-transparent bg-clip-text bg-[linear-gradient(90deg,#2563EB,#9333EA,#EC4899)] animate-flow-synced"> Work Together</span>
           </h2>
           <p className="text-lg text-gray-400 max-w-2xl mx-auto">
-            Whether you need us to build it, help you plan it, or train your team to do it—we've got you covered.
+            Whether you need us to build the software, automate your catalog with AI, or map out where AI cuts your costs—we've got you covered.
           </p>
         </div>
 

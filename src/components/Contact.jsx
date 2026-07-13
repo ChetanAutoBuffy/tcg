@@ -34,7 +34,7 @@ export default function Contact() {
     const budgetLabel = budgetRanges.find(b => b.id === formData.budget)?.label || formData.budget;
 
     try {
-      const response = await fetch("https://formsubmit.co/ajax/c.chadha@westarparts.com", {
+      const response = await fetch("https://formsubmit.co/ajax/cchadha.tcg@gmail.com", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

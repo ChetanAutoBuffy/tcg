@@ -14,11 +14,12 @@ export default function IntakeForm() {
   const [isSuccess, setIsSuccess] = useState(false);
 
   const packages = [
-    { value: "", label: "Select a package..." },
-    { value: "starter", label: "Starter ($1,500)" },
-    { value: "business", label: "Business ($3,500)" },
-    { value: "pro", label: "Pro ($7,000)" },
-    { value: "custom", label: "Custom Project" },
+    { value: "", label: "What do you need?" },
+    { value: "sprint", label: "Sprint — one focused build" },
+    { value: "overhaul", label: "Overhaul — full web + catalog" },
+    { value: "platform", label: "Platform — custom + AI agents" },
+    { value: "catalog", label: "Catalog / AI category management" },
+    { value: "consult", label: "Consulting / savings analysis" },
     { value: "not-sure", label: "Not sure yet" },
   ];
 
@@ -151,7 +152,7 @@ export default function IntakeForm() {
 
           {/* Form */}
           <form
-            action="https://formsubmit.co/chetan@autobuffy.com"
+            action="https://formsubmit.co/cchadha.tcg@gmail.com"
             method="POST"
             onSubmit={handleSubmit}
             className="bg-white/5 border border-white/10 rounded-2xl p-6 sm:p-8 backdrop-blur-sm"

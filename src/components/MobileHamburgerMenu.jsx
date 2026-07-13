@@ -75,7 +75,7 @@ export default function MobileHamburgerMenu({ id, open, onClose, logo, links = [
               </svg>
             </a>
             <a
-              href="mailto:c.chadha@westarparts.com"
+              href="mailto:cchadha.tcg@gmail.com"
               className="w-11 h-11 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white/60 hover:text-white hover:bg-white/10 transition"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

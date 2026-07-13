@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 
 const codeSnippets = [
-  "const ai = await init();",
-  "deploy({ target: 'prod' });",
-  "ship.fast({ quality: 'max' });",
+  "normalize(catalog);",
+  "sync.listings(['ebay']);",
+  "agent.enrich(fitment);",
 ];
 
 export default function HeroMobile() {
@@ -49,14 +49,14 @@ export default function HeroMobile() {
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
           </span>
-          AI-Native Software Studio
+          Automotive Software, Powered by AI
         </div>
 
         {/* Main Headline */}
         <h1 className="text-4xl font-black leading-[1.1] tracking-tight mb-6">
-          <span className="block">We Build</span>
+          <span className="block">Software That Moves</span>
           <span className="block text-transparent bg-clip-text bg-[linear-gradient(90deg,#2563EB,#9333EA,#EC4899,#F59E0B,#10B981,#2563EB)] animate-flow-synced">
-            The Future
+            Auto Parts
           </span>
         </h1>
 
@@ -77,7 +77,7 @@ export default function HeroMobile() {
 
         {/* Subhead */}
         <p className="text-base text-gray-400 max-w-sm mx-auto leading-relaxed mb-8">
-          Custom software, AI integration, and automation—built at the speed of thought.
+          Custom automotive commerce software—catalog, fitment, marketplace sync—with AI agents built in.
         </p>
 
         {/* CTAs */}
@@ -92,16 +92,16 @@ export default function HeroMobile() {
             </svg>
           </a>
           <a
-            href="#contact"
+            href="#intake-form"
             className="inline-flex items-center justify-center rounded-xl border border-white/20 px-6 py-3.5 text-sm font-semibold text-white"
           >
-            Start a Project
+            Book a Consultation
           </a>
         </div>
 
         {/* Service Pills */}
         <div className="flex flex-wrap justify-center gap-2 mt-10 max-w-xs mx-auto">
-          {["Custom Software", "AI Agents", "Consulting", "Training"].map((service) => (
+          {["Catalog & Fitment", "AI Category Mgmt", "Marketplace Sync", "AI Agents"].map((service) => (
             <div
               key={service}
               className="px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs text-gray-400"

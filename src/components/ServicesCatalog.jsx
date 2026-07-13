@@ -252,7 +252,7 @@ export default function ServicesCatalog() {
             <span className="text-transparent bg-clip-text bg-[linear-gradient(90deg,#2563EB,#9333EA,#EC4899)] animate-flow-synced"> Build For You</span>
           </h2>
           <p className="text-lg text-gray-400 max-w-2xl mx-auto">
-            Transparent pricing and detailed service offerings. Click any category to explore specific services and pricing.
+            Everything an automotive parts business needs to sell online. Click any category to explore. Every project is scoped and quoted individually—nothing here is off-the-shelf.
           </p>
         </div>
 
@@ -364,9 +364,9 @@ export default function ServicesCatalog() {
                                     {service.title}
                                   </h4>
                                   <div
-                                    className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-gradient-to-r ${category.gradient} text-white text-xs sm:text-sm font-bold whitespace-nowrap`}
+                                    className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-white/15 bg-white/5 text-gray-300 text-xs sm:text-sm font-semibold whitespace-nowrap`}
                                   >
-                                    {service.priceRange}
+                                    Custom quote
                                   </div>
                                 </div>
 
