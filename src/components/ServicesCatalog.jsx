@@ -15,7 +15,6 @@ const catalogData = [
     services: [
       {
         title: "Websites & Landing Pages",
-        priceRange: "$1,500 - $7,000",
         shortDesc: "Fast, modern, conversion-optimized sites",
         longDesc: "Responsive websites built with React, Next.js, and Tailwind CSS. Optimized for SEO, performance, and conversions. Includes hosting setup, analytics, and CMS integration.",
         icon: (
@@ -26,7 +25,6 @@ const catalogData = [
       },
       {
         title: "Web Applications",
-        priceRange: "$5,000 - $25,000",
         shortDesc: "Full-stack SaaS and custom apps",
         longDesc: "Production-ready web applications with modern authentication, databases, APIs, and real-time features. Built on React, Node.js, PostgreSQL, and deployed to AWS or Vercel.",
         icon: (
@@ -37,7 +35,6 @@ const catalogData = [
       },
       {
         title: "Mobile Apps",
-        priceRange: "$10,000 - $50,000",
         shortDesc: "iOS and Android native or cross-platform",
         longDesc: "Cross-platform mobile apps with React Native or Flutter. Native iOS/Android apps with Swift/Kotlin. Includes app store deployment, push notifications, and backend integration.",
         icon: (
@@ -48,7 +45,6 @@ const catalogData = [
       },
       {
         title: "APIs & Integrations",
-        priceRange: "$2,000 - $10,000",
         shortDesc: "Connect your tools and systems",
         longDesc: "RESTful and GraphQL APIs, third-party integrations (Stripe, Shopify, HubSpot), webhooks, and custom middleware. Secure, scalable, and documented.",
         icon: (
@@ -59,7 +55,6 @@ const catalogData = [
       },
       {
         title: "E-commerce Stores",
-        priceRange: "$5,000 - $20,000",
         shortDesc: "Shopify, WooCommerce, or custom stores",
         longDesc: "Complete e-commerce solutions with product management, payment processing, inventory tracking, and order fulfillment. Integrates with Stripe, Shopify, or custom checkout.",
         icon: (
@@ -84,7 +79,6 @@ const catalogData = [
     services: [
       {
         title: "AI Chatbots",
-        priceRange: "$2,000 - $5,000",
         shortDesc: "Smart customer support and sales bots",
         longDesc: "Custom chatbots powered by GPT-4 or Claude. Integrate with your website, Slack, or WhatsApp. Handles FAQs, lead qualification, and customer support 24/7.",
         icon: (
@@ -95,7 +89,6 @@ const catalogData = [
       },
       {
         title: "n8n/Zapier Workflows",
-        priceRange: "$1,000 - $3,000",
         shortDesc: "No-code automation between apps",
         longDesc: "Automated workflows connecting your favorite tools. Sync data, send notifications, process leads, and more. Built on n8n, Zapier, or Make (Integromat).",
         icon: (
@@ -106,7 +99,6 @@ const catalogData = [
       },
       {
         title: "CRM Integrations",
-        priceRange: "$1,500 - $5,000",
         shortDesc: "HubSpot, Salesforce, Pipedrive sync",
         longDesc: "Seamless CRM integrations and custom workflows. Automate lead routing, data enrichment, and follow-ups. Connects with HubSpot, Salesforce, Pipedrive, and more.",
         icon: (
@@ -117,7 +109,6 @@ const catalogData = [
       },
       {
         title: "Email Automation",
-        priceRange: "$1,000 - $3,000",
         shortDesc: "Campaigns, sequences, and triggers",
         longDesc: "Automated email campaigns and drip sequences. Trigger emails based on user behavior, integrate with your CRM, and track performance. Works with SendGrid, Mailgun, or Brevo.",
         icon: (
@@ -128,7 +119,6 @@ const catalogData = [
       },
       {
         title: "Custom AI Agents",
-        priceRange: "$5,000 - $15,000",
         shortDesc: "Autonomous agents for complex tasks",
         longDesc: "Advanced AI agents that perform multi-step tasks autonomously. Data analysis, content generation, research, code review, and more. Powered by GPT-4, Claude, or custom models.",
         icon: (
@@ -153,7 +143,6 @@ const catalogData = [
     services: [
       {
         title: "Data Cleanup",
-        priceRange: "$500 - $2,000",
         shortDesc: "Dedupe, normalize, and enrich data",
         longDesc: "Clean up messy databases and spreadsheets. Remove duplicates, fix formatting, merge records, and enrich with external data sources. Works with SQL, CSV, or APIs.",
         icon: (
@@ -164,7 +153,6 @@ const catalogData = [
       },
       {
         title: "Code Audits",
-        priceRange: "$1,000 - $3,000",
         shortDesc: "Security, performance, best practices",
         longDesc: "Comprehensive code review covering security vulnerabilities, performance bottlenecks, code quality, and architecture. Includes detailed report and actionable recommendations.",
         icon: (
@@ -175,7 +163,6 @@ const catalogData = [
       },
       {
         title: "Bug Fixes",
-        priceRange: "$500 - $2,000",
         shortDesc: "Debug and resolve issues fast",
         longDesc: "Quick turnaround on bug fixes and issues. We diagnose the problem, patch the code, and deploy the fix. Includes testing to ensure no regressions.",
         icon: (
@@ -186,7 +173,6 @@ const catalogData = [
       },
       {
         title: "Database Migrations",
-        priceRange: "$1,500 - $5,000",
         shortDesc: "Move data between systems safely",
         longDesc: "Migrate data from legacy systems to modern databases. MySQL to PostgreSQL, MongoDB to SQL, on-premise to cloud. Zero downtime migrations with rollback plans.",
         icon: (
@@ -197,7 +183,6 @@ const catalogData = [
       },
       {
         title: "Performance Optimization",
-        priceRange: "$1,000 - $4,000",
         shortDesc: "Speed up slow apps and sites",
         longDesc: "Optimize load times, reduce bundle sizes, fix N+1 queries, add caching, and improve server response. Includes before/after performance reports and monitoring setup.",
         icon: (
