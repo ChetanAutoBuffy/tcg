@@ -3,58 +3,86 @@ import buffy360Logo from "../assets/software/Buffy360-Logo.svg";
 const projects = [
   {
     name: "AutoBuffy",
-    tagline: "AI-Powered Auto Parts Platform",
-    description: "Revolutionary auto parts marketplace powered by AI. Instant part fitment verification, smart search, and automated inventory management across millions of parts.",
+    tagline: "AI-First Auto Parts Platform",
+    description: "A production e-commerce platform built and operated end-to-end: a Next.js 14 storefront on a FastAPI backend (90+ API modules), Typesense search, and an LLM-agent framework on the Anthropic SDK powering an AI parts-finder and an automated content pipeline. ~1.2M live SKUs with Stripe/PayPal, tax, and fulfillment on AWS.",
     url: "https://autobuffy.com",
     stats: [
-      { value: "1M+", label: "Parts Listed" },
-      { value: "AI", label: "Fitment Check" },
-      { value: "24/7", label: "Live Platform" },
+      { value: "1.2M", label: "Live SKUs" },
+      { value: "90+", label: "API Modules" },
+      { value: "LLM", label: "Agent Framework" },
     ],
-    tags: ["Next.js", "AI", "E-commerce", "Automation"],
+    tags: ["Next.js", "FastAPI", "Anthropic SDK", "AWS", "AI Agents"],
     gradient: "from-blue-500 via-cyan-500 to-teal-500",
     featured: true,
   },
   {
     name: "Buffy360",
-    tagline: "Commerce Operating System",
-    description: "Complete e-commerce platform managing 300K+ SKUs across multiple channels. Automated order routing, inventory sync, and smart pricing.",
+    tagline: "Commerce Operations Engine",
+    description: "A multi-store operations backend (Python/FastAPI, MySQL→PostgreSQL, Redis, Celery) with a pricing & inventory engine that generates 3.88M SKUs across 4.72M vendor records in ~7 minutes, pushed daily. Formula-based purchase-order routing across eBay, Amazon SP-API, and web.",
     url: "https://buffy360.com",
     stats: [
-      { value: "300K+", label: "SKUs Managed" },
-      { value: "5", label: "Sales Channels" },
-      { value: "$10M+", label: "Annual GMV" },
+      { value: "3.88M", label: "SKUs Synced" },
+      { value: "~7 min", label: "Feed Runtime" },
+      { value: "Multi", label: "Marketplace" },
     ],
-    tags: ["React", "Python", "AWS", "AI"],
+    tags: ["Python", "FastAPI", "PostgreSQL", "Data Pipelines"],
     gradient: "from-purple-500 via-pink-500 to-rose-500",
     featured: false,
     logo: buffy360Logo,
   },
   {
+    name: "AI Agent Framework",
+    tagline: "LLM Orchestration, Human-in-the-Loop",
+    description: "A multi-agent system on the Anthropic SDK: a customer-facing AI product finder plus a multi-stage content pipeline (research → draft → QA → publish) with human-approval gates. Real LLM orchestration wired into production backends.",
+    url: "https://autobuffy.com",
+    stats: [
+      { value: "Anthropic", label: "SDK / Claude" },
+      { value: "Multi-stage", label: "Agent Pipeline" },
+      { value: "Human", label: "In-the-Loop" },
+    ],
+    tags: ["Anthropic SDK", "AI Agents", "Python", "Automation"],
+    gradient: "from-indigo-500 via-violet-500 to-fuchsia-500",
+    featured: false,
+  },
+  {
+    name: "Shipping SaaS",
+    tagline: "Scan-to-Ship Fulfillment Platform",
+    description: "A standalone shipping product (Next.js + FastAPI + PostgreSQL): barcode scan-to-verify order fulfillment, live multi-carrier rate-shopping via Shippo, batch label generation, and packing-slip PDFs — productized from a real warehouse operation.",
+    url: null,
+    stats: [
+      { value: "Multi-carrier", label: "Rate Shopping" },
+      { value: "Scan", label: "to Verify" },
+      { value: "Batch", label: "Labels" },
+    ],
+    tags: ["Next.js", "FastAPI", "Shippo", "PostgreSQL"],
+    gradient: "from-emerald-500 via-teal-500 to-cyan-500",
+    featured: false,
+  },
+  {
     name: "Westar Auto",
     tagline: "OE-Quality Auto Parts Since 1986",
-    description: "B2B and D2C automotive parts distributor specializing in engine & transmission mounts. Full e-commerce with vehicle fitment, 24-month warranty.",
+    description: "A B2B/B2C automotive parts distribution platform with vehicle fitment lookup, credit applications, checkout, and dual-source shipment tracking (Shippo + TrackingMore) hardened with webhook + polling resilience.",
     url: "https://westarauto.com",
     stats: [
-      { value: "Since 1986", label: "Est." },
       { value: "B2B + D2C", label: "Channels" },
-      { value: "Free Ship", label: "Ground" },
+      { value: "Fitment", label: "Lookup" },
+      { value: "Since 1986", label: "Brand" },
     ],
-    tags: ["Next.js", "E-commerce", "B2B", "SEO"],
+    tags: ["Next.js", "FastAPI", "Shippo", "E-commerce"],
     gradient: "from-amber-500 via-orange-500 to-red-500",
     featured: false,
   },
 ];
 
 const capabilities = [
-  "E-commerce Platforms",
-  "AI Agents & Copilots",
-  "API Development",
-  "Real-time Systems",
-  "Data Pipelines",
-  "Mobile Apps",
-  "Admin Dashboards",
-  "Automation Tools",
+  "AI Agents & LLM Orchestration",
+  "E-commerce & Marketplace Automation",
+  "API & Backend Development",
+  "Data Pipelines at Scale",
+  "Payments & Shipping Integrations",
+  "Programmatic SEO",
+  "Admin Dashboards & Internal Tools",
+  "Custom SaaS Products",
 ];
 
 export default function Portfolio() {
@@ -88,7 +116,7 @@ export default function Portfolio() {
             <span className="text-transparent bg-clip-text bg-[linear-gradient(90deg,#2563EB,#9333EA,#EC4899)] animate-flow-synced"> Powered by AI</span>
           </h2>
           <p className="text-lg text-gray-400 max-w-2xl mx-auto">
-            Real products. Real results. These are the platforms we've built and operate daily—the same quality we bring to every client project.
+            Real products running in production—millions of SKUs, live payments, and LLM agents. The same engineering we bring to every client project.
           </p>
         </div>
 
