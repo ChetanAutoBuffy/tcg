@@ -20,6 +20,8 @@ import Footer from "./components/Footer.jsx";
 import ContactPopup from "./components/ContactPopup.jsx";
 import MobileHamburgerMenu from "./components/MobileHamburgerMenu.jsx";
 import ProfitLensLanding from "./components/ProfitLensLanding.jsx";
+import SolutionsIndex from "./components/SolutionsIndex.jsx";
+import SolutionPage from "./components/SolutionPage.jsx";
 import { useState } from "react";
 import logoUrl from "./assets/TCG_logo.svg";
 import StarfieldBackground from "./components/StarfieldBackground.jsx";
@@ -63,6 +65,7 @@ function MainLayout({ children, mobileMenuOpen, setMobileMenuOpen, contactPopupO
             <div className="hidden md:flex items-center gap-5">
               <Link to="/" className="text-sm font-semibold text-white/80 hover:text-white transition">Home</Link>
               <a href="/#services" className="text-sm font-semibold text-white/80 hover:text-white transition">Services</a>
+              <Link to="/solutions" className="text-sm font-semibold text-white/80 hover:text-white transition">Solutions</Link>
               <Link to="/custom-software" className="text-sm font-semibold text-white/80 hover:text-white transition">Custom Software</Link>
               <a href="/#integrations" className="text-sm font-semibold text-white/80 hover:text-white transition">Integrations</a>
               <a href="/#portfolio" className="text-sm font-semibold text-white/80 hover:text-white transition">Work</a>
@@ -92,6 +95,7 @@ export default function App() {
 
   const navLinks = [
     { label: "Home", to: "/" },
+    { label: "Solutions", to: "/solutions" },
     { label: "Services", to: "/#services" },
     { label: "Custom Software", to: "/custom-software" },
     { label: "Integrations", to: "/#integrations" },
@@ -131,6 +135,8 @@ export default function App() {
         } />
         <Route path="/about" element={<MainLayout {...layoutProps}><About /></MainLayout>} />
         <Route path="/custom-software" element={<MainLayout {...layoutProps}><CustomSoftware /></MainLayout>} />
+        <Route path="/solutions" element={<MainLayout {...layoutProps}><SolutionsIndex /></MainLayout>} />
+        <Route path="/solutions/:slug" element={<MainLayout {...layoutProps}><SolutionPage /></MainLayout>} />
         <Route path="/chetan" element={<MainLayout {...layoutProps}><Founder /></MainLayout>} />
         <Route path="/terms" element={<MainLayout {...layoutProps}><Terms /></MainLayout>} />
         {/* Old generic product catalog parked — funnel any interest to contact */}

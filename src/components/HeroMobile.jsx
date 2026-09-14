@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const codeSnippets = [
-  "normalize(catalog);",
-  "sync.listings(['ebay']);",
-  "agent.enrich(fitment);",
+  "agent.answer(ticket);",
+  "ai.price(3_800_000);",
+  "ads.optimize('API');",
 ];
 
-export default function HeroMobile() {
+export default function HeroMobile({ onContactClick }) {
   const [currentSnippet, setCurrentSnippet] = useState(0);
   const [displayText, setDisplayText] = useState("");
 
@@ -49,14 +50,14 @@ export default function HeroMobile() {
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
           </span>
-          Automotive Software, Powered by AI
+          AI-Native Automotive Technology
         </div>
 
         {/* Main Headline */}
         <h1 className="text-4xl font-black leading-[1.1] tracking-tight mb-6">
-          <span className="block">Software That Moves</span>
+          <span className="block">Software &amp; AI for the</span>
           <span className="block text-transparent bg-clip-text bg-[linear-gradient(90deg,#2563EB,#9333EA,#EC4899,#F59E0B,#10B981,#2563EB)] animate-flow-synced">
-            Auto Parts
+            Automotive Aftermarket
           </span>
         </h1>
 
@@ -76,32 +77,37 @@ export default function HeroMobile() {
         </div>
 
         {/* Subhead */}
-        <p className="text-base text-gray-400 max-w-sm mx-auto leading-relaxed mb-8">
-          Custom automotive commerce software—catalog, fitment, marketplace sync—with AI agents built in.
+        <p className="text-base text-gray-400 max-w-sm mx-auto leading-relaxed mb-4">
+          We build, integrate, automate, advise, and train — helping automotive companies
+          operate better. Built by people who actually run aftermarket businesses.
+        </p>
+
+        <p className="text-sm text-gray-300 font-semibold max-w-xs mx-auto mb-8">
+          Tell us the problem. We'll figure out the technology.
         </p>
 
         {/* CTAs */}
         <div className="flex flex-col gap-3">
           <a
-            href="#services"
-            className="inline-flex items-center justify-center gap-2 rounded-xl bg-white text-black font-bold px-6 py-3.5 text-sm"
+            href="#intake-form"
+            className="inline-flex items-center justify-center gap-2 rounded-xl bg-white text-black font-bold px-6 py-3.5 text-sm min-h-[48px] active:scale-95 transition-transform focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-black"
           >
-            See What We Build
+            Tell Us the Problem
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>
           </a>
-          <a
-            href="#intake-form"
-            className="inline-flex items-center justify-center rounded-xl border border-white/20 px-6 py-3.5 text-sm font-semibold text-white"
+          <Link
+            to="/solutions"
+            className="inline-flex items-center justify-center rounded-xl border border-white/20 px-6 py-3.5 text-sm font-semibold text-white min-h-[48px] active:bg-white/10 transition-colors focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 focus:ring-offset-black"
           >
-            Book a Consultation
-          </a>
+            See What We Build
+          </Link>
         </div>
 
         {/* Service Pills */}
         <div className="flex flex-wrap justify-center gap-2 mt-10 max-w-xs mx-auto">
-          {["Catalog & Fitment", "AI Category Mgmt", "Marketplace Sync", "AI Agents"].map((service) => (
+          {["Catalog & Fitment", "EDI & Integrations", "Marketplace Automation", "AI Category Mgmt"].map((service) => (
             <div
               key={service}
               className="px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs text-gray-400"
